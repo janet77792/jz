@@ -2,34 +2,56 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>太陽系AR互動場景</title>
+    <title>太陽系八大行星</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   </head>
   <body>
     <a-scene>
       <!-- 太陽 -->
       <a-sphere position="0 2 -5" radius="1" color="orange"
-                animation="property: rotation; to: 0 360 0; loop: true; dur: 5000">
-      </a-sphere>
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-sphere>
+
+      <!-- 水星 -->
+      <a-sphere position="1.5 2 -5" radius="0.15" color="#a9a9a9"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 2000"
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/水星')"></a-sphere>
+
+      <!-- 金星 -->
+      <a-sphere position="2.5 2 -5" radius="0.2" color="#deb887"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 2500"
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/金星')"></a-sphere>
 
       <!-- 地球 -->
-      <a-sphere position="3 2 -5" radius="0.5" color="#4CC3D9"
+      <a-sphere position="3.5 2 -5" radius="0.25" color="#4CC3D9"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 3000"
-                onclick="window.open('https://zh.wikipedia.org/zh-tw/地球')">
-      </a-sphere>
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/地球')"></a-sphere>
 
       <!-- 火星 -->
-      <a-sphere position="-3 1.5 -5" radius="0.4" color="#EF2D5E"
+      <a-sphere position="4.5 2 -5" radius="0.2" color="#EF2D5E"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 3500"
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/火星')"></a-sphere>
+
+      <!-- 木星 -->
+      <a-sphere position="6 2 -5" radius="0.5" color="#d2b48c"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 4000"
-                onclick="window.open('https://zh.wikipedia.org/zh-tw/火星')">
-      </a-sphere>
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/木星')"></a-sphere>
 
-      <!-- 點擊跳連結方塊 -->
-      <a-box position="0 0.5 -2" depth="0.5" height="0.5" width="0.5" color="#FFC65D"
-             onclick="window.open('https://spaceplace.nasa.gov/')">
-      </a-box>
+      <!-- 土星 -->
+      <a-sphere position="7.5 2 -5" radius="0.45" color="#f4a460"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 4500"
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/土星')"></a-sphere>
 
-      <!-- 太空背景 -->
+      <!-- 天王星 -->
+      <a-sphere position="9 2 -5" radius="0.35" color="#afeeee"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/天王星')"></a-sphere>
+
+      <!-- 海王星 -->
+      <a-sphere position="10.5 2 -5" radius="0.35" color="#4682b4"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 5500"
+                onclick="window.open('https://zh.wikipedia.org/zh-tw/海王星')"></a-sphere>
+
+      <!-- 背景天空 -->
       <a-sky src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"></a-sky>
     </a-scene>
   </body>
