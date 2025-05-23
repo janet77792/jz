@@ -9,7 +9,10 @@
   <a-scene>
     <a-entity camera look-controls position="0 7 35"></a-entity>
 
-    <a-sphere position="0 3 0" radius="3.75" color="orange"></a-sphere>
+    <a-sphere position="0 3 0" radius="3.75"
+          src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/solar-system/sun.jpg"
+          material="shader: standard; roughness: 1; metalness: 0;">
+</a-sphere>
     <a-text value="太陽 / Sun" position="0 0.5 0" align="center" color="#fff" width="400" shader="msdf" font="https://cdn.aframe.io/fonts/mozillavr.fnt"></a-text>
 
     <a-sphere position="4.5 3 0" radius="0.09" color="#a9a9a9" onclick="window.open('https://zh.wikipedia.org/zh-tw/水星')"></a-sphere>
