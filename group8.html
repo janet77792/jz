@@ -2,48 +2,51 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>精準比例太陽系靜態展示</title>
+  <title>一列排列的太陽系</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
   <a-scene>
+    <!-- 相機設定，讓所有行星都在視野裡 -->
+    <a-entity camera look-controls position="0 5 20"></a-entity>
+
     <!-- 太陽 -->
-    <a-sphere position="0 2 -5" radius="2.5" color="orange"></a-sphere>
+    <a-sphere position="0 2 0" radius="2.5" color="orange"></a-sphere>
 
     <!-- 水星 -->
-    <a-sphere position="3 2 -5" radius="0.06" color="#a9a9a9"
+    <a-sphere position="3 2 0" radius="0.06" color="#a9a9a9"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/水星')"></a-sphere>
 
     <!-- 金星 -->
-    <a-sphere position="5.2 2 -5" radius="0.15" color="#deb887"
+    <a-sphere position="5.2 2 0" radius="0.15" color="#deb887"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/金星')"></a-sphere>
 
     <!-- 地球 -->
-    <a-sphere position="7 2 -5" radius="0.16" color="#4CC3D9"
+    <a-sphere position="7 2 0" radius="0.16" color="#4CC3D9"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/地球')"></a-sphere>
 
     <!-- 火星 -->
-    <a-sphere position="10.6 2 -5" radius="0.09" color="#EF2D5E"
+    <a-sphere position="10.6 2 0" radius="0.09" color="#EF2D5E"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/火星')"></a-sphere>
 
     <!-- 木星 -->
-    <a-sphere position="36.4 2 -5" radius="1.8" color="#d2b48c"
+    <a-sphere position="18 2 0" radius="1.8" color="#d2b48c"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/木星')"></a-sphere>
 
     <!-- 土星 -->
-    <a-sphere position="67.2 2 -5" radius="1.5" color="#f4a460"
+    <a-sphere position="25 2 0" radius="1.5" color="#f4a460"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/土星')"></a-sphere>
 
     <!-- 天王星 -->
-    <a-sphere position="134.6 2 -5" radius="0.6" color="#afeeee"
+    <a-sphere position="32 2 0" radius="0.6" color="#afeeee"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/天王星')"></a-sphere>
 
     <!-- 海王星 -->
-    <a-sphere position="173.5 2 -5" radius="0.58" color="#4682b4"
+    <a-sphere position="38 2 0" radius="0.58" color="#4682b4"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/海王星')"></a-sphere>
 
     <!-- 背景天空 -->
-    <a-sky color="#4B0091"></a-sky>
+    <a-sky color="#3A006F"></a-sky>
   </a-scene>
 </body>
 </html>
