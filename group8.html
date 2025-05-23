@@ -2,73 +2,48 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>真實比例太陽系八大行星</title>
+  <title>精準比例太陽系靜態展示</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
   <a-scene>
     <!-- 太陽 -->
-    <a-sphere position="0 2 -5" radius="1" color="orange" 
-              animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-sphere>
+    <a-sphere position="0 2 -5" radius="2.5" color="orange"></a-sphere>
 
-    <!-- 水星軌道 -->
-    <a-ring radius-inner="1.1" radius-outer="1.2" color="#555" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.15" color="#a9a9a9"
-              position="1.17 2 -5"
-              animation="property: position; dur: 8800; loop: true; to: -1.17 2 -5; dir: alternate; easing: linear"
+    <!-- 水星 -->
+    <a-sphere position="3 2 -5" radius="0.06" color="#a9a9a9"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/水星')"></a-sphere>
 
-    <!-- 金星軌道 -->
-    <a-ring radius-inner="2.1" radius-outer="2.2" color="#666" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.2" color="#deb887" 
-              position="2.16 2 -5"
-              animation="property: position; dur: 17500; loop: true; to: -2.16 2 -5; dir: alternate; easing: linear"
+    <!-- 金星 -->
+    <a-sphere position="5.2 2 -5" radius="0.15" color="#deb887"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/金星')"></a-sphere>
 
-    <!-- 地球軌道 -->
-    <a-ring radius-inner="2.9" radius-outer="3" color="#777" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.25" color="#4CC3D9" 
-              position="3 2 -5" 
-              animation="property: position; dur: 22000; loop: true; to: -3 2 -5; dir: alternate; easing: linear"
+    <!-- 地球 -->
+    <a-sphere position="7 2 -5" radius="0.16" color="#4CC3D9"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/地球')"></a-sphere>
 
-    <!-- 火星軌道 -->
-    <a-ring radius-inner="4.5" radius-outer="4.6" color="#888" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.2" color="#EF2D5E" 
-              position="4.56 2 -5" 
-              animation="property: position; dur: 41000; loop: true; to: -4.56 2 -5; dir: alternate; easing: linear"
+    <!-- 火星 -->
+    <a-sphere position="10.6 2 -5" radius="0.09" color="#EF2D5E"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/火星')"></a-sphere>
 
-    <!-- 木星軌道 -->
-    <a-ring radius-inner="6.9" radius-outer="7" color="#999" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.5" color="#d2b48c" 
-              position="7.2 2 -5" 
-              animation="property: position; dur: 120000; loop: true; to: -7.2 2 -5; dir: alternate; easing: linear"
+    <!-- 木星 -->
+    <a-sphere position="36.4 2 -5" radius="1.8" color="#d2b48c"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/木星')"></a-sphere>
 
-    <!-- 土星軌道 -->
-    <a-ring radius-inner="8.8" radius-outer="8.9" color="#aaa" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.45" color="#f4a460" 
-              position="9 2 -5" 
-              animation="property: position; dur: 290000; loop: true; to: -9 2 -5; dir: alternate; easing: linear"
+    <!-- 土星 -->
+    <a-sphere position="67.2 2 -5" radius="1.5" color="#f4a460"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/土星')"></a-sphere>
 
-    <!-- 天王星軌道 -->
-    <a-ring radius-inner="11.8" radius-outer="11.9" color="#bbb" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.35" color="#afeeee" 
-              position="12.15 2 -5" 
-              animation="property: position; dur: 840000; loop: true; to: -12.15 2 -5; dir: alternate; easing: linear"
+    <!-- 天王星 -->
+    <a-sphere position="134.6 2 -5" radius="0.6" color="#afeeee"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/天王星')"></a-sphere>
 
-    <!-- 海王星軌道 -->
-    <a-ring radius-inner="14.9" radius-outer="15" color="#ccc" rotation="-90 0 0"></a-ring>
-    <a-sphere radius="0.35" color="#4682b4" 
-              position="15.45 2 -5" 
-              animation="property: position; dur: 1650000; loop: true; to: -15.45 2 -5; dir: alternate; easing: linear"
+    <!-- 海王星 -->
+    <a-sphere position="173.5 2 -5" radius="0.58" color="#4682b4"
               onclick="window.open('https://zh.wikipedia.org/zh-tw/海王星')"></a-sphere>
 
     <!-- 背景天空 -->
-    <a-sky color="#D200D2"></a-sky>
+    <a-sky color="#3A006F"></a-sky>
   </a-scene>
 </body>
 </html>
