@@ -2,51 +2,99 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>一列排列的太陽系</title>
+  <title>手機雙指縮放靠近星球</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
   <a-scene>
-    <!-- 相機設定，讓所有行星都在視野裡 -->
-    <a-entity camera look-controls position="0 5 20"></a-entity>
+    <a-entity id="cameraRig" position="0 5 20">
+      <a-entity id="camera" camera look-controls></a-entity>
+    </a-entity>
 
-    <!-- 太陽 -->
-    <a-sphere position="0 2 0" radius="2.5" color="orange"></a-sphere>
+    <!-- 太陽系行星（簡化版） -->
+    <a-sphere id="sun" position="0 2 0" radius="2.5" color="orange"></a-sphere>
+    <a-sphere id="mercury" position="3 2 0" radius="0.06" color="#a9a9a9"></a-sphere>
+    <a-sphere id="venus" position="5.2 2 0" radius="0.15" color="#deb887"></a-sphere>
+    <a-sphere id="earth" position="7 2 0" radius="0.16" color="#4CC3D9"></a-sphere>
+    <a-sphere id="mars" position="10.6 2 0" radius="0.09" color="#EF2D5E"></a-sphere>
+    <a-sphere id="jupiter" position="18 2 0" radius="1.8" color="#d2b48c"></a-sphere>
+    <a-sphere id="saturn" position="25 2 0" radius="1.5" color="#f4a460"></a-sphere>
+    <a-sphere id="uranus" position="32 2 0" radius="0.6" color="#afeeee"></a-sphere>
+    <a-sphere id="neptune" position="38 2 0" radius="0.58" color="#4682b4"></a-sphere>
 
-    <!-- 水星 -->
-    <a-sphere position="3 2 0" radius="0.06" color="#a9a9a9"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/水星')"></a-sphere>
-
-    <!-- 金星 -->
-    <a-sphere position="5.2 2 0" radius="0.15" color="#deb887"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/金星')"></a-sphere>
-
-    <!-- 地球 -->
-    <a-sphere position="7 2 0" radius="0.16" color="#4CC3D9"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/地球')"></a-sphere>
-
-    <!-- 火星 -->
-    <a-sphere position="10.6 2 0" radius="0.09" color="#EF2D5E"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/火星')"></a-sphere>
-
-    <!-- 木星 -->
-    <a-sphere position="18 2 0" radius="1.8" color="#d2b48c"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/木星')"></a-sphere>
-
-    <!-- 土星 -->
-    <a-sphere position="25 2 0" radius="1.5" color="#f4a460"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/土星')"></a-sphere>
-
-    <!-- 天王星 -->
-    <a-sphere position="32 2 0" radius="0.6" color="#afeeee"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/天王星')"></a-sphere>
-
-    <!-- 海王星 -->
-    <a-sphere position="38 2 0" radius="0.58" color="#4682b4"
-              onclick="window.open('https://zh.wikipedia.org/zh-tw/海王星')"></a-sphere>
-
-    <!-- 背景天空 -->
     <a-sky color="#3A006F"></a-sky>
+
+    <script>
+      const cameraRig = document.querySelector('#cameraRig');
+      const planets = [
+        document.querySelector('#sun'),
+        document.querySelector('#mercury'),
+        document.querySelector('#venus'),
+        document.querySelector('#earth'),
+        document.querySelector('#mars'),
+        document.querySelector('#jupiter'),
+        document.querySelector('#saturn'),
+        document.querySelector('#uranus'),
+        document.querySelector('#neptune')
+      ];
+
+      let initialDistance = null;
+      let initialX = null;
+
+      function getDistance(touches) {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.sqrt(dx*dx + dy*dy);
+      }
+
+      window.addEventListener('touchstart', e => {
+        if (e.touches.length === 2) {
+          initialDistance = getDistance(e.touches);
+          initialX = cameraRig.object3D.position.x;
+        }
+      }, { passive: false });
+
+      window.addEventListener('touchmove', e => {
+        if (e.touches.length === 2 && initialDistance !== null) {
+          e.preventDefault();
+          const newDistance = getDistance(e.touches);
+          const diff = newDistance - initialDistance;
+
+          // 縮放靈敏度調整
+          const zoomDelta = diff * 0.02;
+
+          // 找最近星球
+          let closest = planets[0];
+          let minDist = Infinity;
+          planets.forEach(p => {
+            const pos = p.object3D.position;
+            const camPosX = cameraRig.object3D.position.x;
+            const dist = Math.abs(pos.x - camPosX);
+            if (dist < minDist) {
+              minDist = dist;
+              closest = p;
+            }
+          });
+
+          // 計算新位置
+          let targetX = initialX - zoomDelta;
+          const planetX = closest.object3D.position.x;
+
+          // 限制範圍讓鏡頭不要跑太遠
+          if (targetX < planetX - 10) targetX = planetX - 10;
+          if (targetX > planetX + 10) targetX = planetX + 10;
+
+          cameraRig.object3D.position.x = targetX;
+        }
+      }, { passive: false });
+
+      window.addEventListener('touchend', e => {
+        if (e.touches.length < 2) {
+          initialDistance = null;
+          initialX = null;
+        }
+      });
+    </script>
   </a-scene>
 </body>
 </html>
