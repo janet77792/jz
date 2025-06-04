@@ -10,6 +10,7 @@
       margin: 0; padding: 0;
       width: 100%; height: 100%;
       overflow: hidden;
+      background: black;
     }
     a-scene {
       width: 100%; height: 100%;
@@ -39,106 +40,32 @@
 
   <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true"
            color-space="sRGB"
-           renderer="colorManagement: true, physicallyCorrectLights, alpha:true"
+           renderer="colorManagement: true, physicallyCorrectLights: true, alpha: false"
            embedded
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
-    
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-    <!-- 目標標記 -->
-    <a-entity mindar-image-target="targetIndex: 0" id="target">
+    <a-assets>
+      <!-- 字型也可以自定，但這裡使用內建 -->
+    </a-assets>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    
+    <!-- 黑色背景天空 -->
+    <a-sky color="#000"></a-sky>
+
+    <!-- Marker Target -->
+    <a-entity mindar-image-target="targetIndex: 0">
       <!-- 太陽 -->
       <a-sphere position="0 0 0" radius="0.5" color="#FDB813"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
-      <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center" side="double"></a-text>
-    </a-entity>
+      <a-text value="太陽 Sun" color="white" position="0 -0.6 0" align="center" side="double" scale="1 1 1"></a-text>
 
-    <!-- 平滑追蹤容器 -->
-    <a-entity id="stable-group" smooth-follow="#target">
+      <!-- 行星容器 -->
       <a-entity id="planets"></a-entity>
     </a-entity>
-
   </a-scene>
 
   <script>
-    // 註冊平滑追蹤組件
-    AFRAME.registerComponent('smooth-follow', {
-      schema: { type: 'selector' },
-      init() {
-        this.target = this.data;
-      },
-      tick() {
-        if (!this.target.object3D.visible) return;
-        this.el.object3D.position.lerp(this.target.object3D.position, 0.1);
-        this.el.object3D.quaternion.slerp(this.target.object3D.quaternion, 0.1);
-      }
-    });
-
     const planets = [
-      { name: "水星 Mercury", intro: "水星是距離太陽最近的行星，表面溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8 },
-      { name: "金星 Venus", intro: "金星擁有濃厚的大氣層，表面溫度極高。", color: "#FFCC80", radius: 0.1, distance: 1.1 },
-      { name: "地球 Earth", intro: "地球是人類居住的行星，擁有適合生命的環境。", color: "#2196F3", radius: 0.11, distance: 1.4 },
-      { name: "火星 Mars", intro: "火星有紅色表面，被稱為紅色星球。", color: "#F44336", radius: 0.09, distance: 1.7 },
-      { name: "木星 Jupiter", intro: "太陽系最大的行星，有著巨大風暴和環狀結構。", color: "#FFA726", radius: 0.22, distance: 2.2 },
-      { name: "土星 Saturn", intro: "以美麗的環狀結構著稱，土星是氣體巨行星。", color: "#FFEB3B", radius: 0.2, distance: 2.7 },
-      { name: "天王星 Uranus", intro: "天王星呈淡藍色，自轉軸幾乎平行於公轉軌道。", color: "#80DEEA", radius: 0.18, distance: 3.1 },
-      { name: "海王星 Neptune", intro: "海王星是最遠的行星，擁有強烈風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5 }
-    ];
-
-    window.addEventListener("load", () => {
-      const planetGroup = document.getElementById("planets");
-      const infoBox = document.getElementById("info-box");
-
-      planets.forEach((planet, index) => {
-        const angle = (index / planets.length) * Math.PI * 2;
-        const x = planet.distance * Math.cos(angle);
-        const z = planet.distance * Math.sin(angle);
-
-        // 行星運行容器
-        const orbit = document.createElement("a-entity");
-        orbit.setAttribute("position", "0 0 0");
-        orbit.setAttribute("animation", `property: rotation; to: 0 360 0; loop: true; dur: ${10000 + index * 500}`);
-
-        // 行星球體
-        const sphere = document.createElement("a-sphere");
-        sphere.setAttribute("position", `${x} 0 ${z}`);
-        sphere.setAttribute("radius", planet.radius);
-        sphere.setAttribute("color", planet.color);
-        sphere.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 4000");
-
-        // 點擊顯示簡介（可選）
-        sphere.addEventListener("click", () => {
-          infoBox.innerText = planet.intro;
-          infoBox.style.display = "block";
-          setTimeout(() => { infoBox.style.display = "none"; }, 3000);
-        });
-
-        // 中文名稱
-        const label = document.createElement("a-text");
-        label.setAttribute("value", planet.name);
-        label.setAttribute("color", "white");
-        label.setAttribute("align", "center");
-        label.setAttribute("position", `${x} -0.2 ${z}`);
-        label.setAttribute("side", "double");
-        label.setAttribute("scale", "0.5 0.5 0.5");
-
-        // 簡介（靜態展示）
-        const desc = document.createElement("a-text");
-        desc.setAttribute("value", planet.intro);
-        desc.setAttribute("color", "lightgray");
-        desc.setAttribute("align", "center");
-        desc.setAttribute("position", `${x} -0.4 ${z}`);
-        desc.setAttribute("side", "double");
-        desc.setAttribute("scale", "0.4 0.4 0.4");
-        desc.setAttribute("width", "2");
-
-        orbit.appendChild(sphere);
-        orbit.appendChild(label);
-        orbit.appendChild(desc);
-        planetGroup.appendChild(orbit);
-      });
-    });
-  </script>
-</body>
-</html>
+      { name: "水星 Mercury", in
