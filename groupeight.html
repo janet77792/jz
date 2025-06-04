@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第八組 太陽系 VR</title>
+  <title>第八組 太陽系 VR展示</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
@@ -19,89 +19,65 @@
     .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning {
       display: none;
     }
-
-    #info-panel {
-      position: absolute;
-      top: 10px;
+    #info-box {
+      position: fixed;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.8);
       color: white;
-      padding: 15px 20px;
-      border-radius: 12px;
-      font-family: sans-serif;
-      max-width: 90%;
+      padding: 1em;
+      border-radius: 10px;
+      font-size: 1.2em;
+      max-width: 80%;
+      z-index: 9999;
       display: none;
-      z-index: 10;
-    }
-
-    #info-panel h2 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    #info-panel p {
-      margin: 5px 0 0;
-      font-size: 14px;
-    }
-
-    #close-btn {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div id="info-panel">
-    <button id="close-btn">✖</button>
-    <h2 id="planet-name"></h2>
-    <p id="planet-desc"></p>
-  </div>
+  <div id="info-box"></div>
 
   <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0001; filterBeta: 0.01"
            color-space="sRGB"
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
+    
+    <a-assets>
+      <a-asset-item id="font" src="https://cdn.jsdelivr.net/gh/wallacepei/aframe-chinese-fonts/fonts/msdf/NotoSansCJKtc-Regular.fnt"></a-asset-item>
+      <img id="font-image" src="https://cdn.jsdelivr.net/gh/wallacepei/aframe-chinese-fonts/fonts/msdf/NotoSansCJKtc-Regular.png" />
+    </a-assets>
 
-    <a-assets></a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
       <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
-      <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center"></a-text>
+      <a-entity text="value: 太陽 Sun; color: white; align: center"
+                position="0 -0.7 0"
+                font="#font"
+                negate="false"
+                shader="msdf">
+      </a-entity>
       <a-entity id="solar-system"></a-entity>
     </a-entity>
   </a-scene>
 
   <script>
     const planets = [
-      { name: "水星", cname: "Mercury", desc: "最靠近太陽的行星，晝夜溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000 },
-      { name: "金星", cname: "Venus", desc: "表面極熱並有濃厚大氣，是地球的姊妹星。", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000 },
-      { name: "地球", cname: "Earth", desc: "唯一已知擁有生命的星球。", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000 },
-      { name: "火星", cname: "Mars", desc: "地表為紅色，可能有水冰存在。", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500 },
-      { name: "木星", cname: "Jupiter", desc: "太陽系最大的行星，有巨大的風暴。", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500 },
-      { name: "土星", cname: "Saturn", desc: "以明顯的環聞名，由冰與岩石構成。", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700 },
-      { name: "天王星", cname: "Uranus", desc: "自轉軸幾乎橫躺，呈淡藍色。", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300 },
-      { name: "海王星", cname: "Neptune", desc: "最遠的行星，具有極端天氣與風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100 }
+      { name: "水星 Mercury", intro: "水星是距離太陽最近的行星，表面溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000 },
+      { name: "金星 Venus", intro: "金星擁有濃厚的大氣層，表面溫度極高。", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000 },
+      { name: "地球 Earth", intro: "地球是人類居住的行星，擁有適合生命的環境。", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000 },
+      { name: "火星 Mars", intro: "火星有紅色表面，被稱為紅色星球。", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500 },
+      { name: "木星 Jupiter", intro: "太陽系最大的行星，有著巨大風暴和環狀結構。", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500 },
+      { name: "土星 Saturn", intro: "以美麗的環狀結構著稱，土星是氣體巨行星。", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700 },
+      { name: "天王星 Uranus", intro: "天王星呈淡藍色，自轉軸幾乎平行於公轉軌道。", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300 },
+      { name: "海王星 Neptune", intro: "海王星是最遠的行星，擁有強烈風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100 }
     ];
 
     window.addEventListener("load", () => {
       const solarSystem = document.getElementById("solar-system");
-      const infoPanel = document.getElementById("info-panel");
-      const planetName = document.getElementById("planet-name");
-      const planetDesc = document.getElementById("planet-desc");
-      const closeBtn = document.getElementById("close-btn");
-
-      closeBtn.addEventListener("click", () => {
-        infoPanel.style.display = "none";
-      });
+      const infoBox = document.getElementById("info-box");
 
       planets.forEach((planet) => {
         const orbit = document.createElement("a-entity");
@@ -111,8 +87,6 @@
         sphere.setAttribute("position", `${planet.distance} 0 0`);
         sphere.setAttribute("radius", planet.radius);
         sphere.setAttribute("color", planet.color);
-        sphere.setAttribute("class", "clickable");
-
         sphere.setAttribute("animation__spin", {
           property: "rotation",
           to: "0 360 0",
@@ -122,21 +96,28 @@
         });
 
         sphere.addEventListener("click", () => {
-          planetName.textContent = `${planet.name} (${planet.cname})`;
-          planetDesc.textContent = planet.desc;
-          infoPanel.style.display = "block";
+          infoBox.innerText = planet.intro;
+          infoBox.style.display = "block";
+          setTimeout(() => { infoBox.style.display = "none"; }, 4000);
         });
 
-        orbit.appendChild(sphere);
+        const label = document.createElement("a-entity");
+        label.setAttribute("text", `value: ${planet.name}; color: white; align: center`);
+        label.setAttribute("position", `${planet.distance} -0.3 0`);
+        label.setAttribute("font", "#font");
+        label.setAttribute("negate", "false");
+        label.setAttribute("shader", "msdf");
 
         orbit.setAttribute("animation__orbit", {
           property: "rotation",
-          to: "0 360 0",
+          to: `0 360 0`,
           dur: planet.orbitSpeed * 1000,
           easing: "linear",
           loop: true
         });
 
+        orbit.appendChild(sphere);
+        orbit.appendChild(label);
         solarSystem.appendChild(orbit);
       });
     });
