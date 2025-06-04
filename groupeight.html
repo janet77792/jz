@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Solar System AR</title>
+  <title>MindAR 太陽系 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
@@ -10,109 +10,74 @@
       margin: 0; padding: 0;
       width: 100%; height: 100%;
       overflow: hidden;
-      background: transparent;
     }
     a-scene {
       width: 100%; height: 100%;
       position: fixed; top: 0; left: 0;
-      background: transparent;
     }
-    #info-box {
+    .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning {
       display: none;
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 1em;
-      font-size: 1.2em;
-      border-radius: 0.5em;
-      z-index: 9999;
     }
   </style>
 </head>
-
 <body>
-<div id="info-box"></div>
+  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true"
+           color-space="sRGB"
+           renderer="colorManagement: true, physicallyCorrectLights"
+           vr-mode-ui="enabled: false"
+           device-orientation-permission-ui="enabled: false">
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-<a-scene
-  mindar-image="imageTargetSrc: targets.mind; autoStart: true; uiScanning: no;"
-  color-space="sRGB"
-  renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false"
->
+    <!-- target 圖像掃描位置 -->
+    <a-entity mindar-image-target="targetIndex: 0" id="target">
+      <!-- 太陽 -->
+      <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
+      <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center"></a-text>
 
-  <a-assets>
-    <img id="sun" src="assets/sun.png">
-    <img id="mercury" src="assets/mercury.png">
-    <img id="venus" src="assets/venus.png">
-    <img id="earth" src="assets/earth.png">
-    <img id="mars" src="assets/mars.png">
-  </a-assets>
-
-  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-  <a-entity mindar-image-target="targetIndex: 0" id="target">
-    <!-- 行星 -->
-    <a-entity id="solar-system" rotation="0 0 0">
-      <a-image src="#sun" position="0 0 -1" width="0.4" height="0.4" class="planet" planet-info="太陽，Sun"></a-image>
-      <a-image src="#mercury" position="0.6 0 -1" width="0.1" height="0.1" class="planet" planet-info="水星，Mercury"></a-image>
-      <a-image src="#venus" position="1.0 0 -1" width="0.15" height="0.15" class="planet" planet-info="金星，Venus"></a-image>
-      <a-image src="#earth" position="1.5 0 -1" width="0.2" height="0.2" class="planet" planet-info="地球，Earth"></a-image>
-      <a-image src="#mars" position="2.0 0 -1" width="0.18" height="0.18" class="planet" planet-info="火星，Mars"></a-image>
+      <!-- 行星群 -->
+      <a-entity id="planets"></a-entity>
     </a-entity>
-  </a-entity>
 
-  <!-- 自動旋轉動畫 -->
-  <a-animation
-    attribute="rotation"
-    dur="12000"
-    to="0 360 0"
-    repeat="indefinite"
-    easing="linear"
-    direction="normal"
-    begin="targetFound"
-    data-animate="solar-system"
-  ></a-animation>
+  </a-scene>
 
-</a-scene>
+  <script>
+    // 行星資料
+    const planets = [
+      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8 },
+      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1 },
+      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4 },
+      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7 },
+      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.2 },
+      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.7 },
+      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.1 },
+      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.5 }
+    ];
 
-<script>
-window.addEventListener("load", () => {
-  const targetEl = document.querySelector("#target");
-  const infoBox = document.querySelector("#info-box");
+    window.addEventListener("load", () => {
+      const planetGroup = document.getElementById("planets");
 
-  // 點擊星球顯示資訊
-  document.querySelectorAll(".planet").forEach(planet => {
-    planet.addEventListener("click", () => {
-      const info = planet.getAttribute("planet-info");
-      infoBox.textContent = info;
-      infoBox.style.display = "block";
-      setTimeout(() => { infoBox.style.display = "none"; }, 3000);
+      planets.forEach((planet, index) => {
+        const angle = (index / planets.length) * Math.PI * 2;
+        const x = planet.distance * Math.cos(angle);
+        const z = planet.distance * Math.sin(angle);
+
+        // 行星球體
+        const sphere = document.createElement("a-sphere");
+        sphere.setAttribute("position", `${x} 0 ${z}`);
+        sphere.setAttribute("radius", planet.radius);
+        sphere.setAttribute("color", planet.color);
+        planetGroup.appendChild(sphere);
+
+        // 名稱文字
+        const label = document.createElement("a-text");
+        label.setAttribute("value", planet.name);
+        label.setAttribute("color", "white");
+        label.setAttribute("align", "center");
+        label.setAttribute("position", `${x} -0.3 ${z}`);
+        label.setAttribute("side", "double");
+        planetGroup.appendChild(label);
+      });
     });
-  });
-
-  // 掃描到目標時開始旋轉
-  targetEl.addEventListener("targetFound", () => {
-    const solarSystem = document.querySelector("#solar-system");
-    solarSystem.setAttribute("animation", {
-      property: "rotation",
-      to: "0 360 0",
-      dur: 12000,
-      easing: "linear",
-      loop: true
-    });
-  });
-
-  targetEl.addEventListener("targetLost", () => {
-    const solarSystem = document.querySelector("#solar-system");
-    solarSystem.removeAttribute("animation");
-    infoBox.style.display = "none";
-  });
-});
-</script>
-
+  </script>
 </body>
 </html>
