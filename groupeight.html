@@ -1,110 +1,101 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>太陽系 AR VR 展示</title>
-    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #000;
-      }
-      a-scene {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-      }
-      /* 隱藏 MindAR 掃描動畫 */
-      .mindar-ui-loading,
-      .mindar-ui-error,
-      .mindar-ui-scanning {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <a-scene
-      mindar-image="imageTargetSrc: targets.mind; autoStart: true; uiScanning: no"
-      renderer="colorManagement: true; physicallyCorrectLights: true; backgroundColor: #000000"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-    >
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+<head>
+  <meta charset="utf-8" />
+  <title>太陽系AR VR</title>
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    a-scene {
+      width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0;
+    }
+    #info-box {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 1em;
+      font-size: 1.2em;
+      border-radius: 0.5em;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
 
-      <!-- 太陽系行星群 -->
-      <a-entity mindar-image-target="targetIndex: 0" id="target">
-        <a-entity id="planet-group">
-          <!-- 太陽 -->
-          <a-sphere position="-3 0 0" radius="0.3" color="#FFD700"></a-sphere>
-          <a-text value="太陽 Sun" position="-3 -0.4 0" color="#fff" align="center" width="2"></a-text>
+<div id="info-box">行星資訊</div>
 
-          <!-- 水星 -->
-          <a-sphere position="-2 0 0" radius="0.05" color="#ccc"></a-sphere>
-          <a-text value="水星 Mercury" position="-2 -0.2 0" color="#fff" align="center" width="2"></a-text>
+<a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; showStats: false; uiScanning: no; uiError: no"
+         color-space="sRGB"
+         renderer="colorManagement: true, physicallyCorrectLights, alpha: true"
+         vr-mode-ui="enabled: false"
+         device-orientation-permission-ui="enabled: false">
+  
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-          <!-- 金星 -->
-          <a-sphere position="-1 0 0" radius="0.07" color="#f5deb3"></a-sphere>
-          <a-text value="金星 Venus" position="-1 -0.25 0" color="#fff" align="center" width="2"></a-text>
+  <a-entity mindar-image-target="targetIndex: 0" id="target">
 
-          <!-- 地球 -->
-          <a-sphere position="0 0 0" radius="0.09" color="#00f"></a-sphere>
-          <a-text value="地球 Earth" position="0 -0.3 0" color="#fff" align="center" width="2"></a-text>
+    <!-- 太陽 -->
+    <a-image src="assets/sun.png" position="0 0 -1" scale="0.3 0.3 0.3"
+             animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"
+             class="planet" planet-name="太陽"></a-image>
 
-          <!-- 火星 -->
-          <a-sphere position="1 0 0" radius="0.06" color="#ff4500"></a-sphere>
-          <a-text value="火星 Mars" position="1 -0.25 0" color="#fff" align="center" width="2"></a-text>
+    <!-- 水星 -->
+    <a-image src="assets/mercury.png" position="0.5 0 -1.2" scale="0.1 0.1 0.1"
+             animation="property: rotation; to: 0 360 0; loop: true; dur: 4000"
+             class="planet" planet-name="水星"></a-image>
 
-          <!-- 木星 -->
-          <a-sphere position="2 0 0" radius="0.2" color="#d2b48c"></a-sphere>
-          <a-text value="木星 Jupiter" position="2 -0.35 0" color="#fff" align="center" width="2"></a-text>
+    <!-- 金星 -->
+    <a-image src="assets/venus.png" position="1 0 -1.5" scale="0.13 0.13 0.13"
+             animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+             class="planet" planet-name="金星"></a-image>
 
-          <!-- 土星 -->
-          <a-sphere position="3 0 0" radius="0.17" color="#deb887"></a-sphere>
-          <a-text value="土星 Saturn" position="3 -0.35 0" color="#fff" align="center" width="2"></a-text>
+    <!-- 地球 -->
+    <a-image src="assets/earth.png" position="1.5 0 -1.8" scale="0.15 0.15 0.15"
+             animation="property: rotation; to: 0 360 0; loop: true; dur: 6000"
+             class="planet" planet-name="地球"></a-image>
 
-          <!-- 天王星 -->
-          <a-sphere position="4 0 0" radius="0.12" color="#00ffff"></a-sphere>
-          <a-text value="天王星 Uranus" position="4 -0.3 0" color="#fff" align="center" width="2"></a-text>
+    <!-- 火星 -->
+    <a-image src="assets/mars.png" position="2 0 -2" scale="0.12 0.12 0.12"
+             animation="property: rotation; to: 0 360 0; loop: true; dur: 4500"
+             class="planet" planet-name="火星"></a-image>
 
-          <!-- 海王星 -->
-          <a-sphere position="5 0 0" radius="0.11" color="#4169e1"></a-sphere>
-          <a-text value="海王星 Neptune" position="5 -0.3 0" color="#fff" align="center" width="2"></a-text>
-        </a-entity>
-      </a-entity>
-    </a-scene>
+  </a-entity>
 
-    <!-- 鍵盤放大縮小功能 -->
-    <script>
-      window.addEventListener("load", () => {
-        const targetEl = document.querySelector("#target");
-        const group = document.querySelector("#planet-group");
+</a-scene>
 
-        // 行星縮放功能：+ 放大，- 縮小
-        window.addEventListener("keydown", (e) => {
-          const scale = group.getAttribute("scale") || { x: 1, y: 1, z: 1 };
-          if (e.key === "+") {
-            group.setAttribute("scale", {
-              x: scale.x * 1.1,
-              y: scale.y * 1.1,
-              z: scale.z * 1.1,
-            });
-          }
-          if (e.key === "-") {
-            group.setAttribute("scale", {
-              x: scale.x * 0.9,
-              y: scale.y * 0.9,
-              z: scale.z * 0.9,
-            });
-          }
-        });
-      });
-    </script>
-  </body>
+<script>
+  const planets = document.querySelectorAll(".planet");
+  const infoBox = document.getElementById("info-box");
+
+  const planetInfos = {
+    "太陽": "太陽：太陽系的中心恆星，提供光和熱。",
+    "水星": "水星：離太陽最近的行星，溫差極大。",
+    "金星": "金星：表面高溫，厚大氣，晨星與昏星。",
+    "地球": "地球：唯一確認有生命存在的行星。",
+    "火星": "火星：紅色星球，表面有山脈與冰帽。"
+  };
+
+  planets.forEach(planet => {
+    planet.addEventListener("click", e => {
+      const name = planet.getAttribute("planet-name");
+      infoBox.innerText = planetInfos[name];
+      infoBox.style.display = "block";
+      setTimeout(() => {
+        infoBox.style.display = "none";
+      }, 3000);
+    });
+  });
+</script>
+
+</body>
 </html>
