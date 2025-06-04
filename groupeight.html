@@ -43,19 +43,38 @@
            embedded
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
+    
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+    <!-- 目標標記 -->
     <a-entity mindar-image-target="targetIndex: 0" id="target">
       <!-- 太陽 -->
       <a-sphere position="0 0 0" radius="0.5" color="#FDB813"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
       <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center" side="double"></a-text>
+    </a-entity>
 
+    <!-- 平滑追蹤容器 -->
+    <a-entity id="stable-group" smooth-follow="#target">
       <a-entity id="planets"></a-entity>
     </a-entity>
+
   </a-scene>
 
   <script>
+    // 註冊平滑追蹤組件
+    AFRAME.registerComponent('smooth-follow', {
+      schema: { type: 'selector' },
+      init() {
+        this.target = this.data;
+      },
+      tick() {
+        if (!this.target.object3D.visible) return;
+        this.el.object3D.position.lerp(this.target.object3D.position, 0.1);
+        this.el.object3D.quaternion.slerp(this.target.object3D.quaternion, 0.1);
+      }
+    });
+
     const planets = [
       { name: "水星 Mercury", intro: "水星是距離太陽最近的行星，表面溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8 },
       { name: "金星 Venus", intro: "金星擁有濃厚的大氣層，表面溫度極高。", color: "#FFCC80", radius: 0.1, distance: 1.1 },
@@ -76,10 +95,10 @@
         const x = planet.distance * Math.cos(angle);
         const z = planet.distance * Math.sin(angle);
 
-        // 行星容器
+        // 行星運行容器
         const orbit = document.createElement("a-entity");
         orbit.setAttribute("position", "0 0 0");
-        orbit.setAttribute("animation", `property: rotation; to: 0 360 0; loop: true; dur: ${10000 + index*500}`);
+        orbit.setAttribute("animation", `property: rotation; to: 0 360 0; loop: true; dur: ${10000 + index * 500}`);
 
         // 行星球體
         const sphere = document.createElement("a-sphere");
@@ -88,24 +107,35 @@
         sphere.setAttribute("color", planet.color);
         sphere.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 4000");
 
-        // 點擊事件
+        // 點擊顯示簡介（可選）
         sphere.addEventListener("click", () => {
           infoBox.innerText = planet.intro;
           infoBox.style.display = "block";
           setTimeout(() => { infoBox.style.display = "none"; }, 3000);
         });
 
-        // 名稱文字
+        // 中文名稱
         const label = document.createElement("a-text");
         label.setAttribute("value", planet.name);
         label.setAttribute("color", "white");
         label.setAttribute("align", "center");
-        label.setAttribute("position", `${x} -0.3 ${z}`);
+        label.setAttribute("position", `${x} -0.2 ${z}`);
         label.setAttribute("side", "double");
+        label.setAttribute("scale", "0.5 0.5 0.5");
 
-        // 加入容器
+        // 簡介（靜態展示）
+        const desc = document.createElement("a-text");
+        desc.setAttribute("value", planet.intro);
+        desc.setAttribute("color", "lightgray");
+        desc.setAttribute("align", "center");
+        desc.setAttribute("position", `${x} -0.4 ${z}`);
+        desc.setAttribute("side", "double");
+        desc.setAttribute("scale", "0.4 0.4 0.4");
+        desc.setAttribute("width", "2");
+
         orbit.appendChild(sphere);
         orbit.appendChild(label);
+        orbit.appendChild(desc);
         planetGroup.appendChild(orbit);
       });
     });
