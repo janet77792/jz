@@ -10,7 +10,7 @@
       margin: 0; padding: 0;
       width: 100%; height: 100%;
       overflow: hidden;
-      background-color: transparent;
+      background-color: black;
     }
     a-scene {
       width: 100%; height: 100%;
@@ -19,9 +19,51 @@
     .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning {
       display: none;
     }
+
+    #info-panel {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      font-family: sans-serif;
+      max-width: 90%;
+      display: none;
+      z-index: 10;
+    }
+
+    #info-panel h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    #info-panel p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    #close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+  <div id="info-panel">
+    <button id="close-btn">✖</button>
+    <h2 id="planet-name"></h2>
+    <p id="planet-desc"></p>
+  </div>
+
   <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0001; filterBeta: 0.01"
            color-space="sRGB"
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
@@ -40,18 +82,26 @@
 
   <script>
     const planets = [
-      { name: "Mercury", cname: "水星", desc: "最靠近太陽的行星，晝夜溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000 },
-      { name: "Venus", cname: "金星", desc: "表面極熱並有濃厚大氣，是地球的姊妹星。", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000 },
-      { name: "Earth", cname: "地球", desc: "唯一已知擁有生命的星球。", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000 },
-      { name: "Mars", cname: "火星", desc: "地表為紅色，可能有水冰存在。", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500 },
-      { name: "Jupiter", cname: "木星", desc: "太陽系最大的行星，有巨大的風暴。", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500 },
-      { name: "Saturn", cname: "土星", desc: "以明顯的環聞名，由冰與岩石構成。", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700 },
-      { name: "Uranus", cname: "天王星", desc: "自轉軸幾乎橫躺，呈淡藍色。", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300 },
-      { name: "Neptune", cname: "海王星", desc: "最遠的行星，具有極端天氣與風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100 }
+      { name: "水星", cname: "Mercury", desc: "最靠近太陽的行星，晝夜溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000 },
+      { name: "金星", cname: "Venus", desc: "表面極熱並有濃厚大氣，是地球的姊妹星。", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000 },
+      { name: "地球", cname: "Earth", desc: "唯一已知擁有生命的星球。", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000 },
+      { name: "火星", cname: "Mars", desc: "地表為紅色，可能有水冰存在。", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500 },
+      { name: "木星", cname: "Jupiter", desc: "太陽系最大的行星，有巨大的風暴。", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500 },
+      { name: "土星", cname: "Saturn", desc: "以明顯的環聞名，由冰與岩石構成。", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700 },
+      { name: "天王星", cname: "Uranus", desc: "自轉軸幾乎橫躺，呈淡藍色。", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300 },
+      { name: "海王星", cname: "Neptune", desc: "最遠的行星，具有極端天氣與風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100 }
     ];
 
     window.addEventListener("load", () => {
       const solarSystem = document.getElementById("solar-system");
+      const infoPanel = document.getElementById("info-panel");
+      const planetName = document.getElementById("planet-name");
+      const planetDesc = document.getElementById("planet-desc");
+      const closeBtn = document.getElementById("close-btn");
+
+      closeBtn.addEventListener("click", () => {
+        infoPanel.style.display = "none";
+      });
 
       planets.forEach((planet) => {
         const orbit = document.createElement("a-entity");
@@ -61,6 +111,8 @@
         sphere.setAttribute("position", `${planet.distance} 0 0`);
         sphere.setAttribute("radius", planet.radius);
         sphere.setAttribute("color", planet.color);
+        sphere.setAttribute("class", "clickable");
+
         sphere.setAttribute("animation__spin", {
           property: "rotation",
           to: "0 360 0",
@@ -69,35 +121,13 @@
           loop: true
         });
 
-        const labelEn = document.createElement("a-text");
-        labelEn.setAttribute("value", planet.name);
-        labelEn.setAttribute("color", "white");
-        labelEn.setAttribute("align", "center");
-        labelEn.setAttribute("position", `${planet.distance} -0.3 0`);
-        labelEn.setAttribute("side", "double");
-        labelEn.setAttribute("scale", "0.6 0.6 0.6");
-
-        const labelCn = document.createElement("a-text");
-        labelCn.setAttribute("value", planet.cname);
-        labelCn.setAttribute("color", "white");
-        labelCn.setAttribute("align", "center");
-        labelCn.setAttribute("position", `${planet.distance} -0.45 0`);
-        labelCn.setAttribute("side", "double");
-        labelCn.setAttribute("scale", "0.5 0.5 0.5");
-
-        const labelDesc = document.createElement("a-text");
-        labelDesc.setAttribute("value", planet.desc);
-        labelDesc.setAttribute("color", "lightgray");
-        labelDesc.setAttribute("align", "center");
-        labelDesc.setAttribute("position", `${planet.distance} -0.6 0`);
-        labelDesc.setAttribute("side", "double");
-        labelDesc.setAttribute("scale", "0.4 0.4 0.4");
-        labelDesc.setAttribute("width", 2);
+        sphere.addEventListener("click", () => {
+          planetName.textContent = `${planet.name} (${planet.cname})`;
+          planetDesc.textContent = planet.desc;
+          infoPanel.style.display = "block";
+        });
 
         orbit.appendChild(sphere);
-        orbit.appendChild(labelEn);
-        orbit.appendChild(labelCn);
-        orbit.appendChild(labelDesc);
 
         orbit.setAttribute("animation__orbit", {
           property: "rotation",
