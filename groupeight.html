@@ -1,102 +1,114 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>八大行星 AR 展示</title>
-    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <style>
-      html, body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
-      #info-box {
-        display: none;
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,0.7);
-        color: #fff;
-        padding: 1em;
-        border-radius: 8px;
-        max-width: 80%;
-        font-size: 1.2em;
-        z-index: 9999;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <title>MindAR 太陽系 VR</title>
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    a-scene {
+      width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0;
+    }
+    .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning {
+      display: none;
+    }
+    #info-box {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 1em;
+      border-radius: 8px;
+      max-width: 80%;
+      font-size: 1.2em;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="info-box"></div>
 
-  <body>
-    <div id="info-box"></div>
+  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true"
+           color-space="sRGB"
+           renderer="colorManagement: true, physicallyCorrectLights, alpha:true"
+           embedded
+           vr-mode-ui="enabled: false"
+           device-orientation-permission-ui="enabled: false">
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-    <a-scene
-      mindar-image="imageTargetSrc: targets.mind; autoStart: true"
-      color-space="sRGB"
-      renderer="alpha: true; antialias: true;"
-      embedded
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-    >
-      <a-camera position="0 0 0" look-controls="enabled: false" raycaster="objects: .clickable"></a-camera>
+    <a-entity mindar-image-target="targetIndex: 0" id="target">
+      <!-- 太陽 -->
+      <a-sphere position="0 0 0" radius="0.5" color="#FDB813"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
+      <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center" side="double"></a-text>
 
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-sphere position="0 0 0" radius="0.5" color="#FDB813"
-                  animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
-        <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center" side="double"></a-text>
-        <a-entity id="planets"></a-entity>
-      </a-entity>
+      <a-entity id="planets"></a-entity>
+    </a-entity>
+  </a-scene>
 
-      <a-entity cursor="rayOrigin: mouse"></a-entity>
-    </a-scene>
+  <script>
+    const planets = [
+      { name: "水星 Mercury", intro: "水星是距離太陽最近的行星，表面溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8 },
+      { name: "金星 Venus", intro: "金星擁有濃厚的大氣層，表面溫度極高。", color: "#FFCC80", radius: 0.1, distance: 1.1 },
+      { name: "地球 Earth", intro: "地球是人類居住的行星，擁有適合生命的環境。", color: "#2196F3", radius: 0.11, distance: 1.4 },
+      { name: "火星 Mars", intro: "火星有紅色表面，被稱為紅色星球。", color: "#F44336", radius: 0.09, distance: 1.7 },
+      { name: "木星 Jupiter", intro: "太陽系最大的行星，有著巨大風暴和環狀結構。", color: "#FFA726", radius: 0.22, distance: 2.2 },
+      { name: "土星 Saturn", intro: "以美麗的環狀結構著稱，土星是氣體巨行星。", color: "#FFEB3B", radius: 0.2, distance: 2.7 },
+      { name: "天王星 Uranus", intro: "天王星呈淡藍色，自轉軸幾乎平行於公轉軌道。", color: "#80DEEA", radius: 0.18, distance: 3.1 },
+      { name: "海王星 Neptune", intro: "海王星是最遠的行星，擁有強烈風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5 }
+    ];
 
-    <script>
-      const planets = [
-        { name: "水星 Mercury", intro: "水星是距離太陽最近的行星，表面溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8 },
-        { name: "金星 Venus", intro: "金星擁有濃厚的大氣層，表面溫度極高。", color: "#FFCC80", radius: 0.1, distance: 1.1 },
-        { name: "地球 Earth", intro: "地球是人類居住的行星，擁有適合生命的環境。", color: "#2196F3", radius: 0.11, distance: 1.4 },
-        { name: "火星 Mars", intro: "火星有紅色表面，被稱為紅色星球。", color: "#F44336", radius: 0.09, distance: 1.7 },
-        { name: "木星 Jupiter", intro: "太陽系最大的行星，有著巨大風暴和環狀結構。", color: "#FFA726", radius: 0.22, distance: 2.2 },
-        { name: "土星 Saturn", intro: "以美麗的環狀結構著稱，土星是氣體巨行星。", color: "#FFEB3B", radius: 0.2, distance: 2.7 },
-        { name: "天王星 Uranus", intro: "天王星呈淡藍色，自轉軸幾乎平行於公轉軌道。", color: "#80DEEA", radius: 0.18, distance: 3.1 },
-        { name: "海王星 Neptune", intro: "海王星是最遠的行星，擁有強烈風暴。", color: "#3F51B5", radius: 0.17, distance: 3.5 }
-      ];
+    window.addEventListener("load", () => {
+      const planetGroup = document.getElementById("planets");
+      const infoBox = document.getElementById("info-box");
 
-      window.addEventListener("load", () => {
-        const planetGroup = document.getElementById("planets");
-        const infoBox = document.getElementById("info-box");
+      planets.forEach((planet, index) => {
+        const angle = (index / planets.length) * Math.PI * 2;
+        const x = planet.distance * Math.cos(angle);
+        const z = planet.distance * Math.sin(angle);
 
-        planets.forEach((planet, index) => {
-          const angle = (index / planets.length) * Math.PI * 2;
-          const x = planet.distance * Math.cos(angle);
-          const z = planet.distance * Math.sin(angle);
+        // 行星容器
+        const orbit = document.createElement("a-entity");
+        orbit.setAttribute("position", "0 0 0");
+        orbit.setAttribute("animation", `property: rotation; to: 0 360 0; loop: true; dur: ${10000 + index*500}`);
 
-          const orbit = document.createElement("a-entity");
-          orbit.setAttribute("position", "0 0 0");
-          orbit.setAttribute("animation", `property: rotation; to: 0 360 0; loop: true; dur: ${10000 + index * 500}`);
+        // 行星球體
+        const sphere = document.createElement("a-sphere");
+        sphere.setAttribute("position", `${x} 0 ${z}`);
+        sphere.setAttribute("radius", planet.radius);
+        sphere.setAttribute("color", planet.color);
+        sphere.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 4000");
 
-          const sphere = document.createElement("a-sphere");
-          sphere.setAttribute("position", `${x} 0 ${z}`);
-          sphere.setAttribute("radius", planet.radius);
-          sphere.setAttribute("color", planet.color);
-          sphere.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 4000");
-          sphere.classList.add("clickable");
-
-          sphere.addEventListener("click", () => {
-            infoBox.innerText = planet.intro;
-            infoBox.style.display = "block";
-            setTimeout(() => { infoBox.style.display = "none"; }, 3000);
-          });
-
-          const label = document.createElement("a-text");
-          label.setAttribute("value", planet.name);
-          label.setAttribute("color", "white");
-          label.setAttribute("align", "center");
-          label.setAttribute("position", `${x} -0.3 ${z}`);
-          label.setAttribute("side", "double");
-
-          orbit.appendChild(sphere);
-          orbit.appendChild(label);
-          planetGroup.appendChild(orbit);
+        // 點擊事件
+        sphere.addEventListener("click", () => {
+          infoBox.innerText = planet.intro;
+          infoBox.style.display = "block";
+          setTimeout(() => { infoBox.style.display = "none"; }, 3000);
         });
+
+        // 名稱文字
+        const label = document.createElement("a-text");
+        label.setAttribute("value", planet.name);
+        label.setAttribute("color", "white");
+        label.setAttribute("align", "center");
+        label.setAttribute("position", `${x} -0.3 ${z}`);
+        label.setAttribute("side", "double");
+
+        // 加入容器
+        orbit.appendChild(sphere);
+        orbit.appendChild(label);
+        planetGroup.appendChild(orbit);
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
