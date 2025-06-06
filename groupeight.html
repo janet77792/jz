@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>MindAR 太陽系 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
@@ -27,43 +27,35 @@
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
-
+           
     <a-assets></a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
       <!-- 太陽 -->
-      <a-sphere position="0 0 0" radius="0.3" color="#FDB813"></a-sphere>
-      <a-text value="太陽" color="white" position="0 -0.5 0" align="center"></a-text>
+      <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
+      <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center"></a-text>
 
       <!-- 太陽系容器 -->
       <a-entity id="solar-system"></a-entity>
-
-      <!-- 說明面板 -->
-      <a-entity id="info-panel" visible="false">
-        <a-plane id="info-bg" position="0 1.5 0" width="2" height="0.6" color="#FFFFFF" opacity="0.8"></a-plane>
-        <a-text id="info-text" value="" color="#000000" position="0 1.5 0.01" align="center" wrap-count="30"></a-text>
-      </a-entity>
     </a-entity>
 
   </a-scene>
 
   <script>
     const planets = [
-      { name: "水星", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000, info: "太陽系中最靠近太陽的行星。" },
-      { name: "金星", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000, info: "最明亮的行星，晨昏可見。" },
-      { name: "地球", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000, info: "我們居住的藍色星球。" },
-      { name: "火星", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500, info: "有紅色表面的紅色星球。" },
-      { name: "木星", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500, info: "太陽系中體積最大的行星。" },
-      { name: "土星", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700, info: "以美麗光環著名。" },
-      { name: "天王星", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300, info: "藍綠色的橫躺行星。" },
-      { name: "海王星", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100, info: "最遠離太陽的深藍色行星。" }
+      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000 },
+      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000 },
+      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000 },
+      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500 },
+      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500 },
+      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700 },
+      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300 },
+      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100 }
     ];
 
     window.addEventListener("load", () => {
       const solarSystem = document.getElementById("solar-system");
-      const infoPanel = document.getElementById("info-panel");
-      const infoText = document.getElementById("info-text");
 
       planets.forEach((planet) => {
         const orbit = document.createElement("a-entity");
@@ -83,18 +75,6 @@
           loop: true
         });
 
-        // 點擊顯示說明
-        sphere.addEventListener("click", () => {
-          infoText.setAttribute("value", `${planet.name}\n${planet.info}`);
-          infoPanel.setAttribute("visible", true);
-
-          // 3秒後隱藏
-          clearTimeout(infoPanel.timeout);
-          infoPanel.timeout = setTimeout(() => {
-            infoPanel.setAttribute("visible", false);
-          }, 3000);
-        });
-
         // 名稱文字
         const label = document.createElement("a-text");
         label.setAttribute("value", planet.name);
@@ -102,6 +82,10 @@
         label.setAttribute("align", "center");
         label.setAttribute("position", `${planet.distance} -0.3 0`);
         label.setAttribute("side", "double");
+
+        // 加入 orbit
+        orbit.appendChild(sphere);
+        orbit.appendChild(label);
 
         // 公轉動畫
         orbit.setAttribute("animation__orbit", {
@@ -112,8 +96,6 @@
           loop: true
         });
 
-        orbit.appendChild(sphere);
-        orbit.appendChild(label);
         solarSystem.appendChild(orbit);
       });
     });
