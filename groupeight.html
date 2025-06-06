@@ -2,13 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>troika-text 測試</title>
+  <title>troika-text 基本測試</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-troika-text-component@3.0.0/dist/aframe-troika-text.min.js"></script>
 </head>
 <body style="margin:0; background: black;">
   <a-scene>
-    <a-entity position="0 1.6 -2" troika-text="value: 測試中文字！Hello World; color: white; fontSize: 0.3" ></a-entity>
+    <a-entity position="0 1.6 -2"
+      troika-text="value: 測試中文字; color: white; fontSize: 0.3;">
+    </a-entity>
     <a-camera></a-camera>
   </a-scene>
 </body>
