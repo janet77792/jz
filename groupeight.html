@@ -2,14 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MindAR 太陽系 VR6</title>
-
-  <!-- A-Frame & MindAR -->
+  <title>MindAR 太陽系 VR7</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-  <!-- troika-text for 中文字體 -->
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
-  <!-- Google 字體 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
 
   <style>
@@ -29,11 +25,15 @@
   </style>
 </head>
 <body>
-  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0001; filterBeta: 0.01"
-           color-space="sRGB"
-           renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
-           vr-mode-ui="enabled: false"
-           device-orientation-permission-ui="enabled: false">
+  <a-scene
+    mindar-image="imageTargetSrc: targets.mind; autoStart: true;"
+    color-space="sRGB"
+    renderer="alpha: true"
+    embedded
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+    cursor="rayOrigin: mouse"
+    raycaster="objects: .clickable">
 
     <a-assets></a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -43,7 +43,7 @@
       <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
       <a-entity troika-text="value: 太陽 Sun; color: white; fontSize: 0.25; fontFamily: Noto Sans TC; anchor: center; maxWidth: 2" position="0 -0.7 0"></a-entity>
 
-      <!-- 太陽系容器 -->
+      <!-- 容器 -->
       <a-entity id="solar-system"></a-entity>
     </a-entity>
   </a-scene>
@@ -62,17 +62,6 @@
         description: "水星是太陽系中最靠近太陽的行星，表面溫差極大。"
       },
       {
-        name: "金星 Venus",
-        color: "#FFCC80",
-        radius: 0.1,
-        distance: 1.1,
-        orbitSpeed: 15,
-        spinSpeed: 4000,
-        fontSize: 0.2,
-        labelY: -0.3,
-        description: "金星的大氣以二氧化碳為主，是最炙熱的行星。"
-      },
-      {
         name: "地球 Earth",
         color: "#2196F3",
         radius: 0.11,
@@ -82,61 +71,6 @@
         fontSize: 0.2,
         labelY: -0.3,
         description: "地球是我們的家，也是目前唯一有生命的行星。"
-      },
-      {
-        name: "火星 Mars",
-        color: "#F44336",
-        radius: 0.09,
-        distance: 1.7,
-        orbitSpeed: 25,
-        spinSpeed: 3500,
-        fontSize: 0.2,
-        labelY: -0.3,
-        description: "火星有著紅色沙地，曾被認為可能存在生命。"
-      },
-      {
-        name: "木星 Jupiter",
-        color: "#FFA726",
-        radius: 0.22,
-        distance: 2.2,
-        orbitSpeed: 30,
-        spinSpeed: 2500,
-        fontSize: 0.2,
-        labelY: -0.3,
-        description: "木星是太陽系最大行星，擁有明顯的風暴帶。"
-      },
-      {
-        name: "土星 Saturn",
-        color: "#FFEB3B",
-        radius: 0.2,
-        distance: 2.7,
-        orbitSpeed: 35,
-        spinSpeed: 2700,
-        fontSize: 0.2,
-        labelY: -0.3,
-        description: "土星以其壯觀的環而著稱，主要由冰與塵組成。"
-      },
-      {
-        name: "天王星 Uranus",
-        color: "#80DEEA",
-        radius: 0.18,
-        distance: 3.1,
-        orbitSpeed: 40,
-        spinSpeed: 3300,
-        fontSize: 0.2,
-        labelY: -0.3,
-        description: "天王星有獨特的傾斜軸，自轉幾乎躺著旋轉。"
-      },
-      {
-        name: "海王星 Neptune",
-        color: "#3F51B5",
-        radius: 0.17,
-        distance: 3.5,
-        orbitSpeed: 45,
-        spinSpeed: 3100,
-        fontSize: 0.2,
-        labelY: -0.3,
-        description: "海王星以深藍色外觀與極端天氣聞名。"
       }
     ];
 
@@ -167,7 +101,7 @@
           fontSize: planet.fontSize,
           fontFamily: "Noto Sans TC",
           anchor: "center",
-          maxWidth: 1.5,
+          maxWidth: 1.5
         });
         label.setAttribute("position", `${planet.distance} ${planet.labelY} 0`);
 
@@ -188,7 +122,7 @@
           fontSize: 0.08,
           fontFamily: "Noto Sans TC",
           anchor: "center",
-          maxWidth: 1.4,
+          maxWidth: 1.4
         });
         text.setAttribute("position", `${planet.distance} 0.4 0.01`);
         infoCard.appendChild(text);
