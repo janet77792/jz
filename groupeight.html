@@ -2,8 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
-  <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+  <title>第8組 太陽系 VR - 捏合縮放示範</title>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-gesture-detector@3.0.0/dist/aframe-gesture-detector.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
 
@@ -25,13 +26,13 @@
   </style>
 </head>
 <body>
-  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0001; filterBeta: 0.01"
+  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true"
+           gesture-detector
            color-space="sRGB"
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
 
-    <a-assets></a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
@@ -42,19 +43,18 @@
       <!-- 太陽系容器 -->
       <a-entity id="solar-system"></a-entity>
     </a-entity>
-
   </a-scene>
 
   <script>
     const planets = [
-      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000, info: "水星是太陽系中離太陽最近的行星。" },
-      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000, info: "金星的表面溫度非常高，有厚厚的二氧化碳大氣層。" },
-      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000, info: "地球是人類的家園，擁有豐富的水資源與生命。" },
-      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500, info: "火星被稱為紅色星球，可能曾有水流動的證據。" },
-      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500, info: "木星是太陽系最大的行星，擁有強大的磁場。" },
-      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700, info: "土星以其華麗的光環聞名，是氣態巨行星。" },
-      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300, info: "天王星有獨特的側向自轉軸，氣候非常寒冷。" },
-      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100, info: "海王星是太陽系最遠的行星，風暴頻繁。" }
+      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10000, spinSpeed: 3000, intro: "水星是最靠近太陽的行星。" },
+      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15000, spinSpeed: 4000, intro: "金星有濃厚的大氣層。" },
+      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20000, spinSpeed: 3000, intro: "地球是我們居住的星球。" },
+      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25000, spinSpeed: 3500, intro: "火星被稱為紅色星球。" },
+      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30000, spinSpeed: 2500, intro: "木星是最大的行星。" },
+      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35000, spinSpeed: 2700, intro: "土星有漂亮的環。" },
+      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40000, spinSpeed: 3300, intro: "天王星是一顆氣態巨行星。" },
+      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45000, spinSpeed: 3100, intro: "海王星是最遠的行星。" }
     ];
 
     window.addEventListener("load", () => {
@@ -68,6 +68,8 @@
         sphere.setAttribute("position", `${planet.distance} 0 0`);
         sphere.setAttribute("radius", planet.radius);
         sphere.setAttribute("color", planet.color);
+        sphere.classList.add("gesture-handler");
+        sphere.setAttribute("scale", "1 1 1");
 
         sphere.setAttribute("animation__spin", {
           property: "rotation",
@@ -77,46 +79,69 @@
           loop: true
         });
 
-        // 行星名稱
         const label = document.createElement("a-entity");
         label.setAttribute("troika-text", {
           value: planet.name,
           color: "white",
           fontFamily: "Noto Sans TC",
-          fontSize: planet.name.startsWith("水星") ? 0.15 : 0.2,
+          fontSize: 0.2,
           anchor: "center",
           maxWidth: 1.5,
         });
-        const labelYPos = planet.name.startsWith("水星") ? -0.4 : -0.3;
-        label.setAttribute("position", `${planet.distance} ${labelYPos} 0`);
+        label.setAttribute("position", `${planet.distance} -0.3 0`);
 
-        // 介紹文字，放在名字下方一點
-        const infoLabel = document.createElement("a-entity");
-        infoLabel.setAttribute("troika-text", {
-          value: planet.info,
-          color: "white",
+        const intro = document.createElement("a-entity");
+        intro.setAttribute("troika-text", {
+          value: planet.intro,
+          color: "black",
           fontFamily: "Noto Sans TC",
-          fontSize: 0.12,
+          fontSize: 0.15,
           anchor: "center",
-          maxWidth: 1.8,
-          backgroundColor: "black",
-          backgroundOpacity: 0.7
+          maxWidth: 1.5,
+          backgroundColor: "white"
         });
-        infoLabel.setAttribute("position", `${planet.distance} ${labelYPos - 0.15} 0`);
+        intro.setAttribute("position", `${planet.distance} -0.6 0`);
+        intro.setAttribute("visible", "false");
+        intro.setAttribute("geometry", {
+          primitive: 'plane',
+          width: 1.8,
+          height: 0.5,
+        });
+        intro.setAttribute("material", {
+          color: 'white',
+          opacity: 0.8,
+        });
 
         orbit.appendChild(sphere);
         orbit.appendChild(label);
-        orbit.appendChild(infoLabel);
+        orbit.appendChild(intro);
 
         orbit.setAttribute("animation__orbit", {
           property: "rotation",
           to: `0 360 0`,
-          dur: planet.orbitSpeed * 1000,
+          dur: planet.orbitSpeed,
           easing: "linear",
           loop: true
         });
 
         solarSystem.appendChild(orbit);
+
+        // 手勢控制
+        sphere.addEventListener("gesturestarted", (e) => {
+          sphere.startScale = sphere.getAttribute("scale").x;
+        });
+
+        sphere.addEventListener("gesturechanged", (e) => {
+          let newScale = sphere.startScale * e.detail.scale;
+          newScale = Math.min(Math.max(newScale, 0.5), 3);
+          sphere.setAttribute("scale", `${newScale} ${newScale} ${newScale}`);
+
+          if (newScale > 1.5) {
+            intro.setAttribute("visible", "true");
+          } else {
+            intro.setAttribute("visible", "false");
+          }
+        });
       });
     });
   </script>
