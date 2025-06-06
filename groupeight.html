@@ -10,7 +10,7 @@
       margin: 0; padding: 0;
       width: 100%; height: 100%;
       overflow: hidden;
-      background-color: black;
+      background-color: transparent;
     }
     #info-box {
       position: fixed;
@@ -33,12 +33,12 @@
 
   <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true;"
            color-space="sRGB"
-           renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
+           embedded
+           renderer="alpha: true, colorManagement: true, physicallyCorrectLights: true"
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
-    
+
     <a-assets>
-      <!-- 中文字型 -->
       <a-asset-item id="font" src="https://cdn.jsdelivr.net/gh/wallacepei/aframe-chinese-fonts/fonts/msdf/NotoSansCJKtc-Regular.fnt"></a-asset-item>
       <img id="font-image" src="https://cdn.jsdelivr.net/gh/wallacepei/aframe-chinese-fonts/fonts/msdf/NotoSansCJKtc-Regular.png" />
     </a-assets>
