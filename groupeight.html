@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第八組 太陽系 VR展示</title>
+  <title>太陽系 VR展示</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
@@ -32,13 +32,15 @@
       max-width: 80%;
       z-index: 9999;
       display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
   </style>
 </head>
 <body>
   <div id="info-box"></div>
 
-  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0001; filterBeta: 0.01"
+  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0005; filterBeta: 0.05"
            color-space="sRGB"
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
@@ -52,12 +54,10 @@
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
-      <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
-      <a-entity text="value: 太陽 Sun; color: white; align: center"
-                position="0 -0.7 0"
-                font="#font"
-                negate="false"
-                shader="msdf">
+      <!-- 太陽改小 -->
+      <a-sphere position="0 0 0" radius="0.3" color="#FDB813"></a-sphere>
+      <a-entity text="value: 太陽 Sun; color: white; align: center; font: #font; negate: false; shader: msdf"
+                position="0 -0.6 0">
       </a-entity>
       <a-entity id="solar-system"></a-entity>
     </a-entity>
@@ -95,22 +95,27 @@
           loop: true
         });
 
+        // 點擊顯示說明
         sphere.addEventListener("click", () => {
           infoBox.innerText = planet.intro;
           infoBox.style.display = "block";
-          setTimeout(() => { infoBox.style.display = "none"; }, 4000);
+          infoBox.style.opacity = "1";
+          setTimeout(() => {
+            infoBox.style.opacity = "0";
+            setTimeout(() => {
+              infoBox.style.display = "none";
+            }, 300);
+          }, 4000);
         });
 
+        // 行星名稱 中文正常顯示
         const label = document.createElement("a-entity");
-        label.setAttribute("text", `value: ${planet.name}; color: white; align: center`);
+        label.setAttribute("text", `value: ${planet.name}; color: white; align: center; font: #font; negate: false; shader: msdf`);
         label.setAttribute("position", `${planet.distance} -0.3 0`);
-        label.setAttribute("font", "#font");
-        label.setAttribute("negate", "false");
-        label.setAttribute("shader", "msdf");
 
         orbit.setAttribute("animation__orbit", {
           property: "rotation",
-          to: `0 360 0`,
+          to: "0 360 0",
           dur: planet.orbitSpeed * 1000,
           easing: "linear",
           loop: true
