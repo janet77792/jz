@@ -1,23 +1,123 @@
-<a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true;" embedded>
-  <a-assets></a-assets>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>點擊星球顯示介紹</title>
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
 
-  <a-camera 
-    position="0 0 0"
-    look-controls="enabled: false"
-    cursor="rayOrigin: mouse"
-    raycaster="objects: .clickable">
-  </a-camera>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
 
-  <a-entity mindar-image-target="targetIndex: 0">
-    <a-sphere class="clickable" position="0 0 0" radius="0.3" color="#F00"></a-sphere>
-  </a-entity>
-</a-scene>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background-color: transparent;
+    }
+    a-scene {
+      width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0;
+    }
+    /* 介紹方框的樣式 */
+    #infoBox {
+      position: fixed;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 18px;
+      max-width: 300px;
+      text-align: center;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+    #closeBtn {
+      margin-top: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border: none;
+      background-color: #333;
+      color: white;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true;" embedded
+           color-space="sRGB"
+           renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
+           vr-mode-ui="enabled: false"
+           device-orientation-permission-ui="enabled: false">
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const sphere = document.querySelector(".clickable");
-    sphere.addEventListener("click", () => {
-      alert("你點到了紅色星球！");
+    <a-assets></a-assets>
+
+    <a-camera 
+      position="0 0 0"
+      look-controls="enabled: false"
+      cursor="rayOrigin: mouse"
+      raycaster="objects: .clickable">
+    </a-camera>
+
+    <a-entity mindar-image-target="targetIndex: 0" id="target">
+      <!-- 太陽 -->
+      <a-sphere class="clickable" position="0 0 0" radius="0.3" color="#FDB813"></a-sphere>
+      <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.3; anchor: center;" position="0 -0.6 0"></a-entity>
+
+      <!-- 其他星球示範 -->
+      <a-sphere class="clickable" position="1 0 0" radius="0.1" color="#9E9E9E"></a-sphere>
+      <a-entity troika-text="value: 水星 Mercury; color: white; fontFamily: Noto Sans TC; fontSize: 0.15; anchor: center;" position="1 -0.3 0"></a-entity>
+    </a-entity>
+
+  </a-scene>
+
+  <!-- 介紹方框 -->
+  <div id="infoBox">
+    <div id="infoText">這裡會顯示星球介紹</div>
+    <button id="closeBtn">關閉</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const infoBox = document.getElementById("infoBox");
+      const infoText = document.getElementById("infoText");
+      const closeBtn = document.getElementById("closeBtn");
+
+      // 星球介紹資料，可以擴充更多星球資訊
+      const planetInfo = {
+        "太陽": "太陽是太陽系的中心，主要由氫和氦組成，提供光和熱。",
+        "水星": "水星是離太陽最近的行星，表面溫差極大。"
+      };
+
+      // 監聽所有有 clickable class 的星球
+      const clickables = document.querySelectorAll(".clickable");
+      clickables.forEach((el) => {
+        el.addEventListener("click", () => {
+          let planetName = "";
+          if (el.getAttribute("color") === "#FDB813") {
+            planetName = "太陽";
+          } else if (el.getAttribute("color") === "#9E9E9E") {
+            planetName = "水星";
+          }
+
+          if (planetName && planetInfo[planetName]) {
+            infoText.textContent = planetInfo[planetName];
+            infoBox.style.display = "block";
+          }
+        });
+      });
+
+      closeBtn.addEventListener("click", () => {
+        infoBox.style.display = "none";
+      });
     });
-  });
-</script>
+  </script>
+</body>
+</html>
