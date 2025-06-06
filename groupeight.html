@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MindAR 太陽系 VR</title>
+  <title>8 太陽系 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
@@ -27,7 +27,7 @@
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
-           
+
     <a-assets></a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
@@ -75,7 +75,7 @@
           loop: true
         });
 
-        // 名稱文字
+        // 名稱文字 (用 a-text 顯示中文+英文)
         const label = document.createElement("a-text");
         label.setAttribute("value", planet.name);
         label.setAttribute("color", "white");
@@ -83,14 +83,13 @@
         label.setAttribute("position", `${planet.distance} -0.3 0`);
         label.setAttribute("side", "double");
 
-        // 加入 orbit
         orbit.appendChild(sphere);
         orbit.appendChild(label);
 
         // 公轉動畫
         orbit.setAttribute("animation__orbit", {
           property: "rotation",
-          to: `0 360 0`,
+          to: "0 360 0",
           dur: planet.orbitSpeed * 1000,
           easing: "linear",
           loop: true
