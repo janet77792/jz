@@ -1,9 +1,23 @@
+<!DOCTYPE html>
+<html>
 <head>
-  <!-- 你的 head 不變 -->
+  <meta charset="utf-8" />
+  <title>MindAR 太陽系 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <style>
-    html, body { margin: 0; padding: 0; overflow: hidden; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    a-scene {
+      width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0;
+    }
+    .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning {
+      display: none;
+    }
     #info-box {
       display: none;
       position: fixed;
@@ -26,30 +40,22 @@
   <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true"
            color-space="sRGB"
            renderer="colorManagement: true, physicallyCorrectLights, alpha:true"
-           set-transparent
            embedded
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
-    <a-camera position="0 0 0" look-controls="enabled: false" raycaster="objects: .clickable"></a-camera>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
+      <!-- 太陽 -->
       <a-sphere position="0 0 0" radius="0.5" color="#FDB813"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
       <a-text value="太陽 Sun" color="white" position="0 -0.7 0" align="center" side="double"></a-text>
 
       <a-entity id="planets"></a-entity>
     </a-entity>
-
-    <a-entity cursor="rayOrigin: mouse"></a-entity>
   </a-scene>
 
   <script>
-    AFRAME.registerComponent("set-transparent", {
-      init: function () {
-        this.el.renderer.setClearColor(0x000000, 0);
-      }
-    });
-
     const planets = [
       { name: "水星 Mercury", intro: "水星是距離太陽最近的行星，表面溫差極大。", color: "#9E9E9E", radius: 0.08, distance: 0.8 },
       { name: "金星 Venus", intro: "金星擁有濃厚的大氣層，表面溫度極高。", color: "#FFCC80", radius: 0.1, distance: 1.1 },
@@ -70,23 +76,26 @@
         const x = planet.distance * Math.cos(angle);
         const z = planet.distance * Math.sin(angle);
 
+        // 行星容器
         const orbit = document.createElement("a-entity");
         orbit.setAttribute("position", "0 0 0");
         orbit.setAttribute("animation", `property: rotation; to: 0 360 0; loop: true; dur: ${10000 + index*500}`);
 
+        // 行星球體
         const sphere = document.createElement("a-sphere");
         sphere.setAttribute("position", `${x} 0 ${z}`);
         sphere.setAttribute("radius", planet.radius);
         sphere.setAttribute("color", planet.color);
         sphere.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 4000");
-        sphere.classList.add("clickable");
 
+        // 點擊事件
         sphere.addEventListener("click", () => {
           infoBox.innerText = planet.intro;
           infoBox.style.display = "block";
           setTimeout(() => { infoBox.style.display = "none"; }, 3000);
         });
 
+        // 名稱文字
         const label = document.createElement("a-text");
         label.setAttribute("value", planet.name);
         label.setAttribute("color", "white");
@@ -94,6 +103,7 @@
         label.setAttribute("position", `${x} -0.3 ${z}`);
         label.setAttribute("side", "double");
 
+        // 加入容器
         orbit.appendChild(sphere);
         orbit.appendChild(label);
         planetGroup.appendChild(orbit);
@@ -101,3 +111,4 @@
     });
   </script>
 </body>
+</html>
