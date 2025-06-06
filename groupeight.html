@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MindAR 太陽系 VR</title>
+  <title>2</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -38,10 +38,13 @@
       <a-troika-text
         value="太陽 Sun"
         color="white"
-        position="0 -0.7 0"
+        position="0 -0.8 0"
         align="center"
         font="https://fonts.gstatic.com/ea/notosanstc/v6/NotoSansTC-Regular.otf"
-        fontSize="0.3">
+        fontSize="0.25"
+        anchor="center"
+        letterSpacing="0.05"
+        maxWidth="2">
       </a-troika-text>
 
       <!-- 太陽系容器 -->
@@ -90,7 +93,9 @@
         label.setAttribute("align", "center");
         label.setAttribute("position", `${planet.distance} -0.3 0`);
         label.setAttribute("font", "https://fonts.gstatic.com/ea/notosanstc/v6/NotoSansTC-Regular.otf");
-        label.setAttribute("fontSize", "0.12");
+        label.setAttribute("fontSize", "0.1");
+        label.setAttribute("anchor", "center");
+        label.setAttribute("maxWidth", "1");
 
         // 加入 orbit
         orbit.appendChild(sphere);
