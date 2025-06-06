@@ -36,30 +36,29 @@
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
-      <!-- 太陽系容器（現在包含太陽） -->
+      <!-- 太陽系容器（包含太陽與所有行星） -->
       <a-entity id="solar-system" scale="1 1 1">
-
         <!-- 太陽 -->
         <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
         <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.3; anchor: center;" position="0 -0.7 0"></a-entity>
 
         <!-- 太陽介紹 -->
-        <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01" radius="0.05"></a-plane>
-        <a-entity troika-text="value: 太陽是太陽系的中心天體。; color: black; fontSize: 0.08; anchor: center;" position="0 -1.0 0.02"></a-entity>
+        <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01" geometry="primitive: plane; width: 1.3; height: 0.22" rounded="radius: 0.05"></a-plane>
+        <a-entity troika-text="value: 太陽是太陽系的中心天體。; color: black; fontSize: 0.07; anchor: center;" position="0 -1.0 0.02"></a-entity>
       </a-entity>
     </a-entity>
   </a-scene>
 
   <script>
     const planets = [
-      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.9, orbitSpeed: 10, spinSpeed: 3000, desc: "水星是離太陽最近的行星。", nameFontSize: 0.15 },
-      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.2, orbitSpeed: 15, spinSpeed: 4000, desc: "金星有厚厚的大氣層與高溫表面。" },
-      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.5, orbitSpeed: 20, spinSpeed: 3000, desc: "地球孕育著豐富多樣的生命。" },
-      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.8, orbitSpeed: 25, spinSpeed: 3500, desc: "火星被稱為紅色星球。" },
-      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.3, orbitSpeed: 30, spinSpeed: 2500, desc: "木星是太陽系中最大的行星。" },
-      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.8, orbitSpeed: 35, spinSpeed: 2700, desc: "土星擁有壯觀的光環系統。" },
-      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.2, orbitSpeed: 40, spinSpeed: 3300, desc: "天王星自轉軸幾乎橫躺。" },
-      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.6, orbitSpeed: 45, spinSpeed: 3100, desc: "海王星是最遠離太陽的行星。" }
+      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.9, orbitSpeed: 10, spinSpeed: 3000, desc: "水星是太陽系八大行星中最內側最接近太陽的行星。", nameFontSize: 0.14 },
+      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.2, orbitSpeed: 15, spinSpeed: 4000, desc: "金星是太陽系八大行星的第二顆行星。" },
+      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.5, orbitSpeed: 20, spinSpeed: 3000, desc: "地球是生物與大量氧氣的地方。" },
+      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.8, orbitSpeed: 25, spinSpeed: 3500, desc: "火星為類地行星中距離太陽最遠的。" },
+      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.3, orbitSpeed: 30, spinSpeed: 2500, desc: "木星為太陽系最大的行星。" },
+      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.8, orbitSpeed: 35, spinSpeed: 2700, desc: "土星是是個擁有美麗的\"環\"的行星。" },
+      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.2, orbitSpeed: 40, spinSpeed: 3300, desc: "太陽系中只有天王星是躺著運轉的行星。" },
+      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.6, orbitSpeed: 45, spinSpeed: 3100, desc: "海王星是太陽系中的第八個行星。" }
     ];
 
     window.addEventListener("load", () => {
@@ -87,7 +86,7 @@
           value: planet.name,
           color: "white",
           fontFamily: "Noto Sans TC",
-          fontSize: planet.nameFontSize || 0.2,
+          fontSize: planet.nameFontSize || 0.18,
           anchor: "center"
         });
         label.setAttribute("position", `${planet.distance} ${labelY} 0`);
@@ -98,6 +97,7 @@
         bg.setAttribute("width", 1.2);
         bg.setAttribute("height", 0.18);
         bg.setAttribute("material", "shader: flat");
+        bg.setAttribute("geometry", "primitive: plane; width: 1.2; height: 0.18");
         bg.setAttribute("position", `${planet.distance} ${descY} 0.01`);
         bg.setAttribute("radius", "0.05");
 
@@ -106,7 +106,7 @@
           value: planet.desc,
           color: "black",
           fontFamily: "Noto Sans TC",
-          fontSize: 0.08,
+          fontSize: 0.065,
           anchor: "center",
           maxWidth: 1.1
         });
