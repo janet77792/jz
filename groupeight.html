@@ -2,11 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>第8組 太陽系介紹 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
   <style>
     html, body {
@@ -29,7 +28,8 @@
            color-space="sRGB"
            renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
-           device-orientation-permission-ui="enabled: false">
+           device-orientation-permission-ui="enabled: false"
+           cursor="rayOrigin: mouse">
 
     <a-assets></a-assets>
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -41,24 +41,35 @@
 
       <!-- 太陽系容器 -->
       <a-entity id="solar-system"></a-entity>
+
+      <!-- 資訊框 -->
+      <a-plane id="info-box" visible="false" width="2" height="1"
+               position="0 1.5 0" color="white" material="opacity: 0.9">
+        <a-entity id="info-text"
+                  troika-text="value: ; color: black; fontFamily: Noto Sans TC; fontSize: 0.08; anchor: center; maxWidth: 1.8"
+                  position="0 0 0.01"></a-entity>
+      </a-plane>
+
     </a-entity>
 
   </a-scene>
 
   <script>
     const planets = [
-      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000 },
-      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000 },
-      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000 },
-      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500 },
-      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500 },
-      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700 },
-      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300 },
-      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100 }
+      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000, info: "水星是最靠近太陽的行星。" },
+      { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000, info: "金星表面溫度非常高。" },
+      { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000, info: "地球是我們的家。" },
+      { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500, info: "火星有紅色表面。" },
+      { name: "木星 Jupiter", color: "#FFA726", radius: 0.22, distance: 2.2, orbitSpeed: 30, spinSpeed: 2500, info: "木星是最大行星。" },
+      { name: "土星 Saturn", color: "#FFEB3B", radius: 0.2, distance: 2.7, orbitSpeed: 35, spinSpeed: 2700, info: "土星有明顯的環。" },
+      { name: "天王星 Uranus", color: "#80DEEA", radius: 0.18, distance: 3.1, orbitSpeed: 40, spinSpeed: 3300, info: "天王星自轉傾斜。" },
+      { name: "海王星 Neptune", color: "#3F51B5", radius: 0.17, distance: 3.5, orbitSpeed: 45, spinSpeed: 3100, info: "海王星是最遠行星。" }
     ];
 
     window.addEventListener("load", () => {
       const solarSystem = document.getElementById("solar-system");
+      const infoBox = document.getElementById("info-box");
+      const infoText = document.getElementById("info-text");
 
       planets.forEach((planet) => {
         const orbit = document.createElement("a-entity");
@@ -68,7 +79,39 @@
         sphere.setAttribute("position", `${planet.distance} 0 0`);
         sphere.setAttribute("radius", planet.radius);
         sphere.setAttribute("color", planet.color);
+        sphere.setAttribute("class", "clickable");
 
+        // 點擊顯示資訊框
+        sphere.addEventListener("click", () => {
+          infoBox.setAttribute("visible", true);
+          infoText.setAttribute("troika-text", "value", `${planet.name}\n${planet.info}`);
+        });
+
+        // 標籤
+        const label = document.createElement("a-entity");
+        label.setAttribute("troika-text", {
+          value: planet.name,
+          color: "white",
+          fontFamily: "Noto Sans TC",
+          fontSize: 0.15,
+          anchor: "center",
+          maxWidth: 1.5,
+        });
+        label.setAttribute("position", `${planet.distance} -0.3 0.01`);
+
+        orbit.appendChild(sphere);
+        orbit.appendChild(label);
+
+        // 公轉動畫
+        orbit.setAttribute("animation__orbit", {
+          property: "rotation",
+          to: "0 360 0",
+          dur: planet.orbitSpeed * 1000,
+          easing: "linear",
+          loop: true
+        });
+
+        // 自轉動畫
         sphere.setAttribute("animation__spin", {
           property: "rotation",
           to: "0 360 0",
@@ -77,32 +120,14 @@
           loop: true
         });
 
-        // 用 troika-text 文字標籤
-        const label = document.createElement("a-entity");
-        label.setAttribute("troika-text", {
-          value: planet.name,
-          color: "white",
-          fontFamily: "Noto Sans TC",
-          fontSize: planet.name.startsWith("水星") ? 0.15 : 0.2,
-          anchor: "center",
-          maxWidth: 1.5,
-        });
-
-        const labelYPos = planet.name.startsWith("水星") ? -0.4 : -0.3;
-        label.setAttribute("position", `${planet.distance} ${labelYPos} 0`);
-
-        orbit.appendChild(sphere);
-        orbit.appendChild(label);
-
-        orbit.setAttribute("animation__orbit", {
-          property: "rotation",
-          to: `0 360 0`,
-          dur: planet.orbitSpeed * 1000,
-          easing: "linear",
-          loop: true
-        });
-
         solarSystem.appendChild(orbit);
+      });
+
+      // 點空白關掉資訊框
+      document.querySelector("a-scene").addEventListener("click", (e) => {
+        if (!e.target.classList.contains("clickable")) {
+          infoBox.setAttribute("visible", false);
+        }
       });
     });
   </script>
