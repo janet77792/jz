@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系介紹 VR</title>
+  <title>第8組 太陽系55 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -42,21 +42,20 @@
       <!-- 太陽系容器 -->
       <a-entity id="solar-system"></a-entity>
 
-      <!-- 資訊框 -->
+      <!-- 資訊方塊 -->
       <a-plane id="info-box" visible="false" width="2" height="1"
                position="0 1.5 0" color="white" material="opacity: 0.9">
         <a-entity id="info-text"
                   troika-text="value: ; color: black; fontFamily: Noto Sans TC; fontSize: 0.08; anchor: center; maxWidth: 1.8"
                   position="0 0 0.01"></a-entity>
       </a-plane>
-
     </a-entity>
 
   </a-scene>
 
   <script>
     const planets = [
-      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.8, orbitSpeed: 10, spinSpeed: 3000, info: "水星是最靠近太陽的行星。" },
+      { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.9, orbitSpeed: 10, spinSpeed: 3000, info: "水星是最靠近太陽的行星。" },
       { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.1, orbitSpeed: 15, spinSpeed: 4000, info: "金星表面溫度非常高。" },
       { name: "地球 Earth", color: "#2196F3", radius: 0.11, distance: 1.4, orbitSpeed: 20, spinSpeed: 3000, info: "地球是我們的家。" },
       { name: "火星 Mars", color: "#F44336", radius: 0.09, distance: 1.7, orbitSpeed: 25, spinSpeed: 3500, info: "火星有紅色表面。" },
@@ -80,29 +79,29 @@
         sphere.setAttribute("radius", planet.radius);
         sphere.setAttribute("color", planet.color);
         sphere.setAttribute("class", "clickable");
+        sphere.setAttribute("gesture-handler", "");
 
-        // 點擊顯示資訊框
-        sphere.addEventListener("click", () => {
+        // 點擊顯示資訊
+        sphere.addEventListener("click", (evt) => {
+          evt.stopPropagation();
           infoBox.setAttribute("visible", true);
           infoText.setAttribute("troika-text", "value", `${planet.name}\n${planet.info}`);
         });
 
-        // 標籤
         const label = document.createElement("a-entity");
         label.setAttribute("troika-text", {
           value: planet.name,
           color: "white",
           fontFamily: "Noto Sans TC",
-          fontSize: 0.15,
+          fontSize: 0.14,
           anchor: "center",
           maxWidth: 1.5,
         });
-        label.setAttribute("position", `${planet.distance} -0.3 0.01`);
+        label.setAttribute("position", `${planet.distance} -0.35 0.01`);
 
         orbit.appendChild(sphere);
         orbit.appendChild(label);
 
-        // 公轉動畫
         orbit.setAttribute("animation__orbit", {
           property: "rotation",
           to: "0 360 0",
@@ -111,7 +110,6 @@
           loop: true
         });
 
-        // 自轉動畫
         sphere.setAttribute("animation__spin", {
           property: "rotation",
           to: "0 360 0",
@@ -123,7 +121,7 @@
         solarSystem.appendChild(orbit);
       });
 
-      // 點空白關掉資訊框
+      // 點擊空白其他地方其他地方關閉 info box
       document.querySelector("a-scene").addEventListener("click", (e) => {
         if (!e.target.classList.contains("clickable")) {
           infoBox.setAttribute("visible", false);
