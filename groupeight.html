@@ -77,7 +77,6 @@
           loop: true
         });
 
-        // 行星名稱文字
         const label = document.createElement("a-entity");
         label.setAttribute("troika-text", {
           value: planet.name,
@@ -90,7 +89,6 @@
         const labelYPos = planet.name.startsWith("水星") ? -0.4 : -0.3;
         label.setAttribute("position", `${planet.distance} ${labelYPos} 0`);
 
-        // 介紹文字和背景
         const infoLabel = document.createElement("a-entity");
         infoLabel.setAttribute("troika-text", {
           value: `介紹：${planet.name} 是太陽系的行星之一。`,
@@ -100,6 +98,7 @@
           anchor: "center",
           maxWidth: 1.5,
         });
+        infoLabel.setAttribute("position", `0 -0.25 0.015`); // 稍微往前一點，避免被白底擋住
 
         const bgPlane = document.createElement("a-plane");
         bgPlane.setAttribute("color", "white");
