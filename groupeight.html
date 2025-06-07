@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>第8組 太陽系 VR222</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -36,19 +36,25 @@
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0" id="target">
-      <a-entity id="solar-system" scale="1 1 1">
-
+      <a-entity id="solar-system" scale="1 1 1" fixed-orientation>
         <!-- 太陽 -->
         <a-sphere position="0 0 0" radius="0.5" color="#FDB813"></a-sphere>
         <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.3; anchor: center;" position="0 -0.7 0"></a-entity>
-        <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01" radius="0.05"></a-plane>
+        <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01"></a-plane>
         <a-entity troika-text="value: 太陽是太陽系的中心天體。; color: black; fontSize: 0.07; anchor: center;" position="0 -1.0 0.02"></a-entity>
-
       </a-entity>
     </a-entity>
+
   </a-scene>
 
   <script>
+    // 固定 orientation 的 component
+    AFRAME.registerComponent('fixed-orientation', {
+      tick: function () {
+        this.el.object3D.rotation.set(0, 0, 0);
+      }
+    });
+
     const planets = [
       { name: "水星 Mercury", color: "#9E9E9E", radius: 0.08, distance: 0.9, orbitSpeed: 10, spinSpeed: 3000, desc: "水星是最靠近太陽的行星。", nameFontSize: 0.15 },
       { name: "金星 Venus", color: "#FFCC80", radius: 0.1, distance: 1.2, orbitSpeed: 15, spinSpeed: 4000, desc: "金星是太陽系的第二顆行星。" },
@@ -97,7 +103,6 @@
         bg.setAttribute("height", 0.16);
         bg.setAttribute("material", "shader: flat");
         bg.setAttribute("position", `${planet.distance} ${descY} 0.01`);
-        bg.setAttribute("radius", "0.05");
 
         const desc = document.createElement("a-entity");
         desc.setAttribute("troika-text", {
