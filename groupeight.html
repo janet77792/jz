@@ -10,9 +10,29 @@
   <style>
     html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; }
     a-scene { position: fixed; width: 100%; height: 100%; }
+    #playBgmBtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 999;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #playBgmBtn:hover {
+      background-color: #005fa3;
+    }
   </style>
 </head>
 <body>
+
+<button id="playBgmBtn">開始播放BGM</button>
+
+<audio id="bgm" src="bgm.mp3" loop></audio>
 
 <a-scene
   mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF: 0.0001; filterBeta: 0.001"
@@ -44,14 +64,14 @@
 
 <script>
 const planets = [
-  { name: "水星 Mercury", texture: "#mercury", desc: "水星是最靠近太陽的行星。", radius: 0.08, distance: 0.9, orbitSpeed: 40 },
-  { name: "金星 Venus", texture: "#venus", desc: "金星是太陽系的第二顆行星。", radius: 0.1, distance: 1.2, orbitSpeed: 52 },
-  { name: "地球 Earth", texture: "#earth", desc: "地球孕育生命並富含氧氣。", radius: 0.11, distance: 1.5, orbitSpeed: 68 },
-  { name: "火星 Mars", texture: "#mars", desc: "火星是最遠的類地行星。", radius: 0.09, distance: 1.8, orbitSpeed: 80 },
-  { name: "木星 Jupiter", texture: "#jupiter", desc: "木星是太陽系最大行星。", radius: 0.22, distance: 2.3, orbitSpeed: 92 },
-  { name: "土星 Saturn", texture: "#saturn", desc: "土星擁有美麗的光環。", radius: 0.2, distance: 2.8, orbitSpeed: 108 },
-  { name: "天王星 Uranus", texture: "#uranus", desc: "天王星橫躺著自轉。", radius: 0.18, distance: 3.2, orbitSpeed: 124 },
-  { name: "海王星 Neptune", texture: "#neptune", desc: "海王星是第八顆行星。", radius: 0.17, distance: 3.6, orbitSpeed: 140 }
+  { name: "水星 Mercury", texture: "#mercury", desc: "水星是最靠近太陽的行星。", radius: 0.08, distance: 0.9, orbitSpeed: 20 },
+  { name: "金星 Venus", texture: "#venus", desc: "金星是太陽系的第二顆行星。", radius: 0.1, distance: 1.2, orbitSpeed: 26 },
+  { name: "地球 Earth", texture: "#earth", desc: "地球孕育生命並富含氧氣。", radius: 0.11, distance: 1.5, orbitSpeed: 34 },
+  { name: "火星 Mars", texture: "#mars", desc: "火星是最遠的類地行星。", radius: 0.09, distance: 1.8, orbitSpeed: 40 },
+  { name: "木星 Jupiter", texture: "#jupiter", desc: "木星是太陽系最大行星。", radius: 0.22, distance: 2.3, orbitSpeed: 46 },
+  { name: "土星 Saturn", texture: "#saturn", desc: "土星擁有美麗的光環。", radius: 0.2, distance: 2.8, orbitSpeed: 54 },
+  { name: "天王星 Uranus", texture: "#uranus", desc: "天王星橫躺著自轉。", radius: 0.18, distance: 3.2, orbitSpeed: 62 },
+  { name: "海王星 Neptune", texture: "#neptune", desc: "海王星是第八顆行星。", radius: 0.17, distance: 3.6, orbitSpeed: 70 }
 ];
 
 const solarSystem = document.createElement("a-entity");
@@ -71,7 +91,7 @@ const sunLabel = document.createElement("a-entity");
 sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
 sunLabel.setAttribute("position", "0 -0.65 0");
 solarSystem.appendChild(sunLabel);
-
+  
 // 太陽介紹背景板
 const sunDescBg = document.createElement("a-plane");
 sunDescBg.setAttribute("color", "white");
@@ -136,7 +156,7 @@ planets.forEach(planet => {
   orbit.setAttribute("animation__orbit", {
     property: "rotation",
     to: "0 360 0",
-    dur: planet.orbitSpeed * 2000,  // 讓行星運行更慢
+    dur: planet.orbitSpeed * 1000,
     easing: "linear",
     loop: true
   });
@@ -145,19 +165,6 @@ planets.forEach(planet => {
   orbit.appendChild(label);
   orbit.appendChild(descBg);
   orbit.appendChild(descText);
-
-  // 土星環 (只給土星加環)
-  if (planet.name.includes("土星")) {
-    const ring = document.createElement("a-ring");
-    ring.setAttribute("radius-inner", planet.radius * 1.2);
-    ring.setAttribute("radius-outer", planet.radius * 2);
-    ring.setAttribute("color", "#d9c69b");
-    ring.setAttribute("opacity", "0.6");
-    ring.setAttribute("position", `${planet.distance} 0 0`);
-    ring.setAttribute("rotation", "90 0 0");
-    orbit.appendChild(ring);
-  }
-
   solarSystem.appendChild(orbit);
 });
 
@@ -196,6 +203,16 @@ document.addEventListener("touchmove", (e) => {
 
 document.addEventListener("touchend", () => {
   initialDistance = null;
+});
+
+// BGM 按鈕控制
+const playBtn = document.getElementById('playBgmBtn');
+const bgm = document.getElementById('bgm');
+
+playBtn.addEventListener('click', () => {
+  bgm.volume = 1;  // 最大音量
+  bgm.play();
+  playBtn.style.display = 'none';
 });
 </script>
 
