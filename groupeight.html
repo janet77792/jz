@@ -71,6 +71,29 @@ const sunLabel = document.createElement("a-entity");
 sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
 sunLabel.setAttribute("position", "0 -0.65 0");
 solarSystem.appendChild(sunLabel);
+  
+// 太陽介紹背景板
+const sunDescBg = document.createElement("a-plane");
+sunDescBg.setAttribute("color", "white");
+sunDescBg.setAttribute("width", "1.2");
+sunDescBg.setAttribute("height", "0.16");
+sunDescBg.setAttribute("position", "0 -0.85 0.01");
+sunDescBg.setAttribute("material", "shader: flat");
+solarSystem.appendChild(sunDescBg);
+
+// 太陽介紹文字
+const sunDesc = document.createElement("a-entity");
+sunDesc.setAttribute("troika-text", {
+  value: "太陽是太陽系的中心，是恆星。",
+  color: "black",
+  fontSize: 0.07,
+  anchor: "center",
+  fontFamily: "Noto Sans TC",
+  maxWidth: 1
+});
+sunDesc.setAttribute("position", "0 -0.85 0.02");
+solarSystem.appendChild(sunDesc);
+
 
 // 行星 + 公轉動畫
 planets.forEach(planet => {
