@@ -1,201 +1,95 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>第8組 太陽系 VR2</title>
-  <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-  <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
-  <style>
-    html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; }
-    a-scene { position: fixed; width: 100%; height: 100%; }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>Solar System AR</title>
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.3/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+      #ar-button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background: #222;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 16px;
+        z-index: 10;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="ar-button" onclick="startAR()">開始AR</button>
 
-<a-scene
-  mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF: 0.0001; filterBeta: 0.001"
-  color-space="sRGB"
-  renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false"
->
+    <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: false;" embedded color-space="sRGB">
+      <a-assets>
+        <img id="earth-texture" src="earth.jpg">
+        <img id="sun-texture" src="sun.jpg">
+        <audio id="bgm" src="bgm.mp3" preload="auto"></audio>
+      </a-assets>
 
-  <a-assets>
-    <img id="sun" src="sun.jpg">
-    <img id="mercury" src="mercury.jpg">
-    <img id="venus" src="venus.jpg">
-    <img id="earth" src="earth.jpg">
-    <img id="mars" src="mars.jpg">
-    <img id="jupiter" src="jupiter.jpg">
-    <img id="saturn" src="saturn.jpg">
-    <img id="uranus" src="uranus.jpg">
-    <img id="neptune" src="neptune.jpg">
-  </a-assets>
+      <a-entity mindar-image-target="targetIndex: 0" id="target">
+        <a-entity id="anchor-holder" position="0 0 0"></a-entity>
+        <a-sound id="bgm-sound" src="#bgm" autoplay="false" loop="true" position="0 0 0"></a-sound>
+      </a-entity>
 
-  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-camera position="0 0 0"></a-camera>
+    </a-scene>
 
-  <!-- AR Marker -->
-  <a-entity mindar-image-target="targetIndex: 0" id="target">
-    <a-entity id="anchor-holder" position="0 0 0"></a-entity>
-  </a-entity>
-</a-scene>
+    <script>
+      const solarSystem = document.createElement("a-entity");
+      solarSystem.setAttribute("id", "solar-system");
 
-<script>
-const planets = [
-  { name: "水星 Mercury", texture: "#mercury", desc: "水星是最靠近太陽的行星。", radius: 0.08, distance: 0.9, orbitSpeed: 10 },
-  { name: "金星 Venus", texture: "#venus", desc: "金星是太陽系的第二顆行星。", radius: 0.1, distance: 1.2, orbitSpeed: 13 },
-  { name: "地球 Earth", texture: "#earth", desc: "地球孕育生命並富含氧氣。", radius: 0.11, distance: 1.5, orbitSpeed: 17 },
-  { name: "火星 Mars", texture: "#mars", desc: "火星是最遠的類地行星。", radius: 0.09, distance: 1.8, orbitSpeed: 20 },
-  { name: "木星 Jupiter", texture: "#jupiter", desc: "木星是太陽系最大行星。", radius: 0.22, distance: 2.3, orbitSpeed: 23 },
-  { name: "土星 Saturn", texture: "#saturn", desc: "土星擁有美麗的光環。", radius: 0.2, distance: 2.8, orbitSpeed: 27 },
-  { name: "天王星 Uranus", texture: "#uranus", desc: "天王星橫躺著自轉。", radius: 0.18, distance: 3.2, orbitSpeed: 31 },
-  { name: "海王星 Neptune", texture: "#neptune", desc: "海王星是第八顆行星。", radius: 0.17, distance: 3.6, orbitSpeed: 35 }
-];
+      const sun = document.createElement("a-sphere");
+      sun.setAttribute("src", "#sun-texture");
+      sun.setAttribute("radius", "0.3");
+      solarSystem.appendChild(sun);
 
-const solarSystem = document.createElement("a-entity");
-solarSystem.setAttribute("id", "solar-system");
-solarSystem.setAttribute("position", "0 0 0");
-solarSystem.setAttribute("scale", "1 1 1");
+      const earthOrbit = document.createElement("a-entity");
+      earthOrbit.setAttribute("rotation", "0 0 0");
+      solarSystem.appendChild(earthOrbit);
 
-// 太陽
-const sun = document.createElement("a-sphere");
-sun.setAttribute("radius", "0.5");
-sun.setAttribute("material", "src: #sun");
-sun.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true");
-solarSystem.appendChild(sun);
+      const earth = document.createElement("a-sphere");
+      earth.setAttribute("src", "#earth-texture");
+      earth.setAttribute("radius", "0.15");
+      earth.setAttribute("position", "0.7 0 0");
+      earthOrbit.appendChild(earth);
 
-// 太陽文字
-const sunLabel = document.createElement("a-entity");
-sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
-sunLabel.setAttribute("position", "0 -0.65 0");
-solarSystem.appendChild(sunLabel);
-  
-// 太陽介紹背景板
-const sunDescBg = document.createElement("a-plane");
-sunDescBg.setAttribute("color", "white");
-sunDescBg.setAttribute("width", "1.2");
-sunDescBg.setAttribute("height", "0.16");
-sunDescBg.setAttribute("position", "0 -0.85 0.01");
-sunDescBg.setAttribute("material", "shader: flat");
-solarSystem.appendChild(sunDescBg);
+      let orbitAngle = 0;
+      function animate() {
+        orbitAngle += 0.5;
+        earthOrbit.setAttribute("rotation", `0 ${orbitAngle} 0`);
+        requestAnimationFrame(animate);
+      }
 
-// 太陽介紹文字
-const sunDesc = document.createElement("a-entity");
-sunDesc.setAttribute("troika-text", {
-  value: "太陽是太陽系的中心，是恆星。",
-  color: "black",
-  fontSize: 0.07,
-  anchor: "center",
-  fontFamily: "Noto Sans TC",
-  maxWidth: 1
-});
-sunDesc.setAttribute("position", "0 -0.85 0.02");
-solarSystem.appendChild(sunDesc);
+      const sceneEl = document.querySelector("a-scene");
+      sceneEl.addEventListener("renderstart", animate);
 
+      const target = document.querySelector("#target");
+      const anchorHolder = document.querySelector("#anchor-holder");
 
-// 行星 + 公轉動畫
-planets.forEach(planet => {
-  const orbit = document.createElement("a-entity");
+      let added = false;
 
-  const sphere = document.createElement("a-sphere");
-  sphere.setAttribute("position", `${planet.distance} 0 0`);
-  sphere.setAttribute("radius", planet.radius);
-  sphere.setAttribute("material", `src: ${planet.texture}`);
-  sphere.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true");
+      target.addEventListener("targetFound", () => {
+        if (!added) {
+          anchorHolder.appendChild(solarSystem);
+          added = true;
+        }
+        document.querySelector("#bgm-sound").components.sound.playSound();
+      });
 
-  const label = document.createElement("a-entity");
-  label.setAttribute("troika-text", {
-    value: planet.name,
-    color: "white",
-    fontSize: 0.15,
-    anchor: "center",
-    fontFamily: "Noto Sans TC"
-  });
-  label.setAttribute("position", `${planet.distance} -0.3 0`);
+      target.addEventListener("targetLost", () => {
+        document.querySelector("#bgm-sound").components.sound.stopSound();
+      });
 
-  const descBg = document.createElement("a-plane");
-  descBg.setAttribute("color", "white");
-  descBg.setAttribute("width", "1.2");
-  descBg.setAttribute("height", "0.16");
-  descBg.setAttribute("position", `${planet.distance} -0.55 0.01`);
-  descBg.setAttribute("material", "shader: flat");
-
-  const descText = document.createElement("a-entity");
-  descText.setAttribute("troika-text", {
-    value: planet.desc,
-    color: "black",
-    fontSize: 0.07,
-    anchor: "center",
-    fontFamily: "Noto Sans TC",
-    maxWidth: 1
-  });
-  descText.setAttribute("position", `${planet.distance} -0.55 0.02`);
-
-  orbit.setAttribute("animation__orbit", {
-    property: "rotation",
-    to: "0 360 0",
-    dur: planet.orbitSpeed * 1000,
-    easing: "linear",
-    loop: true
-  });
-
-  orbit.appendChild(sphere);
-  orbit.appendChild(label);
-  orbit.appendChild(descBg);
-  orbit.appendChild(descText);
-  solarSystem.appendChild(orbit);
-});
-
-// 加入到標記上
-const anchorHolder = document.querySelector("#anchor-holder");
-const target = document.querySelector("#target");
-let added = false;
-
-target.addEventListener("targetFound", () => {
-  if (!added) {
-    anchorHolder.appendChild(solarSystem);
-    added = true;
-  }
-});
-
-// 縮放觸控
-let initialDistance = null;
-let initialScale = 1;
-
-document.addEventListener("touchmove", (e) => {
-  if (e.touches.length === 2) {
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (!initialDistance) {
-      initialDistance = distance;
-      initialScale = solarSystem.getAttribute("scale").x;
-    } else {
-      let scale = initialScale * (distance / initialDistance);
-      scale = Math.min(Math.max(scale, 0.5), 2);
-      solarSystem.setAttribute("scale", `${scale} ${scale} ${scale}`);
-    }
-  }
-});
-
-document.addEventListener("touchend", () => {
-  initialDistance = null;
-});
-// 每禎固定 solarSystem 姿態
-AFRAME.registerComponent('fixed-orientation', {
-  tick: function () {
-    const solarSystem = document.querySelector("#solar-system");
-    if (solarSystem) {
-      solarSystem.setAttribute("rotation", "0 0 0");
-    }
-  }
-});
-
-solarSystem.setAttribute("fixed-orientation", "");
-</script>
-
-</body>
+      function startAR() {
+        document.querySelector("a-scene").components["mindar-image"].start();
+        document.getElementById("ar-button").style.display = "none";
+      }
+    </script>
+  </body>
 </html>
