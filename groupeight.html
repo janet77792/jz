@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>第8組 太陽系 VRnew</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -34,104 +34,118 @@
 
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+  <!-- marker -->
   <a-entity mindar-image-target="targetIndex: 0" id="target">
-    <a-entity id="solar-system" position="0 0 0" scale="1 1 1">
-      <!-- 太陽 -->
-      <a-sphere position="0 0 0" radius="0.5" material="src: #sun"
-        animation__spin="property: rotation; to: 0 360 0; dur: 5000; loop: true; easing: linear"></a-sphere>
-      <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;"
-                position="0 -0.65 0"></a-entity>
-      <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01"></a-plane>
-      <a-entity troika-text="value: 太陽是太陽系的中心天體。; color: black; fontSize: 0.07; anchor: center;"
-                position="0 -1.0 0.02"></a-entity>
-    </a-entity>
+    <a-entity id="anchor-holder" position="0 0 0"></a-entity>
   </a-entity>
 
 </a-scene>
 
 <script>
 const planets = [
-  { name: "水星 Mercury", texture: "#mercury", radius: 0.08, distance: 0.9, orbitSpeed: 10, desc: "水星是最靠近太陽的行星。" },
-  { name: "金星 Venus", texture: "#venus", radius: 0.1, distance: 1.2, orbitSpeed: 13, desc: "金星是太陽系的第二顆行星。" },
-  { name: "地球 Earth", texture: "#earth", radius: 0.11, distance: 1.5, orbitSpeed: 17, desc: "地球孕育生命並富含氧氣。" },
-  { name: "火星 Mars", texture: "#mars", radius: 0.09, distance: 1.8, orbitSpeed: 20, desc: "火星是最遠的類地行星。" },
-  { name: "木星 Jupiter", texture: "#jupiter", radius: 0.22, distance: 2.3, orbitSpeed: 23, desc: "木星是太陽系最大行星。" },
-  { name: "土星 Saturn", texture: "#saturn", radius: 0.2, distance: 2.8, orbitSpeed: 27, desc: "土星擁有美麗的光環。" },
-  { name: "天王星 Uranus", texture: "#uranus", radius: 0.18, distance: 3.2, orbitSpeed: 31, desc: "天王星橫躺著自轉。" },
-  { name: "海王星 Neptune", texture: "#neptune", radius: 0.17, distance: 3.6, orbitSpeed: 35, desc: "海王星是第八顆行星。" }
+  { name: "水星 Mercury", texture: "#mercury", desc: "水星是最靠近太陽的行星。", radius: 0.08, distance: 0.9, orbitSpeed: 10 },
+  { name: "金星 Venus", texture: "#venus", desc: "金星是太陽系的第二顆行星。", radius: 0.1, distance: 1.2, orbitSpeed: 13 },
+  { name: "地球 Earth", texture: "#earth", desc: "地球孕育生命並富含氧氣。", radius: 0.11, distance: 1.5, orbitSpeed: 17 },
+  { name: "火星 Mars", texture: "#mars", desc: "火星是最遠的類地行星。", radius: 0.09, distance: 1.8, orbitSpeed: 20 },
+  { name: "木星 Jupiter", texture: "#jupiter", desc: "木星是太陽系最大行星。", radius: 0.22, distance: 2.3, orbitSpeed: 23 },
+  { name: "土星 Saturn", texture: "#saturn", desc: "土星擁有美麗的光環。", radius: 0.2, distance: 2.8, orbitSpeed: 27 },
+  { name: "天王星 Uranus", texture: "#uranus", desc: "天王星橫躺著自轉。", radius: 0.18, distance: 3.2, orbitSpeed: 31 },
+  { name: "海王星 Neptune", texture: "#neptune", desc: "海王星是第八顆行星。", radius: 0.17, distance: 3.6, orbitSpeed: 35 }
 ];
 
-window.addEventListener("load", () => {
-  const solarSystem = document.getElementById("solar-system");
+const solarSystem = document.createElement("a-entity");
+solarSystem.setAttribute("id", "solar-system");
+solarSystem.setAttribute("position", "0 0 0");
+solarSystem.setAttribute("scale", "1 1 1");
 
-  planets.forEach(planet => {
-    const orbit = document.createElement("a-entity");
+// 太陽
+const sun = document.createElement("a-sphere");
+sun.setAttribute("radius", "0.5");
+sun.setAttribute("material", "src: #sun");
+sun.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true");
+solarSystem.appendChild(sun);
 
-    // 行星球
-    const sphere = document.createElement("a-sphere");
-    sphere.setAttribute("position", `${planet.distance} 0 0`);
-    sphere.setAttribute("radius", planet.radius);
-    sphere.setAttribute("material", `src: ${planet.texture}`);
-    sphere.setAttribute("animation__spin", {
-      property: "rotation",
-      to: "0 360 0",
-      dur: 4000,
-      easing: "linear",
-      loop: true
-    });
+// 太陽標籤
+const sunLabel = document.createElement("a-entity");
+sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
+sunLabel.setAttribute("position", "0 -0.65 0");
+solarSystem.appendChild(sunLabel);
 
-    // 名稱標籤
-    const label = document.createElement("a-entity");
-    label.setAttribute("troika-text", {
-      value: planet.name,
-      color: "white",
-      fontFamily: "Noto Sans TC",
-      fontSize: 0.15,
-      anchor: "center"
-    });
-    label.setAttribute("position", `${planet.distance} -0.3 0`);
+// 星球們
+planets.forEach(planet => {
+  const orbit = document.createElement("a-entity");
 
-    // 白底背景
-    const bg = document.createElement("a-plane");
-    bg.setAttribute("color", "white");
-    bg.setAttribute("width", 1.1);
-    bg.setAttribute("height", 0.16);
-    bg.setAttribute("material", "shader: flat");
-    bg.setAttribute("position", `${planet.distance} -0.55 0.01`);
+  // 行星球
+  const sphere = document.createElement("a-sphere");
+  sphere.setAttribute("position", `${planet.distance} 0 0`);
+  sphere.setAttribute("radius", planet.radius);
+  sphere.setAttribute("material", `src: ${planet.texture}`);
+  sphere.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true");
 
-    // 描述文字
-    const desc = document.createElement("a-entity");
-    desc.setAttribute("troika-text", {
-      value: planet.desc,
-      color: "black",
-      fontFamily: "Noto Sans TC",
-      fontSize: 0.07,
-      anchor: "center",
-      maxWidth: 1.0
-    });
-    desc.setAttribute("position", `${planet.distance} -0.55 0.02`);
-
-    // 公轉動畫
-    orbit.setAttribute("animation__orbit", {
-      property: "rotation",
-      to: "0 360 0",
-      dur: planet.orbitSpeed * 1000,
-      easing: "linear",
-      loop: true
-    });
-
-    orbit.appendChild(sphere);
-    orbit.appendChild(label);
-    orbit.appendChild(bg);
-    orbit.appendChild(desc);
-    solarSystem.appendChild(orbit);
+  // 標籤
+  const label = document.createElement("a-entity");
+  label.setAttribute("troika-text", {
+    value: planet.name,
+    color: "white",
+    fontFamily: "Noto Sans TC",
+    fontSize: 0.15,
+    anchor: "center"
   });
+  label.setAttribute("position", `${planet.distance} -0.3 0`);
+
+  // 描述背景
+  const bg = document.createElement("a-plane");
+  bg.setAttribute("color", "white");
+  bg.setAttribute("width", "1.2");
+  bg.setAttribute("height", "0.16");
+  bg.setAttribute("position", `${planet.distance} -0.55 0.01`);
+  bg.setAttribute("material", "shader: flat");
+
+  // 描述文字
+  const desc = document.createElement("a-entity");
+  desc.setAttribute("troika-text", {
+    value: planet.desc,
+    color: "black",
+    fontSize: 0.07,
+    anchor: "center",
+    fontFamily: "Noto Sans TC",
+    maxWidth: 1
+  });
+  desc.setAttribute("position", `${planet.distance} -0.55 0.02`);
+
+  // 公轉
+  orbit.setAttribute("animation__orbit", {
+    property: "rotation",
+    to: "0 360 0",
+    dur: planet.orbitSpeed * 1000,
+    easing: "linear",
+    loop: true
+  });
+
+  orbit.appendChild(sphere);
+  orbit.appendChild(label);
+  orbit.appendChild(bg);
+  orbit.appendChild(desc);
+
+  solarSystem.appendChild(orbit);
 });
 
-// 手勢縮放
+let fixed = false;
+const anchorHolder = document.querySelector("#anchor-holder");
+const target = document.querySelector("#target");
+
+target.addEventListener("targetFound", () => {
+  if (!fixed) {
+    anchorHolder.appendChild(solarSystem);
+    const scene = document.querySelector("a-scene");
+    scene.appendChild(anchorHolder);
+    fixed = true;
+  }
+});
+
+// 縮放功能
 let initialDistance = null;
 let initialScale = 1;
-const solarSystem = document.getElementById("solar-system");
 
 document.addEventListener("touchmove", (e) => {
   if (e.touches.length === 2) {
