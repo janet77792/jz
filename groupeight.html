@@ -2,168 +2,108 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>第8組 太陽系 VR66</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
   <style>
-    html, body {
-      margin: 0; padding: 0;
-      width: 100%; height: 100%;
-      overflow: hidden;
-      background-color: transparent;
-      touch-action: none;
-    }
-    a-scene {
-      width: 100%; height: 100%;
-      position: fixed; top: 0; left: 0;
-    }
-    .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning {
-      display: none;
-    }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; }
+    a-scene { position: fixed; width: 100%; height: 100%; }
+    .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning { display: none; }
   </style>
 </head>
 <body>
-  <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF:0.0001; filterBeta: 0.01"
-           color-space="sRGB"
-           renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
-           vr-mode-ui="enabled: false"
-           device-orientation-permission-ui="enabled: false">
 
-    <!-- 貼圖資源 -->
-    <a-assets>
-      <img id="sunTexture" src="sun.png">
-      <img id="mercuryTexture" src="mercury.png">
-      <img id="venusTexture" src="venus.png">
-      <img id="earthTexture" src="earth.png">
-      <img id="marsTexture" src="mars.png">
-      <img id="jupiterTexture" src="jupiter.png">
-      <img id="saturnTexture" src="saturn.png">
-      <img id="uranusTexture" src="uranus.png">
-      <img id="neptuneTexture" src="neptune.png">
-    </a-assets>
+<a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true;"
+         color-space="sRGB"
+         renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
+         vr-mode-ui="enabled: false"
+         device-orientation-permission-ui="enabled: false">
 
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-assets>
+    <!-- 圖片貼圖資源 -->
+    <img id="sun" src="sun.jpg">
+    <img id="mercury" src="mercury.jpg">
+    <img id="venus" src="venus.jpg">
+    <img id="earth" src="earth.jpg">
+    <img id="mars" src="mars.jpg">
+    <img id="jupiter" src="jupiter.jpg">
+    <img id="saturn" src="saturn.jpg">
+    <img id="uranus" src="uranus.jpg">
+    <img id="neptune" src="neptune.jpg">
+  </a-assets>
 
-    <a-entity mindar-image-target="targetIndex: 0" id="target">
-      <a-entity id="solar-system" scale="1 1 1">
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <!-- 太陽 -->
-        <a-sphere position="0 0 0" radius="0.5" material="src: #sunTexture"></a-sphere>
-        <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.3; anchor: center;" position="0 -0.7 0"></a-entity>
-        <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01"></a-plane>
-        <a-entity troika-text="value: 太陽是太陽系的中心天體。; color: black; fontSize: 0.07; anchor: center;" position="0 -1.0 0.02"></a-entity>
+  <a-entity mindar-image-target="targetIndex: 0" id="target">
+    <a-entity id="solar-system" scale="1 1 1">
 
-      </a-entity>
+      <!-- 太陽 -->
+      <a-sphere position="0 0 0" radius="0.5" material="src: #sun"></a-sphere>
+      <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.3; anchor: center;" position="0 -0.7 0"></a-entity>
+
     </a-entity>
-  </a-scene>
+  </a-entity>
 
-  <script>
-    const planets = [
-      { name: "水星 Mercury", texture: "#mercuryTexture", radius: 0.08, distance: 0.9, orbitSpeed: 10, spinSpeed: 3000, desc: "水星是最靠近太陽的行星。", nameFontSize: 0.15 },
-      { name: "金星 Venus", texture: "#venusTexture", radius: 0.1, distance: 1.2, orbitSpeed: 15, spinSpeed: 4000, desc: "金星是太陽系的第二顆行星。" },
-      { name: "地球 Earth", texture: "#earthTexture", radius: 0.11, distance: 1.5, orbitSpeed: 20, spinSpeed: 3000, desc: "地球孕育生命並富含氧氣。" },
-      { name: "火星 Mars", texture: "#marsTexture", radius: 0.09, distance: 1.8, orbitSpeed: 25, spinSpeed: 3500, desc: "火星是最遠的類地行星。" },
-      { name: "木星 Jupiter", texture: "#jupiterTexture", radius: 0.22, distance: 2.3, orbitSpeed: 30, spinSpeed: 2500, desc: "木星是太陽系最大行星。" },
-      { name: "土星 Saturn", texture: "#saturnTexture", radius: 0.2, distance: 2.8, orbitSpeed: 35, spinSpeed: 2700, desc: "土星擁有美麗的光環。" },
-      { name: "天王星 Uranus", texture: "#uranusTexture", radius: 0.18, distance: 3.2, orbitSpeed: 40, spinSpeed: 3300, desc: "天王星橫躺著自轉。" },
-      { name: "海王星 Neptune", texture: "#neptuneTexture", radius: 0.17, distance: 3.6, orbitSpeed: 45, spinSpeed: 3100, desc: "海王星是第八顆行星。" }
-    ];
+</a-scene>
 
-    window.addEventListener("load", () => {
-      const solarSystem = document.getElementById("solar-system");
+<script>
+const planets = [
+  { name: "水星 Mercury", texture: "#mercury", radius: 0.08, distance: 0.9, orbitSpeed: 10 },
+  { name: "金星 Venus", texture: "#venus", radius: 0.1, distance: 1.2, orbitSpeed: 15 },
+  { name: "地球 Earth", texture: "#earth", radius: 0.11, distance: 1.5, orbitSpeed: 20 },
+  { name: "火星 Mars", texture: "#mars", radius: 0.09, distance: 1.8, orbitSpeed: 25 },
+  { name: "木星 Jupiter", texture: "#jupiter", radius: 0.22, distance: 2.3, orbitSpeed: 30 },
+  { name: "土星 Saturn", texture: "#saturn", radius: 0.2, distance: 2.8, orbitSpeed: 35 },
+  { name: "天王星 Uranus", texture: "#uranus", radius: 0.18, distance: 3.2, orbitSpeed: 40 },
+  { name: "海王星 Neptune", texture: "#neptune", radius: 0.17, distance: 3.6, orbitSpeed: 45 }
+];
 
-      planets.forEach((planet) => {
-        const orbit = document.createElement("a-entity");
-        orbit.setAttribute("rotation", "0 0 0");
+window.addEventListener("load", () => {
+  const solarSystem = document.getElementById("solar-system");
 
-        const sphere = document.createElement("a-sphere");
-        sphere.setAttribute("position", `${planet.distance} 0 0`);
-        sphere.setAttribute("radius", planet.radius);
-        sphere.setAttribute("material", `src: ${planet.texture}`);
+  planets.forEach(planet => {
+    const orbit = document.createElement("a-entity");
+    orbit.setAttribute("rotation", "0 0 0");
 
-        sphere.setAttribute("animation__spin", {
-          property: "rotation",
-          to: "0 360 0",
-          dur: planet.spinSpeed,
-          easing: "linear",
-          loop: true
-        });
-
-        const labelY = -0.3;
-        const label = document.createElement("a-entity");
-        label.setAttribute("troika-text", {
-          value: planet.name,
-          color: "white",
-          fontFamily: "Noto Sans TC",
-          fontSize: planet.nameFontSize || 0.18,
-          anchor: "center"
-        });
-        label.setAttribute("position", `${planet.distance} ${labelY} 0`);
-
-        const descY = labelY - 0.25;
-        const bg = document.createElement("a-plane");
-        bg.setAttribute("color", "white");
-        bg.setAttribute("width", 1.1);
-        bg.setAttribute("height", 0.16);
-        bg.setAttribute("material", "shader: flat");
-        bg.setAttribute("position", `${planet.distance} ${descY} 0.01`);
-
-        const desc = document.createElement("a-entity");
-        desc.setAttribute("troika-text", {
-          value: planet.desc,
-          color: "black",
-          fontFamily: "Noto Sans TC",
-          fontSize: 0.07,
-          anchor: "center",
-          maxWidth: 1.0
-        });
-        desc.setAttribute("position", `${planet.distance} ${descY} 0.02`);
-
-        orbit.appendChild(sphere);
-        orbit.appendChild(label);
-        orbit.appendChild(bg);
-        orbit.appendChild(desc);
-
-        orbit.setAttribute("animation__orbit", {
-          property: "rotation",
-          to: "0 360 0",
-          dur: planet.orbitSpeed * 1000,
-          easing: "linear",
-          loop: true
-        });
-
-        solarSystem.appendChild(orbit);
-      });
+    const sphere = document.createElement("a-sphere");
+    sphere.setAttribute("position", `${planet.distance} 0 0`);
+    sphere.setAttribute("radius", planet.radius);
+    sphere.setAttribute("material", `src: ${planet.texture}`);
+    sphere.setAttribute("animation__spin", {
+      property: "rotation",
+      to: "0 360 0",
+      dur: 3000,
+      easing: "linear",
+      loop: true
     });
 
-    // Pinch Zoom
-    let initialDistance = null;
-    let initialScale = 1;
-    const solarSystem = document.getElementById("solar-system");
+    const label = document.createElement("a-entity");
+    label.setAttribute("troika-text", {
+      value: planet.name,
+      color: "white",
+      fontFamily: "Noto Sans TC",
+      fontSize: 0.15,
+      anchor: "center"
+    });
+    label.setAttribute("position", `${planet.distance} -0.3 0`);
 
-    document.addEventListener("touchmove", (e) => {
-      if (e.touches.length === 2) {
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+    orbit.appendChild(sphere);
+    orbit.appendChild(label);
 
-        if (!initialDistance) {
-          initialDistance = distance;
-          initialScale = solarSystem.getAttribute("scale").x;
-        } else {
-          let scale = initialScale * (distance / initialDistance);
-          scale = Math.min(Math.max(scale, 0.5), 2);
-          solarSystem.setAttribute("scale", `${scale} ${scale} ${scale}`);
-        }
-      }
+    orbit.setAttribute("animation__orbit", {
+      property: "rotation",
+      to: "0 360 0",
+      dur: planet.orbitSpeed * 1000,
+      easing: "linear",
+      loop: true
     });
 
-    document.addEventListener("touchend", () => {
-      initialDistance = null;
-    });
-  </script>
+    solarSystem.appendChild(orbit);
+  });
+});
+</script>
+
 </body>
 </html>
