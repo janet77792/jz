@@ -32,21 +32,17 @@
     <img id="saturn" src="saturn.jpg">
     <img id="uranus" src="uranus.jpg">
     <img id="neptune" src="neptune.jpg">
-    
-    <!-- 加音樂 -->
-    <audio id="bgm" src="https://cdn.pixabay.com/audio/2023/04/05/audio_06f4db0e07.mp3"></audio>
+    <audio id="bgm" src="bgm.mp3"></audio>
   </a-assets>
 
-  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-sound id="bgm-sound" src="#bgm" autoplay="true" loop="true" volume="0.3"></a-sound>
 
-  <!-- 背景音樂播放器 -->
-  <a-sound src="#bgm" autoplay="true" loop="true" volume="0.5"></a-sound>
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
   <!-- AR Marker -->
   <a-entity mindar-image-target="targetIndex: 0" id="target">
     <a-entity id="anchor-holder" position="0 0 0"></a-entity>
   </a-entity>
-
 </a-scene>
 
 <script>
@@ -100,6 +96,7 @@ sunDesc.setAttribute("troika-text", {
 });
 sunDesc.setAttribute("position", "0 -0.85 0.02");
 solarSystem.appendChild(sunDesc);
+
 
 // 行星 + 公轉動畫
 planets.forEach(planet => {
