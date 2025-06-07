@@ -32,7 +32,6 @@
     <img id="saturn" src="saturn.jpg">
     <img id="uranus" src="uranus.jpg">
     <img id="neptune" src="neptune.jpg">
-    <audio id="bgm" src="bgm.mp3" loop></audio>
   </a-assets>
 
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -45,14 +44,14 @@
 
 <script>
 const planets = [
-  { name: "水星 Mercury", texture: "#mercury", desc: "水星是最靠近太陽的行星。", radius: 0.08, distance: 0.9, orbitSpeed: 10 },
-  { name: "金星 Venus", texture: "#venus", desc: "金星是太陽系的第二顆行星。", radius: 0.1, distance: 1.2, orbitSpeed: 13 },
-  { name: "地球 Earth", texture: "#earth", desc: "地球孕育生命並富含氧氣。", radius: 0.11, distance: 1.5, orbitSpeed: 17 },
-  { name: "火星 Mars", texture: "#mars", desc: "火星是最遠的類地行星。", radius: 0.09, distance: 1.8, orbitSpeed: 20 },
-  { name: "木星 Jupiter", texture: "#jupiter", desc: "木星是太陽系最大行星。", radius: 0.22, distance: 2.3, orbitSpeed: 23 },
-  { name: "土星 Saturn", texture: "#saturn", desc: "土星擁有美麗的光環。", radius: 0.2, distance: 2.8, orbitSpeed: 27 },
-  { name: "天王星 Uranus", texture: "#uranus", desc: "天王星橫躺著自轉。", radius: 0.18, distance: 3.2, orbitSpeed: 31 },
-  { name: "海王星 Neptune", texture: "#neptune", desc: "海王星是第八顆行星。", radius: 0.17, distance: 3.6, orbitSpeed: 35 }
+  { name: "水星 Mercury", texture: "#mercury", desc: "水星是最靠近太陽的行星。", radius: 0.08, distance: 0.9, orbitSpeed: 40 },
+  { name: "金星 Venus", texture: "#venus", desc: "金星是太陽系的第二顆行星。", radius: 0.1, distance: 1.2, orbitSpeed: 52 },
+  { name: "地球 Earth", texture: "#earth", desc: "地球孕育生命並富含氧氣。", radius: 0.11, distance: 1.5, orbitSpeed: 68 },
+  { name: "火星 Mars", texture: "#mars", desc: "火星是最遠的類地行星。", radius: 0.09, distance: 1.8, orbitSpeed: 80 },
+  { name: "木星 Jupiter", texture: "#jupiter", desc: "木星是太陽系最大行星。", radius: 0.22, distance: 2.3, orbitSpeed: 92 },
+  { name: "土星 Saturn", texture: "#saturn", desc: "土星擁有美麗的光環。", radius: 0.2, distance: 2.8, orbitSpeed: 108 },
+  { name: "天王星 Uranus", texture: "#uranus", desc: "天王星橫躺著自轉。", radius: 0.18, distance: 3.2, orbitSpeed: 124 },
+  { name: "海王星 Neptune", texture: "#neptune", desc: "海王星是第八顆行星。", radius: 0.17, distance: 3.6, orbitSpeed: 140 }
 ];
 
 const solarSystem = document.createElement("a-entity");
@@ -72,7 +71,7 @@ const sunLabel = document.createElement("a-entity");
 sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
 sunLabel.setAttribute("position", "0 -0.65 0");
 solarSystem.appendChild(sunLabel);
-  
+
 // 太陽介紹背景板
 const sunDescBg = document.createElement("a-plane");
 sunDescBg.setAttribute("color", "white");
@@ -96,7 +95,7 @@ sunDesc.setAttribute("position", "0 -0.85 0.02");
 solarSystem.appendChild(sunDesc);
 
 
-// 行星 + 公轉動畫 (速度變慢3倍)
+// 行星 + 公轉動畫
 planets.forEach(planet => {
   const orbit = document.createElement("a-entity");
 
@@ -137,7 +136,7 @@ planets.forEach(planet => {
   orbit.setAttribute("animation__orbit", {
     property: "rotation",
     to: "0 360 0",
-    dur: planet.orbitSpeed * 1000 * 3,  // 慢3倍
+    dur: planet.orbitSpeed * 2000,  // 讓行星運行更慢
     easing: "linear",
     loop: true
   });
@@ -146,6 +145,19 @@ planets.forEach(planet => {
   orbit.appendChild(label);
   orbit.appendChild(descBg);
   orbit.appendChild(descText);
+
+  // 土星環 (只給土星加環)
+  if (planet.name.includes("土星")) {
+    const ring = document.createElement("a-ring");
+    ring.setAttribute("radius-inner", planet.radius * 1.2);
+    ring.setAttribute("radius-outer", planet.radius * 2);
+    ring.setAttribute("color", "#d9c69b");
+    ring.setAttribute("opacity", "0.6");
+    ring.setAttribute("position", `${planet.distance} 0 0`);
+    ring.setAttribute("rotation", "90 0 0");
+    orbit.appendChild(ring);
+  }
+
   solarSystem.appendChild(orbit);
 });
 
@@ -158,42 +170,8 @@ target.addEventListener("targetFound", () => {
   if (!added) {
     anchorHolder.appendChild(solarSystem);
     added = true;
-    // 播放背景音樂
-    const bgm = document.querySelector("#bgm");
-    if(bgm) {
-      bgm.volume = 1.0;
-      const playPromise = bgm.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // 若自動播放失敗，顯示開始按鈕
-          showPlayButton();
-        });
-      }
-    }
   }
 });
-
-function showPlayButton() {
-  const btn = document.createElement("button");
-  btn.innerText = "開始播放音樂";
-  btn.style.position = "fixed";
-  btn.style.top = "10px";
-  btn.style.left = "10px";
-  btn.style.zIndex = 9999;
-  btn.style.fontSize = "16px";
-  btn.style.padding = "10px";
-  btn.style.backgroundColor = "#333";
-  btn.style.color = "white";
-  btn.style.border = "none";
-  btn.style.borderRadius = "5px";
-  btn.style.cursor = "pointer";
-  document.body.appendChild(btn);
-  btn.addEventListener("click", () => {
-    const bgm = document.querySelector("#bgm");
-    bgm.play();
-    btn.remove();
-  });
-}
 
 // 縮放觸控
 let initialDistance = null;
@@ -215,10 +193,9 @@ document.addEventListener("touchmove", (e) => {
     }
   }
 });
-document.addEventListener("touchend", (e) => {
-  if (e.touches.length < 2) {
-    initialDistance = null;
-  }
+
+document.addEventListener("touchend", () => {
+  initialDistance = null;
 });
 </script>
 
