@@ -91,7 +91,7 @@ const sunLabel = document.createElement("a-entity");
 sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
 sunLabel.setAttribute("position", "0 -0.65 0");
 solarSystem.appendChild(sunLabel);
-  
+
 // 太陽介紹背景板
 const sunDescBg = document.createElement("a-plane");
 sunDescBg.setAttribute("color", "white");
@@ -114,7 +114,6 @@ sunDesc.setAttribute("troika-text", {
 sunDesc.setAttribute("position", "0 -0.85 0.02");
 solarSystem.appendChild(sunDesc);
 
-
 // 行星 + 公轉動畫
 planets.forEach(planet => {
   const orbit = document.createElement("a-entity");
@@ -124,6 +123,18 @@ planets.forEach(planet => {
   sphere.setAttribute("radius", planet.radius);
   sphere.setAttribute("material", `src: ${planet.texture}`);
   sphere.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true");
+
+  // 土星環加回來
+  let ring = null;
+  if (planet.name.includes("土星")) {
+    ring = document.createElement("a-ring");
+    ring.setAttribute("position", `${planet.distance} 0 0`);
+    ring.setAttribute("rotation", "90 0 0");
+    ring.setAttribute("radius-inner", planet.radius * 1.1);
+    ring.setAttribute("radius-outer", planet.radius * 2.5);
+    ring.setAttribute("color", "#D4C17A");  // 黃褐色系，模擬土星環
+    ring.setAttribute("material", "side: double; opacity: 0.8");
+  }
 
   const label = document.createElement("a-entity");
   label.setAttribute("troika-text", {
@@ -162,6 +173,7 @@ planets.forEach(planet => {
   });
 
   orbit.appendChild(sphere);
+  if (ring) orbit.appendChild(ring);
   orbit.appendChild(label);
   orbit.appendChild(descBg);
   orbit.appendChild(descText);
