@@ -36,13 +36,14 @@
 
   <a-entity mindar-image-target="targetIndex: 0" id="target">
     <a-entity id="solar-system" position="0 0 0" scale="1 1 1">
-
       <!-- 太陽 -->
       <a-sphere position="0 0 0" radius="0.5" material="src: #sun"
         animation__spin="property: rotation; to: 0 360 0; dur: 5000; loop: true; easing: linear"></a-sphere>
       <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;"
                 position="0 -0.65 0"></a-entity>
-
+      <a-plane color="white" width="1.3" height="0.22" material="shader: flat" position="0 -1.0 0.01"></a-plane>
+      <a-entity troika-text="value: 太陽是太陽系的中心天體。; color: black; fontSize: 0.07; anchor: center;"
+                position="0 -1.0 0.02"></a-entity>
     </a-entity>
   </a-entity>
 
@@ -50,14 +51,14 @@
 
 <script>
 const planets = [
-  { name: "水星 Mercury", texture: "#mercury", radius: 0.08, distance: 0.9, orbitSpeed: 10 },
-  { name: "金星 Venus", texture: "#venus", radius: 0.1, distance: 1.2, orbitSpeed: 13 },
-  { name: "地球 Earth", texture: "#earth", radius: 0.11, distance: 1.5, orbitSpeed: 17 },
-  { name: "火星 Mars", texture: "#mars", radius: 0.09, distance: 1.8, orbitSpeed: 20 },
-  { name: "木星 Jupiter", texture: "#jupiter", radius: 0.22, distance: 2.3, orbitSpeed: 23 },
-  { name: "土星 Saturn", texture: "#saturn", radius: 0.2, distance: 2.8, orbitSpeed: 27 },
-  { name: "天王星 Uranus", texture: "#uranus", radius: 0.18, distance: 3.2, orbitSpeed: 31 },
-  { name: "海王星 Neptune", texture: "#neptune", radius: 0.17, distance: 3.6, orbitSpeed: 35 }
+  { name: "水星 Mercury", texture: "#mercury", radius: 0.08, distance: 0.9, orbitSpeed: 10, desc: "水星是最靠近太陽的行星。" },
+  { name: "金星 Venus", texture: "#venus", radius: 0.1, distance: 1.2, orbitSpeed: 13, desc: "金星是太陽系的第二顆行星。" },
+  { name: "地球 Earth", texture: "#earth", radius: 0.11, distance: 1.5, orbitSpeed: 17, desc: "地球孕育生命並富含氧氣。" },
+  { name: "火星 Mars", texture: "#mars", radius: 0.09, distance: 1.8, orbitSpeed: 20, desc: "火星是最遠的類地行星。" },
+  { name: "木星 Jupiter", texture: "#jupiter", radius: 0.22, distance: 2.3, orbitSpeed: 23, desc: "木星是太陽系最大行星。" },
+  { name: "土星 Saturn", texture: "#saturn", radius: 0.2, distance: 2.8, orbitSpeed: 27, desc: "土星擁有美麗的光環。" },
+  { name: "天王星 Uranus", texture: "#uranus", radius: 0.18, distance: 3.2, orbitSpeed: 31, desc: "天王星橫躺著自轉。" },
+  { name: "海王星 Neptune", texture: "#neptune", radius: 0.17, distance: 3.6, orbitSpeed: 35, desc: "海王星是第八顆行星。" }
 ];
 
 window.addEventListener("load", () => {
@@ -79,7 +80,7 @@ window.addEventListener("load", () => {
       loop: true
     });
 
-    // 行星說明文字（固定位置）
+    // 名稱標籤
     const label = document.createElement("a-entity");
     label.setAttribute("troika-text", {
       value: planet.name,
@@ -89,6 +90,26 @@ window.addEventListener("load", () => {
       anchor: "center"
     });
     label.setAttribute("position", `${planet.distance} -0.3 0`);
+
+    // 白底背景
+    const bg = document.createElement("a-plane");
+    bg.setAttribute("color", "white");
+    bg.setAttribute("width", 1.1);
+    bg.setAttribute("height", 0.16);
+    bg.setAttribute("material", "shader: flat");
+    bg.setAttribute("position", `${planet.distance} -0.55 0.01`);
+
+    // 描述文字
+    const desc = document.createElement("a-entity");
+    desc.setAttribute("troika-text", {
+      value: planet.desc,
+      color: "black",
+      fontFamily: "Noto Sans TC",
+      fontSize: 0.07,
+      anchor: "center",
+      maxWidth: 1.0
+    });
+    desc.setAttribute("position", `${planet.distance} -0.55 0.02`);
 
     // 公轉動畫
     orbit.setAttribute("animation__orbit", {
@@ -100,9 +121,37 @@ window.addEventListener("load", () => {
     });
 
     orbit.appendChild(sphere);
+    orbit.appendChild(label);
+    orbit.appendChild(bg);
+    orbit.appendChild(desc);
     solarSystem.appendChild(orbit);
-    solarSystem.appendChild(label);
   });
+});
+
+// 手勢縮放
+let initialDistance = null;
+let initialScale = 1;
+const solarSystem = document.getElementById("solar-system");
+
+document.addEventListener("touchmove", (e) => {
+  if (e.touches.length === 2) {
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (!initialDistance) {
+      initialDistance = distance;
+      initialScale = solarSystem.getAttribute("scale").x;
+    } else {
+      let scale = initialScale * (distance / initialDistance);
+      scale = Math.min(Math.max(scale, 0.5), 2);
+      solarSystem.setAttribute("scale", `${scale} ${scale} ${scale}`);
+    }
+  }
+});
+
+document.addEventListener("touchend", () => {
+  initialDistance = null;
 });
 </script>
 
