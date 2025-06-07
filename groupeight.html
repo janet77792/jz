@@ -14,8 +14,6 @@
 </head>
 <body>
 
-<button id="start-button" style="position: fixed; top: 20px; left: 20px; z-index: 10; padding: 10px 20px; font-size: 16px;">開始播放音樂</button>
-
 <a-scene
   mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF: 0.0001; filterBeta: 0.001"
   color-space="sRGB"
@@ -34,13 +32,10 @@
     <img id="saturn" src="saturn.jpg">
     <img id="uranus" src="uranus.jpg">
     <img id="neptune" src="neptune.jpg">
-    <audio id="bgm" src="bgm.mp3"></audio>
+    <audio id="bgm" src="bgm.mp3" loop></audio>
   </a-assets>
 
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-  <!-- 音樂 -->
-  <a-sound id="bgm-sound" src="#bgm" autoplay="false" loop="true" volume="1.0"></a-sound>
 
   <!-- AR Marker -->
   <a-entity mindar-image-target="targetIndex: 0" id="target">
@@ -101,7 +96,7 @@ sunDesc.setAttribute("position", "0 -0.85 0.02");
 solarSystem.appendChild(sunDesc);
 
 
-// 行星 + 公轉動畫
+// 行星 + 公轉動畫 (速度變慢3倍)
 planets.forEach(planet => {
   const orbit = document.createElement("a-entity");
 
@@ -142,7 +137,7 @@ planets.forEach(planet => {
   orbit.setAttribute("animation__orbit", {
     property: "rotation",
     to: "0 360 0",
-    dur: planet.orbitSpeed * 1000,
+    dur: planet.orbitSpeed * 1000 * 3,  // 慢3倍
     easing: "linear",
     loop: true
   });
@@ -163,8 +158,42 @@ target.addEventListener("targetFound", () => {
   if (!added) {
     anchorHolder.appendChild(solarSystem);
     added = true;
+    // 播放背景音樂
+    const bgm = document.querySelector("#bgm");
+    if(bgm) {
+      bgm.volume = 1.0;
+      const playPromise = bgm.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // 若自動播放失敗，顯示開始按鈕
+          showPlayButton();
+        });
+      }
+    }
   }
 });
+
+function showPlayButton() {
+  const btn = document.createElement("button");
+  btn.innerText = "開始播放音樂";
+  btn.style.position = "fixed";
+  btn.style.top = "10px";
+  btn.style.left = "10px";
+  btn.style.zIndex = 9999;
+  btn.style.fontSize = "16px";
+  btn.style.padding = "10px";
+  btn.style.backgroundColor = "#333";
+  btn.style.color = "white";
+  btn.style.border = "none";
+  btn.style.borderRadius = "5px";
+  btn.style.cursor = "pointer";
+  document.body.appendChild(btn);
+  btn.addEventListener("click", () => {
+    const bgm = document.querySelector("#bgm");
+    bgm.play();
+    btn.remove();
+  });
+}
 
 // 縮放觸控
 let initialDistance = null;
@@ -186,16 +215,10 @@ document.addEventListener("touchmove", (e) => {
     }
   }
 });
-
-document.addEventListener("touchend", () => {
-  initialDistance = null;
-});
-
-const bgmSound = document.querySelector("#bgm-sound");
-const startBtn = document.querySelector("#start-button");
-startBtn.addEventListener("click", () => {
-  bgmSound.components.sound.playSound();
-  startBtn.style.display = "none";
+document.addEventListener("touchend", (e) => {
+  if (e.touches.length < 2) {
+    initialDistance = null;
+  }
 });
 </script>
 
