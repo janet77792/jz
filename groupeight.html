@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VRnew</title>
+  <title>第8組 太陽系 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -14,11 +14,13 @@
 </head>
 <body>
 
-<a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true;"
-         color-space="sRGB"
-         renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
-         vr-mode-ui="enabled: false"
-         device-orientation-permission-ui="enabled: false">
+<a-scene
+  mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF: 0.0001; filterBeta: 0.001"
+  color-space="sRGB"
+  renderer="alpha: true, colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false"
+>
 
   <a-assets>
     <img id="sun" src="sun.jpg">
@@ -34,11 +36,10 @@
 
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- marker -->
+  <!-- AR Marker -->
   <a-entity mindar-image-target="targetIndex: 0" id="target">
     <a-entity id="anchor-holder" position="0 0 0"></a-entity>
   </a-entity>
-
 </a-scene>
 
 <script>
@@ -65,45 +66,41 @@ sun.setAttribute("material", "src: #sun");
 sun.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true");
 solarSystem.appendChild(sun);
 
-// 太陽標籤
+// 太陽文字
 const sunLabel = document.createElement("a-entity");
 sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
 sunLabel.setAttribute("position", "0 -0.65 0");
 solarSystem.appendChild(sunLabel);
 
-// 星球們
+// 行星 + 公轉動畫
 planets.forEach(planet => {
   const orbit = document.createElement("a-entity");
 
-  // 行星球
   const sphere = document.createElement("a-sphere");
   sphere.setAttribute("position", `${planet.distance} 0 0`);
   sphere.setAttribute("radius", planet.radius);
   sphere.setAttribute("material", `src: ${planet.texture}`);
   sphere.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true");
 
-  // 標籤
   const label = document.createElement("a-entity");
   label.setAttribute("troika-text", {
     value: planet.name,
     color: "white",
-    fontFamily: "Noto Sans TC",
     fontSize: 0.15,
-    anchor: "center"
+    anchor: "center",
+    fontFamily: "Noto Sans TC"
   });
   label.setAttribute("position", `${planet.distance} -0.3 0`);
 
-  // 描述背景
-  const bg = document.createElement("a-plane");
-  bg.setAttribute("color", "white");
-  bg.setAttribute("width", "1.2");
-  bg.setAttribute("height", "0.16");
-  bg.setAttribute("position", `${planet.distance} -0.55 0.01`);
-  bg.setAttribute("material", "shader: flat");
+  const descBg = document.createElement("a-plane");
+  descBg.setAttribute("color", "white");
+  descBg.setAttribute("width", "1.2");
+  descBg.setAttribute("height", "0.16");
+  descBg.setAttribute("position", `${planet.distance} -0.55 0.01`);
+  descBg.setAttribute("material", "shader: flat");
 
-  // 描述文字
-  const desc = document.createElement("a-entity");
-  desc.setAttribute("troika-text", {
+  const descText = document.createElement("a-entity");
+  descText.setAttribute("troika-text", {
     value: planet.desc,
     color: "black",
     fontSize: 0.07,
@@ -111,9 +108,8 @@ planets.forEach(planet => {
     fontFamily: "Noto Sans TC",
     maxWidth: 1
   });
-  desc.setAttribute("position", `${planet.distance} -0.55 0.02`);
+  descText.setAttribute("position", `${planet.distance} -0.55 0.02`);
 
-  // 公轉
   orbit.setAttribute("animation__orbit", {
     property: "rotation",
     to: "0 360 0",
@@ -124,26 +120,24 @@ planets.forEach(planet => {
 
   orbit.appendChild(sphere);
   orbit.appendChild(label);
-  orbit.appendChild(bg);
-  orbit.appendChild(desc);
-
+  orbit.appendChild(descBg);
+  orbit.appendChild(descText);
   solarSystem.appendChild(orbit);
 });
 
-let fixed = false;
+// 加入到標記上
 const anchorHolder = document.querySelector("#anchor-holder");
 const target = document.querySelector("#target");
+let added = false;
 
 target.addEventListener("targetFound", () => {
-  if (!fixed) {
+  if (!added) {
     anchorHolder.appendChild(solarSystem);
-    const scene = document.querySelector("a-scene");
-    scene.appendChild(anchorHolder);
-    fixed = true;
+    added = true;
   }
 });
 
-// 縮放功能
+// 縮放觸控
 let initialDistance = null;
 let initialScale = 1;
 
