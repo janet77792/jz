@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>第8組 太陽系 VR2</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -184,6 +184,17 @@ document.addEventListener("touchmove", (e) => {
 document.addEventListener("touchend", () => {
   initialDistance = null;
 });
+// 每禎固定 solarSystem 姿態
+AFRAME.registerComponent('fixed-orientation', {
+  tick: function () {
+    const solarSystem = document.querySelector("#solar-system");
+    if (solarSystem) {
+      solarSystem.setAttribute("rotation", "0 0 0");
+    }
+  }
+});
+
+solarSystem.setAttribute("fixed-orientation", "");
 </script>
 
 </body>
