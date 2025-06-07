@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR66</title>
+  <title>第8組 太陽系 VR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -10,7 +10,6 @@
   <style>
     html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; }
     a-scene { position: fixed; width: 100%; height: 100%; }
-    .mindar-ui-loading, .mindar-ui-error, .mindar-ui-scanning { display: none; }
   </style>
 </head>
 <body>
@@ -22,7 +21,6 @@
          device-orientation-permission-ui="enabled: false">
 
   <a-assets>
-    <!-- 圖片貼圖資源 -->
     <img id="sun" src="sun.jpg">
     <img id="mercury" src="mercury.jpg">
     <img id="venus" src="venus.jpg">
@@ -37,11 +35,13 @@
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
   <a-entity mindar-image-target="targetIndex: 0" id="target">
-    <a-entity id="solar-system" scale="1 1 1">
+    <a-entity id="solar-system" position="0 0 0" scale="1 1 1">
 
       <!-- 太陽 -->
-      <a-sphere position="0 0 0" radius="0.5" material="src: #sun"></a-sphere>
-      <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.3; anchor: center;" position="0 -0.7 0"></a-entity>
+      <a-sphere position="0 0 0" radius="0.5" material="src: #sun"
+        animation__spin="property: rotation; to: 0 360 0; dur: 5000; loop: true; easing: linear"></a-sphere>
+      <a-entity troika-text="value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;"
+                position="0 -0.65 0"></a-entity>
 
     </a-entity>
   </a-entity>
@@ -51,13 +51,13 @@
 <script>
 const planets = [
   { name: "水星 Mercury", texture: "#mercury", radius: 0.08, distance: 0.9, orbitSpeed: 10 },
-  { name: "金星 Venus", texture: "#venus", radius: 0.1, distance: 1.2, orbitSpeed: 15 },
-  { name: "地球 Earth", texture: "#earth", radius: 0.11, distance: 1.5, orbitSpeed: 20 },
-  { name: "火星 Mars", texture: "#mars", radius: 0.09, distance: 1.8, orbitSpeed: 25 },
-  { name: "木星 Jupiter", texture: "#jupiter", radius: 0.22, distance: 2.3, orbitSpeed: 30 },
-  { name: "土星 Saturn", texture: "#saturn", radius: 0.2, distance: 2.8, orbitSpeed: 35 },
-  { name: "天王星 Uranus", texture: "#uranus", radius: 0.18, distance: 3.2, orbitSpeed: 40 },
-  { name: "海王星 Neptune", texture: "#neptune", radius: 0.17, distance: 3.6, orbitSpeed: 45 }
+  { name: "金星 Venus", texture: "#venus", radius: 0.1, distance: 1.2, orbitSpeed: 13 },
+  { name: "地球 Earth", texture: "#earth", radius: 0.11, distance: 1.5, orbitSpeed: 17 },
+  { name: "火星 Mars", texture: "#mars", radius: 0.09, distance: 1.8, orbitSpeed: 20 },
+  { name: "木星 Jupiter", texture: "#jupiter", radius: 0.22, distance: 2.3, orbitSpeed: 23 },
+  { name: "土星 Saturn", texture: "#saturn", radius: 0.2, distance: 2.8, orbitSpeed: 27 },
+  { name: "天王星 Uranus", texture: "#uranus", radius: 0.18, distance: 3.2, orbitSpeed: 31 },
+  { name: "海王星 Neptune", texture: "#neptune", radius: 0.17, distance: 3.6, orbitSpeed: 35 }
 ];
 
 window.addEventListener("load", () => {
@@ -65,8 +65,8 @@ window.addEventListener("load", () => {
 
   planets.forEach(planet => {
     const orbit = document.createElement("a-entity");
-    orbit.setAttribute("rotation", "0 0 0");
 
+    // 行星球
     const sphere = document.createElement("a-sphere");
     sphere.setAttribute("position", `${planet.distance} 0 0`);
     sphere.setAttribute("radius", planet.radius);
@@ -74,11 +74,12 @@ window.addEventListener("load", () => {
     sphere.setAttribute("animation__spin", {
       property: "rotation",
       to: "0 360 0",
-      dur: 3000,
+      dur: 4000,
       easing: "linear",
       loop: true
     });
 
+    // 行星說明文字（固定位置）
     const label = document.createElement("a-entity");
     label.setAttribute("troika-text", {
       value: planet.name,
@@ -89,9 +90,7 @@ window.addEventListener("load", () => {
     });
     label.setAttribute("position", `${planet.distance} -0.3 0`);
 
-    orbit.appendChild(sphere);
-    orbit.appendChild(label);
-
+    // 公轉動畫
     orbit.setAttribute("animation__orbit", {
       property: "rotation",
       to: "0 360 0",
@@ -100,7 +99,9 @@ window.addEventListener("load", () => {
       loop: true
     });
 
+    orbit.appendChild(sphere);
     solarSystem.appendChild(orbit);
+    solarSystem.appendChild(label);
   });
 });
 </script>
