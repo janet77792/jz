@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>第8組 太陽系 VR</title>
+  <title>第8組 太陽系 VR2</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
@@ -31,7 +31,6 @@
 <body>
 
 <button id="playBgmBtn">開始播放BGM</button>
-
 <audio id="bgm" src="bgm.mp3" loop></audio>
 
 <a-scene
@@ -41,7 +40,6 @@
   vr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: false"
 >
-
   <a-assets>
     <img id="sun" src="sun.jpg">
     <img id="mercury" src="mercury.jpg">
@@ -56,7 +54,6 @@
 
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- AR Marker -->
   <a-entity mindar-image-target="targetIndex: 0" id="target">
     <a-entity id="anchor-holder" position="0 0 0"></a-entity>
   </a-entity>
@@ -79,20 +76,17 @@ solarSystem.setAttribute("id", "solar-system");
 solarSystem.setAttribute("position", "0 0 0");
 solarSystem.setAttribute("scale", "1 1 1");
 
-// 太陽
 const sun = document.createElement("a-sphere");
 sun.setAttribute("radius", "0.5");
 sun.setAttribute("material", "src: #sun");
 sun.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true");
 solarSystem.appendChild(sun);
 
-// 太陽文字
 const sunLabel = document.createElement("a-entity");
 sunLabel.setAttribute("troika-text", "value: 太陽 Sun; color: white; fontFamily: Noto Sans TC; fontSize: 0.25; anchor: center;");
 sunLabel.setAttribute("position", "0 -0.65 0");
 solarSystem.appendChild(sunLabel);
 
-// 太陽介紹背景板
 const sunDescBg = document.createElement("a-plane");
 sunDescBg.setAttribute("color", "white");
 sunDescBg.setAttribute("width", "1.2");
@@ -101,50 +95,37 @@ sunDescBg.setAttribute("position", "0 -0.85 0.01");
 sunDescBg.setAttribute("material", "shader: flat");
 solarSystem.appendChild(sunDescBg);
 
-// 太陽介紹文字
 const sunDesc = document.createElement("a-entity");
-sunDesc.setAttribute("troika-text", {
-  value: "太陽是太陽系的中心，是恆星。",
-  color: "black",
-  fontSize: 0.07,
-  anchor: "center",
-  fontFamily: "Noto Sans TC",
-  maxWidth: 1
-});
+sunDesc.setAttribute("troika-text", "value: 太陽是太陽系的中心，是恆星。; color: black; fontSize: 0.07; anchor: center; fontFamily: Noto Sans TC; maxWidth: 1");
 sunDesc.setAttribute("position", "0 -0.85 0.02");
 solarSystem.appendChild(sunDesc);
 
-// 行星 + 公轉動畫
 planets.forEach(planet => {
   const orbit = document.createElement("a-entity");
+  orbit.setAttribute("animation__orbit", `property: rotation; to: 0 360 0; dur: ${planet.orbitSpeed * 1000}; easing: linear; loop: true`);
 
   const sphere = document.createElement("a-sphere");
   sphere.setAttribute("position", `${planet.distance} 0 0`);
   sphere.setAttribute("radius", planet.radius);
   sphere.setAttribute("material", `src: ${planet.texture}`);
   sphere.setAttribute("animation__spin", "property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true");
+  orbit.appendChild(sphere);
 
-  // 土星環加回來
-  let ring = null;
   if (planet.name.includes("土星")) {
-    ring = document.createElement("a-ring");
+    const ring = document.createElement("a-ring");
     ring.setAttribute("position", `${planet.distance} 0 0`);
     ring.setAttribute("rotation", "90 0 0");
     ring.setAttribute("radius-inner", planet.radius * 1.1);
     ring.setAttribute("radius-outer", planet.radius * 2.5);
-    ring.setAttribute("color", "#D4C17A");  // 黃褐色系，模擬土星環
+    ring.setAttribute("color", "#D4C17A");
     ring.setAttribute("material", "side: double; opacity: 0.8");
+    orbit.appendChild(ring);
   }
 
   const label = document.createElement("a-entity");
-  label.setAttribute("troika-text", {
-    value: planet.name,
-    color: "white",
-    fontSize: 0.15,
-    anchor: "center",
-    fontFamily: "Noto Sans TC"
-  });
+  label.setAttribute("troika-text", `value: ${planet.name}; color: white; fontSize: 0.15; anchor: center; fontFamily: Noto Sans TC`);
   label.setAttribute("position", `${planet.distance} -0.3 0`);
+  orbit.appendChild(label);
 
   const descBg = document.createElement("a-plane");
   descBg.setAttribute("color", "white");
@@ -152,39 +133,19 @@ planets.forEach(planet => {
   descBg.setAttribute("height", "0.16");
   descBg.setAttribute("position", `${planet.distance} -0.55 0.01`);
   descBg.setAttribute("material", "shader: flat");
+  orbit.appendChild(descBg);
 
   const descText = document.createElement("a-entity");
-  descText.setAttribute("troika-text", {
-    value: planet.desc,
-    color: "black",
-    fontSize: 0.07,
-    anchor: "center",
-    fontFamily: "Noto Sans TC",
-    maxWidth: 1
-  });
+  descText.setAttribute("troika-text", `value: ${planet.desc}; color: black; fontSize: 0.07; anchor: center; fontFamily: Noto Sans TC; maxWidth: 1`);
   descText.setAttribute("position", `${planet.distance} -0.55 0.02`);
-
-  orbit.setAttribute("animation__orbit", {
-    property: "rotation",
-    to: "0 360 0",
-    dur: planet.orbitSpeed * 1000,
-    easing: "linear",
-    loop: true
-  });
-
-  orbit.appendChild(sphere);
-  if (ring) orbit.appendChild(ring);
-  orbit.appendChild(label);
-  orbit.appendChild(descBg);
   orbit.appendChild(descText);
+
   solarSystem.appendChild(orbit);
 });
 
-// 加入到標記上
 const anchorHolder = document.querySelector("#anchor-holder");
 const target = document.querySelector("#target");
 let added = false;
-
 target.addEventListener("targetFound", () => {
   if (!added) {
     anchorHolder.appendChild(solarSystem);
@@ -192,7 +153,7 @@ target.addEventListener("targetFound", () => {
   }
 });
 
-// 縮放觸控
+// 縮放控制
 let initialDistance = null;
 let initialScale = 1;
 
@@ -212,19 +173,16 @@ document.addEventListener("touchmove", (e) => {
     }
   }
 });
-
 document.addEventListener("touchend", () => {
   initialDistance = null;
 });
 
-// BGM 按鈕控制
-const playBtn = document.getElementById('playBgmBtn');
-const bgm = document.getElementById('bgm');
-
-playBtn.addEventListener('click', () => {
-  bgm.volume = 1;  // 最大音量
+// BGM 控制
+document.getElementById("playBgmBtn").addEventListener("click", () => {
+  const bgm = document.getElementById("bgm");
+  bgm.volume = 1;
   bgm.play();
-  playBtn.style.display = 'none';
+  document.getElementById("playBgmBtn").style.display = "none";
 });
 </script>
 
