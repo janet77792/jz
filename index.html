@@ -3,129 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>飛機許願</title>
+<title>✈️許願✨</title>
 
 <style>
 body{
-margin:0;
-font-family:sans-serif;
-text-align:center;
-/* 背景漸變 + 你選的圖片 */
-background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('https://raw.githubusercontent.com/janet77792/jz/main/pic.jpg') no-repeat center center fixed;
-background-size: cover;
-color:white;
+  margin:0;
+  font-family:sans-serif;
+  text-align:center;
+  /* 背景圖片放前面，漸變放後面 */
+  background: url('https://raw.githubusercontent.com/janet77792/jz/main/pic.jpg') no-repeat center center fixed, linear-gradient(160deg,#004B97,#005bb5,#0066CC);
+  background-size: cover;
+  color:white;
 }
 
 .container{
-margin-top:100px;
+  margin-top:100px;
 }
 
 h1{
-font-size:32px;
-text-shadow: 1px 1px 5px black;
+  font-size:32px;
+  text-shadow: 1px 1px 5px black;
 }
 
 #count{
-font-size:70px;
-margin:20px;
-text-shadow: 1px 1px 5px black;
+  font-size:70px;
+  margin:20px;
+  text-shadow: 1px 1px 5px black;
 }
 
 button{
-font-size:28px;
-padding:18px 26px;
-border:none;
-border-radius:50px;
-background:white;
-color:#004B97;
-cursor:pointer;
-/* 防止手機快速點按放大或高亮 */
--webkit-tap-highlight-color: transparent;
-touch-action: manipulation;
+  font-size:28px;
+  padding:18px 26px;
+  border:none;
+  border-radius:50px;
+  background:white;
+  color:#004B97;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* 防止手機點擊放大 */
 }
 
 .reset{
-margin-top:20px;
-font-size:14px;
-padding:6px 12px;
-background:rgba(255,255,255,0.25);
-color:white;
+  margin-top:20px;
+  font-size:14px;
+  padding:6px 12px;
+  background:rgba(255,255,255,0.25);
+  color:white;
 }
 
 #wishBox{
-margin-top:20px;
-display:none;
-color:black;
-text-align:center;
-background:transparent;
-padding:0;
+  margin-top:20px;
+  display:none;
+  color:black;
+  text-align:center;
+  background:transparent;
+  padding:0;
 }
 
 #wishBox p{
-margin-bottom:10px;
-font-size:18px;
-color:white;
-text-shadow:1px 1px 3px black;
+  margin-bottom:10px;
+  font-size:18px;
+  color:white;
+  text-shadow:1px 1px 3px black;
 }
 
 input{
-padding:6px 10px;
-font-size:16px;
-border-radius:10px;
-border:1px solid #ccc;
-width:180px;
-height:28px;
-background:white;
+  padding:4px 8px;
+  font-size:16px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  width:180px;
+  height:24px;
+  background:white;
 }
 
 .save{
-margin-left:10px;
-font-size:16px;
-padding:6px 12px;
-border-radius:10px;
-background:white;
-color:#004B97;
+  margin-left:10px;
+  font-size:16px;
+  padding:6px 12px;
+  border-radius:6px;
+  background:white;
+  color:#004B97;
 }
 
 #wishList{
-margin-top:40px;
-text-align:left;
-max-width:320px;
-margin-left:auto;
-margin-right:auto;
+  margin-top:40px;
+  text-align:left;
+  max-width:320px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .wishItem{
-background: #ffffffcc;
-padding:6px;
-border-radius:10px;
-margin-bottom:8px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+  background: #ffffffcc;
+  padding:6px;
+  border-radius:10px;
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .wishText{
-flex:1;
-margin-right:8px;
-word-break:break-word;
-color:black; /* 願望文字黑色 */
+  flex:1;
+  margin-right:8px;
+  word-break:break-word;
+  color:black; /* 願望文字黑色 */
 }
 
 .wishBtn{
-font-size:12px;
-padding:4px 6px;
-margin-left:4px;
-border:none;
-border-radius:5px;
-cursor:pointer;
-background:white;
-color:black;
+  font-size:12px;
+  padding:4px 6px;
+  margin-left:4px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  background:white;
+  color:black;
 }
+
 .wishBtn.done.active, .wishBtn.ing.active{
     background:#FFD306; /* 按下後變黃色 */
     color:black;
 }
+
 .del{color:#F44336;}
 </style>
 </head>
@@ -147,9 +148,9 @@ color:black;
 <p id="msg"></p>
 
 <div id="wishBox">
-<p>🎉100架！可以許願了</p>
-<input id="wishInput" placeholder="輸入你的願望">
-<button class="save" onclick="saveWish()">送出</button>
+  <p>🎉100架！可以許願了><</p>
+  <input id="wishInput" placeholder="輸入你的願望">
+  <button class="save" onclick="saveWish()">送出</button>
 </div>
 
 <div id="wishList"></div>
