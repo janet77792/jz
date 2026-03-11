@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+color:black;
+text-align:center;
+background:transparent;
+padding:0;
+}
+
+#wishBox p{
+margin-bottom:10px;
+font-size:18px;
+color:white;
+text-shadow:1px 1px 3px black;
+}
+
+input{
+padding:6px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+background:white;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+color:black; /* 願望文字黑色 */
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
+}
+.wishBtn.done.active, .wishBtn.ing.active{
+    background:#FFD306; /* 按下後變黃色 */
+    color:black;
+}
+.del{color:#F44336;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+    document.getElementById("count").innerText = count;
+
+    if(count>=100){
+        document.getElementById("msg").innerText="";
+        document.getElementById("wishBox").style.display="block";
+        document.getElementById("addBtn").disabled=true;
+    } else {
+        document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+        document.getElementById("wishBox").style.display="none";
+        document.getElementById("addBtn").disabled=false;
+    }
+
+    renderWishes();
+}
+
+function add(){
+    if(count>=100) return;
+    count++;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function resetConfirm(){
+    let confirmReset = confirm("確定要重置嗎？");
+    if(confirmReset){
+        count=0;
+        localStorage.setItem("plane",count);
+        update();
+    }
+}
+
+function saveWish(){
+    let text = document.getElementById("wishInput").value.trim();
+    if(text=="") return;
+
+    wishes.push({text:text,status:"ing"});
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    document.getElementById("wishInput").value="";
+    count=0;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        let doneClass = w.status==="done" ? "active" : "";
+        html+='<button class="wishBtn done '+doneClass+'" onclick="markDone('+i+',this)">已實現</button>';
+        // 實現ing按鈕
+        let ingClass = w.status==="ing" ? "active" : "";
+        if(w.status!=="done"){
+            html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing✨</button>';
+        }
+        // 刪除按鈕
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+// 按已實現 → 標記願望為 done，實現ing按鈕消失
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+// 按實現ing → 標記狀態，按鈕變色，但不消失
+function markIng(i){
+    wishes[i].status="ing";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+function deleteWish(i){
+    let confirmDel = confirm("確定要刪除這個願望嗎？");
+    if(confirmDel){
+        wishes.splice(i,1);
+        localStorage.setItem("wishes",JSON.stringify(wishes));
+        renderWishes();
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>
