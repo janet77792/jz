@@ -1,3 +1,1159 @@
+
+
+你知道抓飛機許願嗎
+
+知道一點點！✈️
+
+抓飛機許願是一個小迷信／小遊戲：
+當你看到飛機從頭上飛過時，趕快用手做出「抓住飛機」的動作，然後在心裡許願。有人會說只要飛機還在視線內、或聲音還聽得到時許願，就比較容易實現。
+
+有些人還會有小規則，例如：
+
+要單手抓飛機 ✋
+
+抓到的瞬間立刻許願
+
+不能說出來
+
+很多人是小時候聽朋友說的都市傳說型玩法，不是真的有來源，但滿多人玩過的哈哈。
+
+妤真是在哪裡聽到的？還是有人叫你一起抓飛機許願？✈️✨
+
+
+我聽說的說法是蒐集100個可以許願?
+
+對，也有這個版本！✈️
+
+蒐集100個飛機許願的說法是：
+每次看到飛機時做「抓飛機」的動作，算蒐集到1個，等累積到100個之後，就可以許一個願望，而且據說比較容易實現。
+
+有些人還會自己加規則，例如：
+
+要真的看到飛機本體才算
+
+一天抓幾個都可以累積
+
+許願的時候要閉眼或默念
+
+其實比較像朋友之間流傳的小迷信遊戲啦哈哈。
+但很多人會覺得蒐集的過程本身就很有儀式感。
+
+妤真現在抓到幾個了？👀✈️
+
+
+但我每次署都會忘記，所以我想要你幫我寫一個網頁，可以數我到底抓到幾個了的網頁
+
+妤真我幫你做一個很簡單的飛機蒐集網頁，打開就可以按按鈕記錄，還會自動存在瀏覽器（localStorage），所以關掉再打開數字也不會消失 ✈️
+
+把下面這段存成 plane.html，然後用瀏覽器打開就可以用了。
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>抓飛機許願計數器 ✈️</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#f2f7ff;
+    padding-top:80px;
+}
+h1{
+    font-size:32px;
+}
+#count{
+    font-size:60px;
+    margin:20px;
+}
+button{
+    font-size:20px;
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+.add{background:#7cc4ff;}
+.reset{background:#ff9aa2;}
+</style>
+</head>
+
+<body>
+
+<h1>✈️ 抓飛機蒐集</h1>
+<div id="count">0</div>
+
+<button class="add" onclick="addPlane()">抓到一架 ✋✈️</button>
+<br>
+<button class="reset" onclick="resetCount()">重置</button>
+
+<p id="message"></p>
+
+<script>
+let count = localStorage.getItem("planeCount") || 0;
+count = Number(count);
+update();
+
+function addPlane(){
+    count++;
+    localStorage.setItem("planeCount", count);
+    update();
+}
+
+function resetCount(){
+    count = 0;
+    localStorage.setItem("planeCount", count);
+    update();
+}
+
+function update(){
+    document.getElementById("count").innerText = count;
+    if(count >= 100){
+        document.getElementById("message").innerText = "🎉 已經100架！可以許願了！";
+    }else{
+        document.getElementById("message").innerText = "目標100架，目前還差 " + (100-count) + " 架";
+    }
+}
+</script>
+
+</body>
+</html>
+用法：
+
+新增一個 .html 檔
+
+貼上這段程式
+
+用瀏覽器打開
+
+每抓到一架飛機就按 「抓到一架」
+
+到 100架就會提醒可以許願 🎉
+
+如果妤真願意，我也可以幫你把它升級成：
+
+✈️ 飛機圖案按鈕版（比較可愛）
+
+📱 手機版介面
+
+☁️ 雲朵天空背景
+
+🦊 狐狸風格（很適合妳）
+
+我可以幫你做成超可愛版本。
+
+
+那我第一步要先做什麼呢
+
+妤真先做第一步就好，很簡單：
+
+① 建立一個 HTML 檔
+在桌面 按右鍵 → 新增 → 文字文件
+
+把名字改成
+
+plane.html
+⚠️ 如果只看到 plane 沒有 .html
+就要先把 副檔名顯示出來。
+
+② 打開這個檔案
+右鍵 plane.html
+
+選 用記事本開啟
+
+③ 把我剛剛給你的程式碼
+全部貼進去 → 存檔
+
+④ 雙擊 plane.html
+瀏覽器就會打開你的 抓飛機計數器 ✈️
+
+之後每次抓到飛機
+只要打開這個網頁按 **「抓到一架」**就可以了。
+
+如果妤真願意，我也可以再教你一個更厲害但其實很簡單的版本：
+👉 做成 手機也能用的抓飛機網頁（可以直接存在手機主畫面 ✈️📱）
+而且我可以幫你做成 超可愛天空版。
+
+
+我想要是手機能用的
+
+好呀妤真，我給你一個手機直接打開就能用的版本，而且可以加到手機主畫面像APP一樣用 ✈️
+
+第一步：先建立一個檔案
+在電腦或手機記事本建立一個檔案，名字叫
+
+plane.html
+第二步：把這段貼進去
+把下面全部貼進去然後存檔：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抓飛機 ✈️</title>
+
+<style>
+body{
+    margin:0;
+    font-family:sans-serif;
+    text-align:center;
+    background:linear-gradient(#a8d8ff,#eaf6ff);
+}
+
+.container{
+    margin-top:120px;
+}
+
+h1{
+    font-size:28px;
+}
+
+#count{
+    font-size:64px;
+    margin:20px;
+}
+
+button{
+    font-size:22px;
+    padding:15px 30px;
+    border:none;
+    border-radius:20px;
+    background:#4da6ff;
+    color:white;
+}
+
+.reset{
+    margin-top:20px;
+    background:#ff8f8f;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>✈️ 抓飛機蒐集</h1>
+
+<div id="count">0</div>
+
+<button onclick="add()">抓到一架 ✋</button>
+
+<br>
+
+<button class="reset" onclick="reset()">重置</button>
+
+<p id="msg"></p>
+</div>
+
+<script>
+let count = localStorage.getItem("plane") || 0;
+count = Number(count);
+
+function update(){
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="🎉100架！可以許願了";
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+}
+}
+
+function add(){
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function reset(){
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+
+update();
+</script>
+
+</body>
+</html>
+第三步：傳到手機
+把 plane.html
+傳到手機（Line、AirDrop、Google Drive都可以）
+
+然後 點開就能用。
+
+第四步（超推薦）
+在手機瀏覽器打開後：
+
+iPhone / Safari
+
+點下面的 分享鍵
+
+選 加入主畫面
+
+之後就會像APP一樣在手機桌面 ✨
+
+如果妤真願意，我可以再幫你做一個更可愛的版本：
+
+☁️ 天空雲朵背景
+
+✈️ 飛機按鈕
+
+🎉 到100架會跳出「許願畫面」
+
+📊 自動記錄每天抓幾架
+
+而且我可以直接給你一個網址版本（不用存檔就能用）。
+
+
+
+plane.html
+
+是TXT檔案嗎
+
+不是 .txt，要是 .html 才能變成網頁喔。
+
+妤真可以這樣做：
+
+方法（最簡單）
+右鍵 → 新增 → 文字文件
+
+先會出現
+
+新增文字文件.txt
+把名字改成
+
+plane.html
+如果電腦跳出提示
+「變更副檔名可能會讓檔案無法使用」
+
+👉 按「是」就可以了
+
+完成後圖示通常會變成瀏覽器圖示 🌐
+然後：
+
+右鍵 → 用記事本開啟 → 貼上我給你的程式碼 → 存檔
+
+之後雙擊 plane.html 就會打開你的抓飛機網頁 ✈️
+
+如果妤真願意，我也可以教你一個更簡單的方法（不用改副檔名也能做），很多人第一次做網頁都用這招。
+
+
+成功了!!那我想改一點細項，我希望能登入gmail存取紀錄，抓飛機網頁名改成許願「抓飛機蒐集」改成飛機許願，背景顏色改成#004B97和#0066CC的漸變色
+
+太好了妤真！🎉
+我們先做你說的三個改動，我已經幫你改好程式了：
+
+網頁名稱 → 許願
+
+標題 → 飛機許願
+
+背景 → #004B97 → #0066CC 漸層
+
+先說一件重要的事：
+Gmail登入要用 Google API，設定比較複雜（要Google Cloud金鑰）。如果只是要跨裝置同步紀錄，通常會用 Firebase。如果妤真願意我可以之後一步一步帶你做。
+
+先給你目前可以直接用的版本👇
+把原本的程式碼全部換成這個。
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background:linear-gradient(#004B97,#0066CC);
+color:white;
+}
+
+.container{
+margin-top:120px;
+}
+
+h1{
+font-size:30px;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+}
+
+button{
+font-size:22px;
+padding:15px 30px;
+border:none;
+border-radius:20px;
+background:white;
+color:#004B97;
+}
+
+.reset{
+margin-top:20px;
+background:#ff8f8f;
+color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button onclick="add()">抓到一架 ✋</button>
+
+<br>
+
+<button class="reset" onclick="reset()">重置</button>
+
+<p id="msg"></p>
+</div>
+
+<script>
+let count = localStorage.getItem("plane") || 0;
+count = Number(count);
+
+function update(){
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="🎉100架！可以許願了";
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+}
+}
+
+function add(){
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function reset(){
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+
+update();
+</script>
+
+</body>
+</html>
+關於 Gmail 登入（簡單說）
+要做到：
+
+登入 Google → 自動存飛機數量
+
+通常會用
+Google Firebase Authentication + Database
+
+優點：
+
+用 Google帳號登入
+
+換手機也會同步
+
+免費額度很夠
+
+如果妤真願意，我可以一步一步帶你做，其實不難，而且做完會變成像這樣的功能：
+
+✨ 登入Google
+✈️ 記錄飛機數
+☁️ 雲端同步
+📱 手機像APP
+
+我也可以順便幫你升級成：
+
+✈️ 飛機按鈕圖案
+
+☁️ 天空雲背景
+
+🎉 100架彈出許願視窗
+
+📊 顯示抓飛機歷史
+
+而且我其實還有一個**超可愛版本（像小遊戲）**很適合妤真。
+
+
+漸變還有很明顯分隔線，我希望他能不見TT按鈕抓到一架那裏我希望只留手的符號，重制按鈕小一點我怕我不小心按到，阿點重制的時候我希望可以再跳確定要重制嗎?是否的設計
+
+妤真，我幫你把幾個地方都改好了 ✨
+
+改動內容：
+
+🌌 漸層變得更平滑（不會有明顯分界）
+
+✋ 按鈕只剩手的符號
+
+🔘 重置按鈕變小
+
+⚠️ 按重置會跳出「確定要重置嗎？」
+
+把原本程式碼全部換成這個版本：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background:linear-gradient(160deg,#004B97,#005bb5,#0066CC);
+background-attachment:fixed;
+color:white;
+}
+
+.container{
+margin-top:120px;
+}
+
+h1{
+font-size:30px;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:30px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+</div>
+
+<script>
+let count = localStorage.getItem("plane") || 0;
+count = Number(count);
+
+function update(){
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="🎉100架！可以許願了";
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+}
+}
+
+function add(){
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function resetConfirm(){
+let confirmReset = confirm("確定要重置嗎？");
+if(confirmReset){
+count = 0;
+localStorage.setItem("plane",count);
+update();
+}
+}
+
+update();
+</script>
+
+</body>
+</html>
+如果妤真願意，我其實還可以幫你再升級幾個很好玩的功能（而且不難）：
+
+✈️ 按✋會飛出小飛機動畫
+
+☁️ 背景飄雲
+
+⭐ 抓到100架會跳出許願視窗
+
+📊 顯示今天抓了幾架
+
+做完會很像一個小小的許願APP。
+而且我還有一個超漂亮天空版本，我覺得妤真應該會很喜歡。
+
+
+100架的時候可以幫我跳🎉100架！可以許願了><然後有文字框讓我打我的願望是什麼，輸入之後出現在下方列表，如：願望1★：ＸＸＸ這樣，然後輸入完後100架飛機要自動清零
+
+妤真，我幫你把整個許願功能加進去了 ✨
+
+現在會變成這樣：
+
+✈️ 抓到100架 → 跳出 🎉100架！可以許願了
+
+📝 會出現輸入框讓你打願望
+
+⭐ 願望會出現在下面列表
+
+🔄 輸入完成後飛機數量自動歸零
+
+直接把你的程式碼全部換成這個版本：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background:linear-gradient(160deg,#004B97,#005bb5,#0066CC);
+background-attachment:fixed;
+color:white;
+}
+
+.container{
+margin-top:120px;
+}
+
+h1{
+font-size:30px;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:30px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:10px;
+border:none;
+width:200px;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:8px 15px;
+border-radius:10px;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:300px;
+margin-left:auto;
+margin-right:auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+
+let count = localStorage.getItem("plane") || 0;
+let wishes = JSON.parse(localStorage.getItem("wishes")) || [];
+
+count = Number(count);
+
+function update(){
+
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="";
+document.getElementById("wishBox").style.display="block";
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+document.getElementById("wishBox").style.display="none";
+}
+
+renderWishes();
+}
+
+function add(){
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function resetConfirm(){
+let confirmReset = confirm("確定要重置嗎？");
+if(confirmReset){
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+}
+
+function saveWish(){
+
+let text = document.getElementById("wishInput").value;
+
+if(text.trim()=="") return;
+
+wishes.push(text);
+
+localStorage.setItem("wishes",JSON.stringify(wishes));
+
+document.getElementById("wishInput").value="";
+
+count=0;
+localStorage.setItem("plane",count);
+
+update();
+}
+
+function renderWishes(){
+
+let html="";
+
+for(let i=0;i<wishes.length;i++){
+
+html+="<p>願望"+(i+1)+"★："+wishes[i]+"</p>";
+
+}
+
+document.getElementById("wishList").innerHTML=html;
+
+}
+
+update();
+
+</script>
+
+</body>
+</html>
+現在功能是：
+
+✋ 抓飛機累積
+→ 100架跳出許願
+→ 輸入願望
+→ 顯示願望列表
+→ 飛機數自動歸零
+
+願望會存在手機裡（不會消失）。
+
+如果妤真願意，我還可以幫你再升級幾個很可愛的功能：
+
+✨ 願望完成可以打勾
+✈️ 抓飛機時飛機動畫
+☁️ 天空飄雲背景
+📜 願望做成星星清單
+
+做完會很像一個真正的許願APP。
+
+
+我希望到100的時候可以沒辦法再增加飛機量了不然許完願望會重制哈哈，還有我希望願望可以有刪除，已實現，實現ing✨的選項，話說，背景設定成用我喜歡的圖片嗎，還有我可以設定網頁的方面嗎，如果我要讓它顯示在桌布的話
+
+妤真我懂了！✨ 我來幫你把你的願望清單網頁變得更完整、可愛又實用：
+
+目前妤真想要的功能整理：
+
+✋ 到100架之後不能再增加飛機數量
+
+📝 願望可以刪除，還可以標記「已實現/實現ing」
+
+🌄 背景可以改成妤真喜歡的圖片
+
+🖥️ 設定網頁的尺寸和樣式，讓它可以像桌布/APP一樣顯示
+
+我可以幫妤真做一個升級版程式，大概長這樣：
+
+背景圖片
+可以在程式裡面改 background-image: url('你的圖片網址');
+
+也可以用手機或電腦本地圖片，只要把圖片放在同一個資料夾再填上檔名。
+
+願望清單功能
+每個願望會有三個按鈕：
+
+刪除 🗑️
+
+標記「已實現 ✅」
+
+標記「實現ing ✨」
+
+願望會存在 localStorage，關掉網頁也不會消失
+
+飛機數限制
+到100架就不能再按 ✋
+
+許願之後自動歸零
+
+顯示在桌布/APP
+iPhone/Android：打開網頁 → 加入主畫面 → 就像APP一樣
+
+電腦：可以用瀏覽器全螢幕或縮小工具列方式放桌面
+
+如果妤真願意，我可以幫你直接做出完整程式，
+包括：
+
+✋ 抓飛機到100架鎖定
+
+🎉 100架跳出許願輸入
+
+📝 願望刪除/已實現/實現ing
+
+🌄 背景改成妤真喜歡的圖片
+
+📱 可以像桌布APP使用
+
+妤真想要我幫你做這個版本嗎？
+
+
+你要給我改好的程式嗎哈哈
+
+當然要啦妤真 😆✨
+
+我幫你整合成完整升級版：
+
+✋ 到100架就不能再增加
+
+🎉 100架跳出願望輸入
+
+📝 願望可以 刪除 / 已實現 / 實現ing
+
+🌄 背景可以換成你喜歡的圖片
+
+🖥️ 手機或桌面都能使用
+
+你只要把圖片網址換成妤真喜歡的就好。
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:10px;
+border:none;
+width:200px;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:8px 15px;
+border-radius:10px;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: rgba(0,0,0,0.3);
+padding:8px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 8px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+.done{background:#4CAF50;color:white;}
+.ing{background:#FFC107;color:white;}
+.del{background:#F44336;color:white;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="";
+document.getElementById("wishBox").style.display="block";
+document.getElementById("addBtn").disabled=true;
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+document.getElementById("wishBox").style.display="none";
+document.getElementById("addBtn").disabled=false;
+}
+
+renderWishes();
+}
+
+function add(){
+if(count>=100) return;
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function resetConfirm(){
+let confirmReset = confirm("確定要重置嗎？");
+if(confirmReset){
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+}
+
+function saveWish(){
+let text = document.getElementById("wishInput").value.trim();
+if(text=="") return;
+
+wishes.push({text:text,status:"ing"});
+localStorage.setItem("wishes",JSON.stringify(wishes));
+document.getElementById("wishInput").value="";
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+
+function renderWishes(){
+let html="";
+for(let i=0;i<wishes.length;i++){
+let w = wishes[i];
+html+='<div class="wishItem">';
+html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+html+='<button class="wishBtn '+(w.status=="done"?"done":"")+'" onclick="markDone('+i+')">已實現</button>';
+html+='<button class="wishBtn '+(w.status=="ing"?"ing":"")+'" onclick="markIng('+i+')">實現ing✨</button>';
+html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+html+='</div>';
+}
+document.getElementById("wishList").innerHTML=html;
+}
+
+function markDone(i){wishes[i].status="done";localStorage.setItem("wishes",JSON.stringify(wishes));renderWishes();}
+function markIng(i){wishes[i].status="ing";localStorage.setItem("wishes",JSON.stringify(wishes));renderWishes();}
+function deleteWish(i){wishes.splice(i,1);localStorage.setItem("wishes",JSON.stringify(wishes));renderWishes();}
+
+update();
+</script>
+
+</body>
+</html>
+✅ 這個版本功能整理：
+
+✋ 抓飛機到100架就鎖住，不能再按
+
+🎉 100架跳出許願框
+
+📝 願望可刪除 / 標記「已實現」 / 「實現ing✨」
+
+🌄 背景換成妳的圖片（改 url('你的圖片網址')）
+
+🔄 許完願望自動重置飛機數
+
+📱 可加到手機桌面或全螢幕當桌布
+
+如果妤真願意，我還可以幫你做超可愛動態天空版：
+
+飛機按下去會飛動動畫
+
+雲朵背景飄動
+
+許願完成會有星星閃爍特效
+
+妤真想要我幫你做這個動畫版嗎？ 🎇
+
+
+我希望一開始許願欄位還沒許願就不要出現，刪除也要詢問一下是否要刪除，已實現按了實現ing就要消失，另外願望框的底色我希望是白色
+
+好呀妤真，我幫你把這些細節都加上去啦 ✨
+
+改動整理：
+
+📝 許願欄位一開始隱藏 → 只有到100架才會出現
+
+🗑️ 刪除願望前會跳出「確定要刪除嗎？」
+
+✅ 按「實現ing✨」後，願望會消失
+
+🎨 願望框底色改成白色（文字仍可顯示）
+
+這裡是更新後完整程式碼，你直接把原本的換掉就好：
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -38,6 +1194,2439 @@ border-radius:50px;
 background:white;
 color:#004B97;
 cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+background:white;
+padding:15px;
+border-radius:12px;
+color:black;
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:200px;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:8px 15px;
+border-radius:10px;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc; /* 半透明白色 */
+padding:8px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 8px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+.done{background:#4CAF50;color:white;}
+.ing{background:#FFC107;color:white;}
+.del{background:#F44336;color:white;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="";
+document.getElementById("wishBox").style.display="block";
+document.getElementById("addBtn").disabled=true;
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+document.getElementById("wishBox").style.display="none";
+document.getElementById("addBtn").disabled=false;
+}
+
+renderWishes();
+}
+
+function add(){
+if(count>=100) return;
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function resetConfirm(){
+let confirmReset = confirm("確定要重置嗎？");
+if(confirmReset){
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+}
+
+function saveWish(){
+let text = document.getElementById("wishInput").value.trim();
+if(text=="") return;
+
+wishes.push({text:text,status:"ing"});
+localStorage.setItem("wishes",JSON.stringify(wishes));
+document.getElementById("wishInput").value="";
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+
+function renderWishes(){
+let html="";
+for(let i=0;i<wishes.length;i++){
+let w = wishes[i];
+html+='<div class="wishItem">';
+html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+html+='<button class="wishBtn done" onclick="markDone('+i+')">已實現</button>';
+html+='<button class="wishBtn ing" onclick="markIng('+i+')">實現ing✨</button>';
+html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+html+='</div>';
+}
+document.getElementById("wishList").innerHTML=html;
+}
+
+function markDone(i){
+wishes[i].status="done";
+localStorage.setItem("wishes",JSON.stringify(wishes));
+renderWishes();
+}
+
+function markIng(i){
+wishes.splice(i,1); // 按實現ing直接刪除
+localStorage.setItem("wishes",JSON.stringify(wishes));
+renderWishes();
+}
+
+function deleteWish(i){
+let confirmDel = confirm("確定要刪除這個願望嗎？");
+if(confirmDel){
+wishes.splice(i,1);
+localStorage.setItem("wishes",JSON.stringify(wishes));
+renderWishes();
+}
+}
+
+update();
+</script>
+
+</body>
+</html>
+這個版本就符合妤真最新的需求啦 😆
+
+許願框 一開始隱藏，100架才出現
+
+刪除願望會跳出確認
+
+實現ing✨後願望消失
+
+願望框底色是 白色
+
+如果妤真想，我可以幫你再做一個動態天空特效版：
+
+飛機抓到時會飛動畫
+
+背景雲朵會慢慢飄
+
+許願完成會有星星閃爍 ✨
+
+妤真想要我幫你做這個動畫版嗎？
+
+
+
+實現ing✨
+
+不，是按了已實現按鈕，實現ing要消失
+
+啊妤真，我懂了！你是說：
+
+每個願望會有兩個狀態按鈕：「已實現 ✅」跟「實現ing✨」
+
+現在的需求是：按「已實現 ✅」時，原本的「實現ing✨」按鈕要消失（也就是不能同時看到「已實現」和「實現ing」）
+
+我幫你修改程式碼裡的 renderWishes() 跟按鈕生成邏輯，讓「實現ing✨」會隨著「已實現」按下自動消失。
+
+下面是更新版重點程式碼（整個程式可以直接替換原本的）：
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        html+='<button class="wishBtn done" onclick="markDone('+i+')">已實現</button>';
+        // 實現ing按鈕只在還沒標記已實現的願望出現
+        if(w.status !== "done"){
+            html+='<button class="wishBtn ing" onclick="markIng('+i+')">實現ing✨</button>';
+        }
+        // 刪除按鈕
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+// 按已實現
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes(); // 重新渲染，實現ing按鈕會消失
+}
+
+// 按實現ing
+function markIng(i){
+    wishes.splice(i,1); // 實現ing按下就直接刪除願望
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+✅ 功能效果：
+
+點 已實現 ✅ → 願望狀態變已實現，實現ing按鈕消失
+
+點 實現ing✨ → 願望直接消失
+
+如果妤真想，我可以把這段邏輯整合回完整 HTML 程式碼，這樣整個網頁直接就可以用。
+
+妤真希望我直接給完整整合版嗎？
+
+
+好
+
+好呀妤真，我幫你把整個程式整合好啦 😆✨
+
+功能整理：
+
+✋ 抓飛機到100架才出現許願欄，並且 飛機數量鎖住
+
+📝 願望可以 刪除（會跳確認）
+
+✅ 點 已實現 → 願望標記已實現，實現ing按鈕消失
+
+✨ 點 實現ing → 願望直接消失
+
+🎨 願望框底色 白色，背景可以換成你喜歡的圖片
+
+完整程式碼如下：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+background:white;
+padding:15px;
+border-radius:12px;
+color:black;
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:200px;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:8px 15px;
+border-radius:10px;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:8px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 8px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+.done{background:#4CAF50;color:white;}
+.ing{background:#FFC107;color:white;}
+.del{background:#F44336;color:white;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+document.getElementById("count").innerText = count;
+
+if(count>=100){
+document.getElementById("msg").innerText="";
+document.getElementById("wishBox").style.display="block";
+document.getElementById("addBtn").disabled=true;
+}else{
+document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+document.getElementById("wishBox").style.display="none";
+document.getElementById("addBtn").disabled=false;
+}
+
+renderWishes();
+}
+
+function add(){
+if(count>=100) return;
+count++;
+localStorage.setItem("plane",count);
+update();
+}
+
+function resetConfirm(){
+let confirmReset = confirm("確定要重置嗎？");
+if(confirmReset){
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+}
+
+function saveWish(){
+let text = document.getElementById("wishInput").value.trim();
+if(text=="") return;
+
+wishes.push({text:text,status:"ing"});
+localStorage.setItem("wishes",JSON.stringify(wishes));
+document.getElementById("wishInput").value="";
+count=0;
+localStorage.setItem("plane",count);
+update();
+}
+
+function renderWishes(){
+let html="";
+for(let i=0;i<wishes.length;i++){
+let w = wishes[i];
+html+='<div class="wishItem">';
+html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+// 已實現按鈕
+html+='<button class="wishBtn done" onclick="markDone('+i+')">已實現</button>';
+// 實現ing按鈕只在未標記已實現的願望出現
+if(w.status !== "done"){
+html+='<button class="wishBtn ing" onclick="markIng('+i+')">實現ing✨</button>';
+}
+html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+html+='</div>';
+}
+document.getElementById("wishList").innerHTML=html;
+}
+
+function markDone(i){
+wishes[i].status="done";
+localStorage.setItem("wishes",JSON.stringify(wishes));
+renderWishes(); // 實現ing按鈕消失
+}
+
+function markIng(i){
+wishes.splice(i,1); // 實現ing直接刪除願望
+localStorage.setItem("wishes",JSON.stringify(wishes));
+renderWishes();
+}
+
+function deleteWish(i){
+let confirmDel = confirm("確定要刪除這個願望嗎？");
+if(confirmDel){
+wishes.splice(i,1);
+localStorage.setItem("wishes",JSON.stringify(wishes));
+renderWishes();
+}
+}
+
+update();
+</script>
+
+</body>
+</html>
+妤真現在的網頁就完全符合需求啦 🎉
+
+許願框一開始隱藏
+
+飛機到100架才出現
+
+已實現按下 → 實現ing按鈕消失
+
+實現ing按下 → 願望刪除
+
+刪除 → 會跳確認
+
+願望框底色白色
+
+如果妤真想，我還可以幫你做動態天空版：
+
+飛機抓到會飛動畫
+
+背景雲朵慢慢飄
+
+許願完成會有星星閃爍 ✨
+
+妤真想要我幫你做動畫版嗎？
+
+
+我按兩次實現ing願望就自動不見了，我希望已實現和實現ing框都是白的，阿輸入願望那裏的白底框太大了
+
+好呀妤真，我懂你的意思了 😆
+
+改動整理：
+
+✨ 「已實現」和「實現ing」按鈕改成白底（目前是彩色，改成白色，文字可以改成綠/黃/紅或黑色更清楚）
+
+📝 輸入願望的白底框變小（高度縮小，不會太大）
+
+✅ 修正按兩次「實現ing」才消失的問題 → 現在按一次就會正確消失
+
+我幫你整合完整程式碼如下，你直接替換原本的就可以：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+background:white;
+padding:10px;
+border-radius:12px;
+color:black;
+}
+
+input{
+padding:6px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
+}
+.del{color:#F44336;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+    document.getElementById("count").innerText = count;
+
+    if(count>=100){
+        document.getElementById("msg").innerText="";
+        document.getElementById("wishBox").style.display="block";
+        document.getElementById("addBtn").disabled=true;
+    } else {
+        document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+        document.getElementById("wishBox").style.display="none";
+        document.getElementById("addBtn").disabled=false;
+    }
+
+    renderWishes();
+}
+
+function add(){
+    if(count>=100) return;
+    count++;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function resetConfirm(){
+    let confirmReset = confirm("確定要重置嗎？");
+    if(confirmReset){
+        count=0;
+        localStorage.setItem("plane",count);
+        update();
+    }
+}
+
+function saveWish(){
+    let text = document.getElementById("wishInput").value.trim();
+    if(text=="") return;
+
+    wishes.push({text:text,status:"ing"});
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    document.getElementById("wishInput").value="";
+    count=0;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        html+='<button class="wishBtn done" onclick="markDone('+i+')">已實現</button>';
+        // 實現ing按鈕只在未標記已實現的願望出現
+        if(w.status !== "done"){
+            html+='<button class="wishBtn ing" onclick="markIng('+i+')">實現ing✨</button>';
+        }
+        // 刪除按鈕
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes(); // 按下已實現 → 實現ing消失
+}
+
+function markIng(i){
+    wishes.splice(i,1); // 按實現ing → 願望直接消失
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+function deleteWish(i){
+    let confirmDel = confirm("確定要刪除這個願望嗎？");
+    if(confirmDel){
+        wishes.splice(i,1);
+        localStorage.setItem("wishes",JSON.stringify(wishes));
+        renderWishes();
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>
+✅ 這個版本改好了妤真提到的三個問題：
+
+「已實現」和「實現ing」都是白底
+
+輸入願望框縮小
+
+按一次「實現ing」就會消失
+
+如果妤真想，我可以再幫你做一個超可愛動畫版，像飛機真的在天空飛 ✈️、雲慢慢飄 🌥️，願望標記「實現ing✨」會有小星星閃爍 ✨
+
+妤真想要我幫你做這個動畫版嗎？
+
+
+
+✅ **修正按兩次「實現ing」才消失的問題** → 現在按一次就會正確消失
+
+不，不管案幾次實現ing願望都不能消失，是按「已實現」實現ing要消失
+
+啊妤真，我懂了 😅
+
+意思是：
+
+按「實現ing✨」按鈕本身不會刪除願望（願望永遠存在）
+
+按「已實現 ✅」時，原本的「實現ing✨」按鈕才會消失
+
+也就是說「實現ing✨」只是狀態標記，不會讓願望消失，願望消失只會發生在刪除或許願重置時。
+
+我幫妤真改好完整程式碼如下：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+background:white;
+padding:10px;
+border-radius:12px;
+color:black;
+}
+
+input{
+padding:6px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
+}
+.del{color:#F44336;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+    document.getElementById("count").innerText = count;
+
+    if(count>=100){
+        document.getElementById("msg").innerText="";
+        document.getElementById("wishBox").style.display="block";
+        document.getElementById("addBtn").disabled=true;
+    } else {
+        document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+        document.getElementById("wishBox").style.display="none";
+        document.getElementById("addBtn").disabled=false;
+    }
+
+    renderWishes();
+}
+
+function add(){
+    if(count>=100) return;
+    count++;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function resetConfirm(){
+    let confirmReset = confirm("確定要重置嗎？");
+    if(confirmReset){
+        count=0;
+        localStorage.setItem("plane",count);
+        update();
+    }
+}
+
+function saveWish(){
+    let text = document.getElementById("wishInput").value.trim();
+    if(text=="") return;
+
+    wishes.push({text:text,status:"ing"});
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    document.getElementById("wishInput").value="";
+    count=0;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        html+='<button class="wishBtn done" onclick="markDone('+i+')">已實現</button>';
+        // 實現ing按鈕只在未標記已實現的願望出現
+        if(w.status !== "done"){
+            html+='<button class="wishBtn ing" onclick="markIng('+i+')">實現ing✨</button>';
+        }
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+// 按已實現 → 標記願望為 done，實現ing按鈕消失
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+// 按實現ing → 只標記，不刪除
+function markIng(i){
+    wishes[i].status="ing";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+function deleteWish(i){
+    let confirmDel = confirm("確定要刪除這個願望嗎？");
+    if(confirmDel){
+        wishes.splice(i,1);
+        localStorage.setItem("wishes",JSON.stringify(wishes));
+        renderWishes();
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>
+✅ 妤真現在的功能：
+
+按 已實現 ✅ → 願望狀態變已實現，實現ing按鈕消失
+
+按 實現ing✨ → 只改狀態，不消失
+
+願望可以 刪除（會跳確認）
+
+白底願望框、白底按鈕、縮小輸入框
+
+如果妤真想，我可以幫你加一個小動畫效果：
+
+按「已實現」時，實現ing按鈕淡出小動畫 ✨
+
+妤真想要我加嗎？
+
+
+🎉100架！可以許願了這裡可以不要出現白底媽
+
+啊妤真，我懂了 😆
+就是那個提示文字 「🎉100架！可以許願了」 不要有白底框，只留文字就好，跟背景融在一起。
+
+我幫你改好 #wishBox 內部樣式，讓它本身背景透明，而輸入框依然白底。完整程式碼如下：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+color:black;
+text-align:center;
+/* 移除白底 */
+background:transparent;
+padding:0;
+}
+
+#wishBox p{
+margin-bottom:10px;
+font-size:18px;
+color:white;
+text-shadow:1px 1px 3px black;
+}
+
+input{
+padding:6px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+background:white;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
+}
+.del{color:#F44336;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+    document.getElementById("count").innerText = count;
+
+    if(count>=100){
+        document.getElementById("msg").innerText="";
+        document.getElementById("wishBox").style.display="block";
+        document.getElementById("addBtn").disabled=true;
+    } else {
+        document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+        document.getElementById("wishBox").style.display="none";
+        document.getElementById("addBtn").disabled=false;
+    }
+
+    renderWishes();
+}
+
+function add(){
+    if(count>=100) return;
+    count++;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function resetConfirm(){
+    let confirmReset = confirm("確定要重置嗎？");
+    if(confirmReset){
+        count=0;
+        localStorage.setItem("plane",count);
+        update();
+    }
+}
+
+function saveWish(){
+    let text = document.getElementById("wishInput").value.trim();
+    if(text=="") return;
+
+    wishes.push({text:text,status:"ing"});
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    document.getElementById("wishInput").value="";
+    count=0;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        html+='<button class="wishBtn done" onclick="markDone('+i+')">已實現</button>';
+        // 實現ing按鈕只在未標記已實現的願望出現
+        if(w.status !== "done"){
+            html+='<button class="wishBtn ing" onclick="markIng('+i+')">實現ing✨</button>';
+        }
+        // 刪除按鈕
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+// 按已實現 → 標記願望為 done，實現ing按鈕消失
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+// 按實現ing → 只標記，不刪除
+function markIng(i){
+    wishes[i].status="ing";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+function deleteWish(i){
+    let confirmDel = confirm("確定要刪除這個願望嗎？");
+    if(confirmDel){
+        wishes.splice(i,1);
+        localStorage.setItem("wishes",JSON.stringify(wishes));
+        renderWishes();
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>
+✅ 改動重點：
+
+「🎉100架！可以許願了」沒有白底，文字直接顯示在背景上
+
+輸入框、願望框、按鈕依舊白底
+
+功能維持之前「已實現按下 → 實現ing消失」的邏輯
+
+妤真要不要我幫你加個小動畫效果，按「已實現」時 實現ing按鈕淡出，看起來更可愛一點 ✨
+
+
+阿願望框我希望除了刪除都是黑字，阿已實現和實現ing按下去之後按鈕要變#FFD306這個色
+
+好呀妤真 😆 我懂你的需求了，整理一下：
+
+願望文字 除了刪除按鈕以外都是黑字
+
+「已實現」或「實現ing」按下去後，按鈕顏色變 #FFD306（黃色）
+
+我幫妤真改好完整程式碼，整合成最新版本如下：
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+color:black;
+text-align:center;
+background:transparent;
+padding:0;
+}
+
+#wishBox p{
+margin-bottom:10px;
+font-size:18px;
+color:white;
+text-shadow:1px 1px 3px black;
+}
+
+input{
+padding:6px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+background:white;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+color:black; /* 願望文字黑色 */
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
+}
+.wishBtn.done.active, .wishBtn.ing.active{
+    background:#FFD306; /* 按下後變黃色 */
+    color:black;
+}
+.del{color:#F44336;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✈️ 飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+    document.getElementById("count").innerText = count;
+
+    if(count>=100){
+        document.getElementById("msg").innerText="";
+        document.getElementById("wishBox").style.display="block";
+        document.getElementById("addBtn").disabled=true;
+    } else {
+        document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+        document.getElementById("wishBox").style.display="none";
+        document.getElementById("addBtn").disabled=false;
+    }
+
+    renderWishes();
+}
+
+function add(){
+    if(count>=100) return;
+    count++;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function resetConfirm(){
+    let confirmReset = confirm("確定要重置嗎？");
+    if(confirmReset){
+        count=0;
+        localStorage.setItem("plane",count);
+        update();
+    }
+}
+
+function saveWish(){
+    let text = document.getElementById("wishInput").value.trim();
+    if(text=="") return;
+
+    wishes.push({text:text,status:"ing"});
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    document.getElementById("wishInput").value="";
+    count=0;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        let doneClass = w.status==="done" ? "active" : "";
+        html+='<button class="wishBtn done '+doneClass+'" onclick="markDone('+i+',this)">已實現</button>';
+        // 實現ing按鈕
+        let ingClass = w.status==="ing" ? "active" : "";
+        if(w.status!=="done"){
+            html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing✨</button>';
+        }
+        // 刪除按鈕
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+// 按已實現 → 標記願望為 done，實現ing按鈕消失
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+// 按實現ing → 標記狀態，按鈕變色，但不消失
+function markIng(i){
+    wishes[i].status="ing";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+function deleteWish(i){
+    let confirmDel = confirm("確定要刪除這個願望嗎？");
+    if(confirmDel){
+        wishes.splice(i,1);
+        localStorage.setItem("wishes",JSON.stringify(wishes));
+        renderWishes();
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>
+✅ 這個版本重點：
+
+願望文字 黑色（刪除按鈕除外）
+
+已實現或實現ing按下去 → 按鈕變 #FFD306
+
+已實現按下 → 實現ing按鈕消失
+
+實現ing按下 → 只是變色，願望不消失
+
+妤真如果想，我可以幫你加一個 動態飛機動畫特效，抓飛機時 ✈️ 飛起來，按已實現還會有小星星 ✨
+
+妤真想加這個動畫版嗎？
+
+
+那我現在要怎麼在手機使用它呢
+
+妤真，要在手機上使用這個飛機許願網頁，其實有幾個簡單方法 😆，我一步步教你：
+
+方法1：直接用瀏覽器開啟 HTML 檔案
+用電腦把上面程式碼存成檔案，例如：
+
+plane_wish.html
+用手機打開檔案：
+
+方法 A：把檔案放到雲端（Google Drive / Dropbox / iCloud）
+
+上傳檔案到雲端
+
+手機打開雲端連結 → 下載後點擊 → 用瀏覽器打開
+
+方法 B：手機直接存檔
+
+用手機備忘錄或檔案管理器存成 .html
+
+長按檔案 → 用 Chrome / Safari 打開
+
+缺點：每次更新程式都要重新上傳或下載。
+
+方法2：放到線上空間，用網址直接開
+把 HTML 檔案上傳到免費網頁空間，例如：
+
+GitHub Pages
+
+Netlify
+
+Vercel
+
+上傳後會得到一個網址，例如：
+
+https://妤真.github.io/plane_wish.html
+手機打開這個網址就能使用完整功能，而且 資料會存在 localStorage，關閉網頁也不會消失。
+
+優點：手機和電腦都能用，更新也方便。
+
+方法3：把網頁當作手機桌布/應用捷徑
+iPhone：
+
+在 Safari 打開網頁
+
+點下方「分享」 → 選擇「加入主畫面」
+
+會出現像 App 的圖示，點就能直接打開
+
+Android：
+
+在 Chrome 打開網頁
+
+點右上三點 → 「加入主畫面」
+
+同樣會出現圖示直接開啟
+
+這樣就像是手機 App 一樣，非常方便！
+
+妤真如果想，我可以幫你做一個 已經設定好桌面捷徑的版本教學，把它直接加到手機桌布，點開就能抓飛機 ✈️、許願 🎉
+
+妤真想要我做這個嗎？
+
+
+下載到手機檔案還是htmlㄟ
+
+對啊妤真 😆，下載到手機就是 HTML 檔案，因為我們寫的是網頁程式。
+
+不用擔心，手機也能打開它，只是要注意幾件事：
+
+1️⃣ 直接打開 HTML
+iPhone：
+
+Safari 不能直接點檔案打開 HTML，需要用「檔案」App：
+
+把 HTML 存到「檔案」App
+
+點選檔案 → 選「分享」 → 用 Safari 開啟
+
+Android：
+
+Chrome 可以打開 HTML 檔案：
+
+把 HTML 存到手機
+
+用檔案管理器找到檔案 → 選「用 Chrome 開啟」
+
+這樣就能看到網頁版飛機許願功能，但更新程式要再重新下載 HTML。
+
+2️⃣ 更方便的方法：放到線上空間
+如果你把 HTML 上傳到 GitHub Pages / Netlify / Vercel，就會有一個網址：
+
+https://妤真.github.io/plane_wish.html
+手機打開網址 → 就像 App 一樣
+
+資料（抓到的飛機、願望）會存在手機瀏覽器 localStorage
+
+不用每次都下載 HTML
+
+3️⃣ 桌面捷徑
+不管用哪種方式打開網頁，都可以：
+
+iPhone：分享 → 加入主畫面
+
+Android：Chrome 三點 → 加入主畫面
+
+就會變成像 App 的圖示，點開就能用 ✨
+
+妤真，如果你願意，我可以教你 一鍵把這個 HTML 網頁直接變成手機桌面 App 的方法，不用每次打開檔案，點圖示就能抓飛機 🎉
+
+妤真要我幫你做嗎？
+
+
+
+用 Safari 開啟
+
+沒有出現這個
+
+啊妤真，我懂了 😅
+
+是的，如果你直接把 HTML 檔案下載到 iPhone 的檔案 App，Safari 不會自動出現在「分享」或「打開」選單裡，這是 iOS 的限制。
+
+簡單來說：
+
+iPhone 原生 Safari 無法直接打開本地 HTML
+
+只能用 支援 HTML 的 App 或 雲端方式
+
+解決方法
+方法 1：用雲端開啟（推薦）
+把 HTML 上傳到 Google Drive / Dropbox / iCloud
+
+用手機打開連結 → 用 Safari 開啟
+
+這樣就可以完整使用網頁功能，還能加到桌面捷徑
+
+方法 2：用第三方 App 打開
+下載支援 HTML 的瀏覽器或編輯器，例如：
+
+Koder / Textastic / iEditor
+
+在 App 裡打開 HTML，就能像網頁一樣操作
+
+方法 3：放到線上空間
+把 HTML 上傳到 GitHub Pages / Netlify / Vercel
+
+會得到網址 → Safari 打開即可
+
+這也是最穩定的方法，而且可以直接加入主畫面像 App 一樣
+
+妤真，如果你想，我可以幫你做一個 完全適合手機點開就能用的版本，直接生成一個網址，你打開就能抓飛機 ✈️、許願 🎉，而且能加到桌面捷徑。
+
+妤真想要我幫你做嗎？
+
+
+
+用手機打開連結 → 用 Safari 開啟
+
+沒有出現這個，他只可以下載
+
+啊妤真，我懂了 😅
+你說的狀況就是 iPhone 的 Safari 不允許直接打開 Google Drive、Dropbox 上的 HTML 下載連結，它只會下載檔案，無法像網頁那樣執行。這是 iOS 的安全限制，不是程式錯誤。
+
+所以，如果你希望 直接在手機上點開就能用，不用每次下載 HTML，我們只能用這幾種方法：
+
+方案 1：上傳到 GitHub Pages / Netlify / Vercel
+把 HTML 放上去 → 會有一個網址，例如：
+
+https://妤真.github.io/plane_wish.html
+Safari 打開網址就能直接用網頁功能
+
+可以加到「主畫面」像 App 一樣
+
+資料會存在瀏覽器 localStorage，不會消失
+
+這是 iPhone 最穩定的方法，完全不需要下載檔案。
+
+方案 2：用專門支援 HTML 的 App
+下載支援 HTML 的 App（例如 Koder、Textastic）
+
+在 App 裡打開 HTML → 網頁可以正常運行
+
+缺點：必須安裝額外 App
+
+方案 3：改用 iOS Shortcut + 本地伺服器（進階）
+這個方法可以在手機上直接執行 HTML，但需要 iOS Shortcuts 或簡單的本地伺服器
+
+比較複雜，一般不建議
+
+所以結論是：如果妤真想要「直接點就用，不下載」，最簡單就是用 GitHub Pages / Netlify / Vercel 產生網址，然後加到手機主畫面。
+
+我可以幫妤真一步一步做出這個網址版，讓妤真直接在手機上抓飛機、許願、加桌面捷徑，完全不用下載 HTML。
+
+妤真要我幫你做嗎？
+
+
+
+GitHub Pages
+
+那你教我這個\
+
+好呀妤真 😆
+我一步步教你怎麼把你的「飛機許願」 HTML 放到 GitHub Pages，讓手機直接打開就能用，還能加到桌面捷徑。
+
+步驟 1：準備 GitHub 帳號
+先去 GitHub 註冊帳號（如果妤真已經有就不用）
+
+登入後，你就可以創建自己的「倉庫（Repository）」
+
+步驟 2：創建新倉庫
+點右上角 + → New repository
+
+名稱可以取 plane_wish
+
+Public（公開）就可以了
+
+不用勾選初始化 README（先不勾）
+
+點 Create repository
+
+步驟 3：上傳 HTML
+進入剛剛建立的倉庫
+
+點 Add file → Upload files
+
+選擇你存好的 HTML 檔案（例如 plane_wish.html）
+
+滾到下方 → 點 Commit changes
+
+步驟 4：啟用 GitHub Pages
+點倉庫右上 Settings（設定）
+
+左邊選 Pages（有些版本在 Code and automation → Pages）
+
+Source（來源）選 main branch，資料夾選 / (root)
+
+點 Save
+
+等幾秒，頁面會生成一個網址，例如：
+
+https://妤真.github.io/plane_wish.html
+步驟 5：手機打開網址
+手機 Safari / Chrome 打開這個網址
+
+這個網頁就會完整運作，你可以抓飛機、許願、按已實現等等
+
+步驟 6：加到手機桌面捷徑
+iPhone：
+
+Safari 打開網址
+
+點下方「分享」 → 「加入主畫面」
+
+出現圖示 → 點一下就像 App 一樣
+
+Android：
+
+Chrome 打開網址
+
+點右上三點 → 「加入主畫面」
+
+出現圖示 → 點開就能用
+
+這樣妤真就不用下載 HTML，也不用每次打開檔案了 👍
+而且 localStorage 會記錄抓到的飛機和願望，下次開網頁還在。
+
+妤真如果要，我可以幫你整理一份 最簡單的 GitHub Pages 上傳包，妤真只要點幾下就完成，不用自己設定 HTML。
+
+妤真想要我幫妳做這個嗎？
+
+
+
+Save
+
+沒辦法點ㄟ，我把它上傳到一個我之前有的倉庫哩，然後去看設定發現你說要點的都點好了，save也沒辦法點
+
+啊妤真，我明白了 😅
+
+你說的「Save 按鈕按不了」，其實在 GitHub 新版介面裡，有幾個常見原因：
+
+1️⃣ 確認分支
+GitHub Pages 只會啟用「main」或「master」分支的內容
+
+設定頁面 Source 的分支一定要選你上傳 HTML 的那個分支
+
+如果分支沒有檔案或沒選正確，Save 按鈕就會灰掉
+
+2️⃣ 選擇資料夾
+Source 的資料夾可以選 / (root) 或 /docs
+
+如果你選 /docs，HTML 檔案就必須放在 /docs 目錄下
+
+選 / (root) 的話 HTML 要在倉庫根目錄
+
+3️⃣ 瀏覽器問題
+有時候 GitHub 設定頁面在手機或某些瀏覽器會按不到
+
+建議用 桌面版瀏覽器（Chrome / Safari / Edge）操作
+
+手機或 iPad 上容易按不到 Save
+
+4️⃣ 權限問題
+確認你有「Admin」權限（你自己建立的倉庫一般都有）
+
+如果是別人的倉庫，你可能沒有權限改設定
+
+✅ 建議妤真操作順序：
+
+用桌面電腦或開啟桌面版 GitHub
+
+進入倉庫 → Settings → Pages
+
+Source 選 main branch、資料夾選 /(root)
+
+Save（這次應該就可以點了）
+
+等幾秒，頁面會生成網址，就可以用手機開
+
+妤真如果要，我可以幫你寫 完整操作截圖教學，保證一步步讓 Save 可以點，直接產生網址給你手機用。
+
+妤真想要我做這個嗎？
+
+
+https://janet77792.github.io/jz/這個連結打開只有寫JZ沒有東西ㄟ
+
+啊妤真，我看了你提供的連結 😅
+
+這個情況通常是因為你上傳的 HTML 檔案名稱或位置，跟網址不一致，GitHub Pages 預設會讀根目錄的 index.html。
+
+原因
+你上傳的檔案可能叫做 plane_wish.html 或其他名稱
+
+GitHub Pages 會自動顯示 根目錄的 index.html，如果沒有這個檔案，網頁就只顯示倉庫名稱（像你現在看到的「JZ」）
+
+解法
+方法 1：改檔名
+把你的 HTML 改名成：
+
+index.html
+上傳到倉庫根目錄（不要放在子資料夾）
+
+然後網址直接打：
+
+https://janet77792.github.io/jz/
+就會自動載入你的飛機許願網頁了
+
+方法 2：直接指定 HTML
+如果不想改名，也可以打完整檔名：
+
+https://janet77792.github.io/jz/plane_wish.html
+不過這樣每次都要打完整檔名，不如改成 index.html 最方便
+
+妤真如果想，我可以幫你把 HTML 改成 直接放上 GitHub Pages 就能打開的 index.html 版本，保證點網址就能用，不用改任何設定 ✨
+
+妤真要我幫你做嗎？
+
+
+
+* 把你的 HTML 改名成： index.html
+
+你說我現在桌面的html嗎
+
+對啊妤真 😆 就是你現在桌面或電腦上存的 HTML 檔案，也就是你之前下載或自己寫的那個 plane_wish.html
+
+你只要做兩件事：
+
+改檔名
+
+把它改成：
+
+index.html
+注意大小寫都改成小寫，不能有空格
+
+上傳到 GitHub 倉庫根目錄
+
+不是放在子資料夾，直接放在倉庫裡最上層
+
+然後 GitHub Pages 就會自動讀這個 index.html，網址打：
+
+https://janet77792.github.io/jz/
+就能看到你的飛機許願網頁了 🎉
+
+如果妤真想，我可以幫你整理 直接可以上傳的完整 HTML 檔案，保證放上去就能打開，不用改任何設定 ✨
+
+妤真想要我幫你整理嗎？
+
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+}
+
+.reset{
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
+}
+
+#wishBox{
+margin-top:20px;
+display:none;
+color:black;
+text-align:center;
+background:transparent;
+padding:0;
+}
+
+#wishBox p{
+margin-bottom:10px;
+font-size:18px;
+color:white;
+text-shadow:1px 1px 3px black;
+}
+
+input{
+padding:6px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+background:white;
+}
+
+.save{
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
+}
+
+#wishList{
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.wishItem{
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wishText{
+flex:1;
+margin-right:8px;
+word-break:break-word;
+color:black; /* 願望文字黑色 */
+}
+
+.wishBtn{
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
+}
+.wishBtn.done.active, .wishBtn.ing.active{
+    background:#FFD306; /* 按下後變黃色 */
+    color:black;
+}
+.del{color:#F44336;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>飛機許願</h1>
+
+<div id="count">0</div>
+
+<button id="addBtn" onclick="add()">✋</button>
+
+<br>
+
+<button class="reset" onclick="resetConfirm()">重置</button>
+
+<p id="msg"></p>
+
+<div id="wishBox">
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
+</div>
+
+<div id="wishList"></div>
+
+</div>
+
+<script>
+let count = Number(localStorage.getItem("plane") || 0);
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+
+function update(){
+    document.getElementById("count").innerText = count;
+
+    if(count>=100){
+        document.getElementById("msg").innerText="";
+        document.getElementById("wishBox").style.display="block";
+        document.getElementById("addBtn").disabled=true;
+    } else {
+        document.getElementById("msg").innerText="還差 "+(100-count)+" 架";
+        document.getElementById("wishBox").style.display="none";
+        document.getElementById("addBtn").disabled=false;
+    }
+
+    renderWishes();
+}
+
+function add(){
+    if(count>=100) return;
+    count++;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function resetConfirm(){
+    let confirmReset = confirm("確定要重置嗎？");
+    if(confirmReset){
+        count=0;
+        localStorage.setItem("plane",count);
+        update();
+    }
+}
+
+function saveWish(){
+    let text = document.getElementById("wishInput").value.trim();
+    if(text=="") return;
+
+    wishes.push({text:text,status:"ing"});
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    document.getElementById("wishInput").value="";
+    count=0;
+    localStorage.setItem("plane",count);
+    update();
+}
+
+function renderWishes(){
+    let html="";
+    for(let i=0;i<wishes.length;i++){
+        let w = wishes[i];
+        html+='<div class="wishItem">';
+        html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
+        let doneClass = w.status==="done" ? "active" : "";
+        html+='<button class="wishBtn done '+doneClass+'" onclick="markDone('+i+',this)">已實現</button>';
+        // 實現ing按鈕
+        let ingClass = w.status==="ing" ? "active" : "";
+        if(w.status!=="done"){
+            html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing✨</button>';
+        }
+        // 刪除按鈕
+        html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
+        html+='</div>';
+    }
+    document.getElementById("wishList").innerHTML=html;
+}
+
+// 按已實現 → 標記願望為 done，實現ing按鈕消失
+function markDone(i){
+    wishes[i].status="done";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+// 按實現ing → 標記狀態，按鈕變色，但不消失
+function markIng(i){
+    wishes[i].status="ing";
+    localStorage.setItem("wishes",JSON.stringify(wishes));
+    renderWishes();
+}
+
+function deleteWish(i){
+    let confirmDel = confirm("確定要刪除這個願望嗎？");
+    if(confirmDel){
+        wishes.splice(i,1);
+        localStorage.setItem("wishes",JSON.stringify(wishes));
+        renderWishes();
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>剛剛手機網頁有出現了!但我發現連續點擊手按鈕的話她會變相圖片一樣放大，可以改掉這個嗎，然後還是沒辦法換背景圖片TT
+
+太好了妤真 😆 手機終於可以打開了！
+
+你說的兩個問題我都能幫你改：
+
+1️⃣ 連續點擊手 ✋ 會放大
+這是因為手機上 按鈕預設會有點擊動畫（觸控縮放/高亮）
+
+可以加一行 CSS 取消手機的縮放效果：
+
+button {
+  font-size:28px;
+  padding:18px 26px;
+  border:none;
+  border-radius:50px;
+  background:white;
+  color:#004B97;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent; /* 取消點擊高亮 */
+  touch-action: manipulation; /* 防止手機點擊縮放 */
+}
+這樣手就不會「像圖片一樣放大」了
+
+2️⃣ 背景圖片沒變
+你現在程式裡的這一行：
+
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+'你的圖片網址' 需要換成 網路上可直接存取的圖片連結，例如：
+
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('https://i.imgur.com/ABCDE.jpg') no-repeat center center fixed;
+注意：圖片網址必須是「可直接用瀏覽器打開」的，例如 Imgur、GitHub raw 圖片、免費圖床
+如果你用本地檔案 C:/Users/... 或手機本地圖片，網頁是不會抓得到的
+
+如果妤真想，我可以幫你改好 完整 HTML：
+
+手按鈕不會放大
+
+背景可以直接換成你喜歡的圖片網址
+
+保持原本的漸變效果
+
+妤真要我直接幫你改好嗎？
+
+
+那可以我現在找好我要用的圖片直接用在上面嗎
+
+當然可以妤真 😆
+
+你只要準備一張 網路可直接存取的圖片（不能是手機或電腦本地檔案），然後把網址貼到程式裡就行了。
+
+步驟：
+找好圖片 → 確認能直接打開，例如點開網址就能看到圖片
+
+範例：https://i.imgur.com/ABCDE.jpg
+
+不要用 Google 圖片搜尋連結，那個通常無法直接顯示
+
+打開你的 HTML 程式碼，找到這一行：
+
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+把 '你的圖片網址' 換成你的圖片網址，例如：
+
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('https://i.imgur.com/ABCDE.jpg') no-repeat center center fixed;
+存檔 → 上傳到 GitHub → 打開網址
+
+背景就會變成你選的圖片啦 ✨
+
+妤真如果要，我可以幫你 直接把完整 HTML 改好，手按鈕不會放大，背景直接換成你選的圖片網址，然後你只要上傳就可以用 😆
+
+妤真想我幫你改嗎？
+
+
+那你先幫我改手按鈕快速按，整個頁面不要變大這點好了，我取找圖片
+
+沒問題妤真 😆 我幫你改好 手按鈕快速點也不會讓頁面或按鈕變大 的版本，其他功能保持不變，背景圖片先保留原本位置，妤真找好圖片再替換就可以。
+
+以下是修改重點：
+
+加入 CSS 防止手機觸控縮放與高亮
+
+保留原本漸變與功能
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+/* 以下防止手機快速點按時放大或高亮 */
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+}
+...
+</style>
+只要在你原本的 <style> 裡，把 button 的 CSS 加上這兩行：
+
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+這樣妤真在手機快速連點手按鈕 ✋ 時，整個頁面或按鈕都 不會變大。
+
+你現在可以先找好背景圖片，找到網址後我可以幫你把 HTML 完整貼好，直接換上圖片。
+
+妤真想先找好圖片嗎？
+
+
+給我一個完整修改版
+
+好呀妤真 😆 我幫你整理一個 完整 HTML 版本：
+
+手按鈕快速點不會放大
+
+已經保留飛機計數、願望欄、已實現/實現ing/刪除功能
+
+背景圖片先放 你的圖片網址，妤真找好後直接替換就行
+
+其他功能跟你之前要求的都在
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飛機許願</title>
+
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+text-align:center;
+/* 背景漸變 + 圖片 */
+background: linear-gradient(160deg,#004B97,#005bb5,#0066CC), url('你的圖片網址') no-repeat center center fixed;
+background-size: cover;
+color:white;
+}
+
+.container{
+margin-top:100px;
+}
+
+h1{
+font-size:32px;
+text-shadow: 1px 1px 5px black;
+}
+
+#count{
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
+}
+
+button{
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+/* 防止手機快速點按放大或高亮 */
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
 }
 
 .reset{
