@@ -5,137 +5,133 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>飛機許願</title>
 
-<!-- PWA manifest -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0066CC">
+<!-- iOS PWA 全螢幕 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- iOS 主畫面圖示 -->
+<!-- 桌布圖示 / 書籤縮圖 -->
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/janet77792/jz/main/pic2.jpg">
-
-<!-- Android / 網頁圖示 -->
-<link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/janet77792/jz/main/pic2.jpg">
+<meta name="apple-mobile-web-app-title" content="飛機許願">
 
 <style>
 body{
-  margin:0;
-  font-family:sans-serif;
-  text-align:center;
-  background: url('https://raw.githubusercontent.com/janet77792/jz/main/pic.jpg') no-repeat center center fixed, linear-gradient(160deg,#004B97,#005bb5,#0066CC);
-  background-size: cover;
-  color:white;
+margin:0;
+font-family:sans-serif;
+text-align:center;
+background: url('https://raw.githubusercontent.com/janet77792/jz/main/pic.jpg') no-repeat center center fixed;
+background-size: cover;
+color:white;
+overflow-x:hidden;
 }
 
 .container{
-  margin-top:100px;
+margin-top:100px;
 }
 
 h1{
-  font-size:32px;
-  text-shadow: 1px 1px 5px black;
+font-size:32px;
+text-shadow: 1px 1px 5px black;
 }
 
 #count{
-  font-size:70px;
-  margin:20px;
-  text-shadow: 1px 1px 5px black;
+font-size:70px;
+margin:20px;
+text-shadow: 1px 1px 5px black;
 }
 
 button{
-  font-size:28px;
-  padding:18px 26px;
-  border:none;
-  border-radius:50px;
-  background:white;
-  color:#004B97;
-  cursor:pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+font-size:28px;
+padding:18px 26px;
+border:none;
+border-radius:50px;
+background:white;
+color:#004B97;
+cursor:pointer;
+user-select:none; /* 防止快速點放大 */
 }
 
 .reset{
-  margin-top:20px;
-  font-size:14px;
-  padding:6px 12px;
-  background:rgba(255,255,255,0.25);
-  color:white;
+margin-top:20px;
+font-size:14px;
+padding:6px 12px;
+background:rgba(255,255,255,0.25);
+color:white;
 }
 
 #wishBox{
-  margin-top:20px;
-  display:none;
-  color:black;
-  text-align:center;
-  background:transparent;
-  padding:0;
+margin-top:20px;
+display:none;
+color:black;
+text-align:center;
+background:transparent;
+padding:0;
 }
 
 #wishBox p{
-  margin-bottom:10px;
-  font-size:18px;
-  color:white;
-  text-shadow:1px 1px 3px black;
+margin-bottom:10px;
+font-size:18px;
+color:white;
+text-shadow:1px 1px 3px black;
 }
 
 input{
-  padding:4px 8px;
-  font-size:16px;
-  border-radius:6px;
-  border:1px solid #ccc;
-  width:180px;
-  height:24px;
-  background:white;
+padding:4px 10px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+width:180px;
+height:28px;
+background:white;
 }
 
 .save{
-  margin-left:10px;
-  font-size:16px;
-  padding:6px 12px;
-  border-radius:6px;
-  background:white;
-  color:#004B97;
+margin-left:10px;
+font-size:16px;
+padding:6px 12px;
+border-radius:10px;
+background:white;
+color:#004B97;
 }
 
 #wishList{
-  margin-top:40px;
-  text-align:left;
-  max-width:320px;
-  margin-left:auto;
-  margin-right:auto;
+margin-top:40px;
+text-align:left;
+max-width:320px;
+margin-left:auto;
+margin-right:auto;
 }
 
 .wishItem{
-  background: #ffffffcc;
-  padding:6px;
-  border-radius:10px;
-  margin-bottom:8px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+background: #ffffffcc;
+padding:6px;
+border-radius:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .wishText{
-  flex:1;
-  margin-right:8px;
-  word-break:break-word;
-  color:black;
+flex:1;
+margin-right:8px;
+word-break:break-word;
+color:black;
 }
 
 .wishBtn{
-  font-size:12px;
-  padding:4px 6px;
-  margin-left:4px;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-  background:white;
-  color:black;
+font-size:12px;
+padding:4px 6px;
+margin-left:4px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:white;
+color:black;
 }
-
 .wishBtn.done.active, .wishBtn.ing.active{
-    background:#FFD306;
+    background:#FFD306; /* 按下後變黃色 */
     color:black;
 }
-
 .del{color:#F44336;}
 </style>
 </head>
@@ -144,7 +140,7 @@ input{
 
 <div class="container">
 
-<h1>許願✨</h1>
+<h1>飛機許願</h1>
 
 <div id="count">0</div>
 
@@ -157,9 +153,9 @@ input{
 <p id="msg"></p>
 
 <div id="wishBox">
-  <p>🎉100架！可以許願了><</p>
-  <input id="wishInput" placeholder="輸入你的願望">
-  <button class="save" onclick="saveWish()">送出</button>
+<p>🎉100架！可以許願了</p>
+<input id="wishInput" placeholder="輸入你的願望">
+<button class="save" onclick="saveWish()">送出</button>
 </div>
 
 <div id="wishList"></div>
@@ -220,24 +216,29 @@ function renderWishes(){
         let w = wishes[i];
         html+='<div class="wishItem">';
         html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
+        // 已實現按鈕
         let doneClass = w.status==="done" ? "active" : "";
         html+='<button class="wishBtn done '+doneClass+'" onclick="markDone('+i+',this)">已實現</button>';
+        // 實現ing按鈕
         let ingClass = w.status==="ing" ? "active" : "";
         if(w.status!=="done"){
             html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing✨</button>';
         }
+        // 刪除按鈕
         html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
         html+='</div>';
     }
     document.getElementById("wishList").innerHTML=html;
 }
 
+// 按已實現 → 標記願望為 done，實現ing按鈕消失
 function markDone(i){
     wishes[i].status="done";
     localStorage.setItem("wishes",JSON.stringify(wishes));
     renderWishes();
 }
 
+// 按實現ing → 標記狀態，按鈕變色，但不消失
 function markIng(i){
     wishes[i].status="ing";
     localStorage.setItem("wishes",JSON.stringify(wishes));
