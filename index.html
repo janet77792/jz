@@ -156,7 +156,7 @@ input{
 
 <div class="container">
 
-<h1>飛機許願</h1>
+<h1>✈️許願</h1>
 
 <div id="count">0</div>
 
@@ -170,7 +170,7 @@ input{
 <p id="msg"></p>
 
 <div id="wishBox">
-  <p>🎉100架！可以許願了</p>
+  <p>🎉100架！可以許願了><</p>
   <input id="wishInput" placeholder="輸入你的願望">
   <button class="save" onclick="saveWish()">送出</button>
 </div>
@@ -237,7 +237,7 @@ function renderWishes(){
         html+='<button class="wishBtn done '+doneClass+'" onclick="markDone('+i+',this)">已實現</button>';
         let ingClass = w.status==="ing" ? "active" : "";
         if(w.status!=="done"){
-            html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing✨</button>';
+            html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing</button>';
         }
         html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
         html+='</div>';
@@ -271,3 +271,4 @@ update();
 
 </body>
 </html>
+
