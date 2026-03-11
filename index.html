@@ -3,14 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>飛機許願✨</title>
+<title>飛機許願</title>
+
+<!-- PWA manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0066CC">
+
+<!-- iOS 主畫面圖示 -->
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/janet77792/jz/main/pic2.jpg">
+
+<!-- Android / 網頁圖示 -->
+<link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/janet77792/jz/main/pic2.jpg">
 
 <style>
 body{
   margin:0;
   font-family:sans-serif;
   text-align:center;
-  /* 背景圖片放前面，漸變放後面 */
   background: url('https://raw.githubusercontent.com/janet77792/jz/main/pic.jpg') no-repeat center center fixed, linear-gradient(160deg,#004B97,#005bb5,#0066CC);
   background-size: cover;
   color:white;
@@ -40,7 +49,7 @@ button{
   color:#004B97;
   cursor:pointer;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation; /* 防止手機點擊放大 */
+  touch-action: manipulation;
 }
 
 .reset{
@@ -108,7 +117,7 @@ input{
   flex:1;
   margin-right:8px;
   word-break:break-word;
-  color:black; /* 願望文字黑色 */
+  color:black;
 }
 
 .wishBtn{
@@ -123,7 +132,7 @@ input{
 }
 
 .wishBtn.done.active, .wishBtn.ing.active{
-    background:#FFD306; /* 按下後變黃色 */
+    background:#FFD306;
     color:black;
 }
 
@@ -135,7 +144,7 @@ input{
 
 <div class="container">
 
-<h1>✈️許願✨</h1>
+<h1>許願✨</h1>
 
 <div id="count">0</div>
 
@@ -211,29 +220,24 @@ function renderWishes(){
         let w = wishes[i];
         html+='<div class="wishItem">';
         html+='<div class="wishText">'+(i+1)+'★：'+w.text+'</div>';
-        // 已實現按鈕
         let doneClass = w.status==="done" ? "active" : "";
         html+='<button class="wishBtn done '+doneClass+'" onclick="markDone('+i+',this)">已實現</button>';
-        // 實現ing按鈕
         let ingClass = w.status==="ing" ? "active" : "";
         if(w.status!=="done"){
             html+='<button class="wishBtn ing '+ingClass+'" onclick="markIng('+i+',this)">實現ing✨</button>';
         }
-        // 刪除按鈕
         html+='<button class="wishBtn del" onclick="deleteWish('+i+')">刪除</button>';
         html+='</div>';
     }
     document.getElementById("wishList").innerHTML=html;
 }
 
-// 按已實現 → 標記願望為 done，實現ing按鈕消失
 function markDone(i){
     wishes[i].status="done";
     localStorage.setItem("wishes",JSON.stringify(wishes));
     renderWishes();
 }
 
-// 按實現ing → 標記狀態，按鈕變色，但不消失
 function markIng(i){
     wishes[i].status="ing";
     localStorage.setItem("wishes",JSON.stringify(wishes));
@@ -254,4 +258,3 @@ update();
 
 </body>
 </html>
-
