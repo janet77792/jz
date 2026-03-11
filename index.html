@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>飛機許願</title>
 
 <!-- iOS PWA 全螢幕 -->
@@ -38,15 +38,15 @@ html, body{
   margin-top:100px;
 }
 
-h1{
-  font-size:32px;
+/* 強制標題與訊息文字白色 */
+h1, #count, #msg {
+  color: white;
   text-shadow: 1px 1px 5px black;
 }
 
 #count{
   font-size:70px;
   margin:20px;
-  text-shadow: 1px 1px 5px black;
 }
 
 button{
